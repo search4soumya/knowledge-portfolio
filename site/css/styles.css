@@ -493,10 +493,14 @@ h1, h2, h3 {
 .expertise-card:focus-visible .card-link svg { transform: translateX(5px); }
 
 .connect {
-  margin-top: 3.5rem;
-  padding: 4rem 0 4.5rem;
+  margin-top: 1.5rem;
+  padding: 1.15rem 0 1.35rem;
   border-top: 1px solid var(--line);
 }
+
+.connect .section-title { font-size: 1.45rem; }
+
+.connect .section-title::after { bottom: -0.4rem; }
 
 .section-header { text-align: center; }
 
@@ -520,11 +524,45 @@ h1, h2, h3 {
 
 .connect-copy {
   max-width: 38rem;
-  margin: 2rem auto 0;
+  margin: 0.85rem auto 0.8rem;
   text-align: center;
   color: var(--text);
-  font-size: 1.15rem;
+  font-size: 1rem;
 }
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.social-link:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.social-link:hover svg { stroke: var(--bg); }
 
 .kicker { margin-top: 1.6rem; }
 
