@@ -117,7 +117,18 @@ h1, h2, h3 {
 
 .brand:hover { color: var(--ink); }
 
-.brand img { width: 36px; height: 36px; }
+.brand img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+}
+
+.brand:hover img {
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+}
 
 .brand-name {
   display: block;
@@ -125,14 +136,6 @@ h1, h2, h3 {
   font-size: 1rem;
   line-height: 1.1;
   white-space: nowrap;
-}
-
-.brand-by {
-  display: block;
-  color: var(--gold);
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
 }
 
 .header-link,
@@ -321,53 +324,12 @@ h1, h2, h3 {
 .about-block { padding: 2.5rem 0 1rem; }
 .about-block .section-header { margin-bottom: 2.4rem; }
 
-.about-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(14rem, 0.8fr);
-  gap: 2.5rem;
-  align-items: start;
+.about-text {
+  max-width: 46rem;
+  margin-inline: auto;
 }
 
 .about-text p { margin: 0 0 1.1rem; }
-
-.skills-grid { display: grid; gap: 0.75rem; }
-
-.skill-item {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.9rem 1rem;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-}
-
-.skill-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  background: var(--bg-raised);
-  border-radius: 8px;
-}
-
-.skill-icon svg {
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.skill-name {
-  color: var(--ink);
-  font-family: var(--mono);
-  font-size: 0.88rem;
-}
 
 .lede,
 .deck {
@@ -722,8 +684,7 @@ th {
 }
 
 @media (max-width: 860px) {
-  .about-hero .hero-content,
-  .about-layout { grid-template-columns: 1fr; }
+  .about-hero .hero-content { grid-template-columns: 1fr; }
   .hero-visual { order: -1; }
   .expertise-grid { grid-template-columns: 1fr; }
   .reader { grid-template-columns: 1fr; }
