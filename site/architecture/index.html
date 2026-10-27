@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architect Design Patterns — Knowledge Portfolio</title>
+  <meta name="description" content="Notes on creational, structural, and behavioral design patterns, and on the architectural styles above them.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/architecture/">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body data-topic="architecture">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../index.html">
+        <img src="../images/favicon.svg" alt="" width="36" height="36">
+        <span>
+          <span class="brand-name">Knowledge Portfolio</span>
+          <span class="brand-by">Soumya Ranjan Panda</span>
+        </span>
+      </a>
+      <a class="header-link" href="../index.html">All topics</a>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">01 · Notes</p>
+    <div class="title-row">
+      <h1>Architect Design Patterns</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Sections</button>
+    </div>
+    <p class="deck">A pattern is a named way to arrange code when the same forces show up again. These notes separate object-level patterns from the styles that organize a whole system.</p>
+    <noscript><p class="noscript">Section links jump down the page. With JavaScript off, every section is shown together.</p></noscript>
+    <div class="reader">
+      <!-- Add a subsection: a link here, and a section with the same id inside #notes. -->
+      <nav id="toc" class="toc" aria-labelledby="toc-title">
+        <p id="toc-title" class="toc-title">Sections</p>
+        <a href="#patterns">What a pattern is</a>
+        <a href="#creational">Creational patterns</a>
+        <a href="#structural">Structural patterns</a>
+        <a href="#behavioral">Behavioral patterns</a>
+        <a href="#styles">Architectural styles</a>
+        <a href="#choosing">How to choose</a>
+      </nav>
+      <div id="notes" class="note">
+        <section id="patterns" data-section class="is-active">
+          <h2>What a pattern is</h2>
+          <p>A design pattern names a recurring problem, a structure that resolves it, and the consequences you accept. The name is the useful part. Once a team can say "this is a facade," the review can be about the trade-off instead of about redrawing the boxes.</p>
+          <p>A pattern is not a library, and it is not a rule. Copying the structure into a place that does not have the problem only adds types. The test is whether a reader can point at the force you removed: too many construction paths, a call site that knows every subtype, behavior that changes by mode.</p>
+          <h3>Forces that sit under most patterns</h3>
+          <ul>
+            <li>Program to a small interface, not to a concrete type you do not own.</li>
+            <li>Prefer composition when inheritance would freeze a hierarchy too early.</li>
+            <li>Give a module one reason to change, and make the direction of dependencies obvious.</li>
+            <li>Keep the pattern at the boundary where the variation actually lives.</li>
+          </ul>
+          <div class="callout">If you cannot name the force, you do not have a pattern yet. You have a drawing.</div>
+        </section>
+        <section id="creational" data-section>
+          <h2>Creational patterns</h2>
+          <p>Creational patterns matter when constructing an object is more interesting than using it. The caller wants a result. The variation is in which class is built, how many steps it takes, or how many instances should exist.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Use the pattern only when the construction cost is the problem.</caption>
+              <thead>
+                <tr><th>Pattern</th><th>Use when</th><th>Cost</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Factory method</td><td>A subclass, or a strategy, should choose the concrete product.</td><td>Another type in the hierarchy.</td></tr>
+                <tr><td>Abstract factory</td><td>You must create a family of related objects that stay compatible.</td><td>A wide interface that is painful to extend.</td></tr>
+                <tr><td>Builder</td><td>Construction has many optional steps and an invalid half-built object would be dangerous.</td><td>A second object whose only job is setup.</td></tr>
+                <tr><td>Prototype</td><td>A good instance already exists and copying it is cheaper or clearer than re-running setup.</td><td>You must define what a copy means, including shared mutable state.</td></tr>
+                <tr><td>Singleton</td><td>The process truly has one shared instance, such as a process-wide clock in a tiny program.</td><td>Hidden global state. Tests and reuse get harder.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">A single instance created at the program edge and passed in is usually enough. Reach for a singleton only when passing the dependency is genuinely worse.</div>
+        </section>
+        <section id="structural" data-section>
+          <h2>Structural patterns</h2>
+          <p>Structural patterns describe how parts are composed so that a client talks to a shape it can live with. The client stays stable. The awkward collaborator is wrapped, hidden, or assembled.</p>
+          <ul>
+            <li><strong>Adapter</strong> converts one interface into another. Use it at the edge of code you do not control. Do not let the foreign type leak through the adapter.</li>
+            <li><strong>Facade</strong> offers a narrow entry over a subsystem. It is a courtesy for callers, not a place to hide business rules that have no other home.</li>
+            <li><strong>Decorator</strong> adds behavior around an object while keeping the same interface. Stacking many decorators makes the call path hard to see, so keep the stack short and named.</li>
+            <li><strong>Proxy</strong> stands in for another object to control access, latency, or remote calls. A proxy that also changes meaning is an adapter in disguise.</li>
+            <li><strong>Composite</strong> lets clients treat a leaf and a group the same way. It fits trees of UI, documents, and file-like structures. It fits poorly when leaves and groups do not share a real operation.</li>
+          </ul>
+          <p>The shared risk is indirection. Each wrapper is a place a reader must open. Add one when it removes a dependency you do not want. Stop when the wrappers are the design.</p>
+        </section>
+        <section id="behavioral" data-section>
+          <h2>Behavioral patterns</h2>
+          <p>Behavioral patterns move responsibility for an action: who decides, who is told, and how a request is packaged. They are the right shelf when the object graph is fine and the collaboration is the mess.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Pick the pattern from the kind of change you expect.</caption>
+              <thead>
+                <tr><th>Pattern</th><th>The change you expect</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Strategy</td><td>The same step must run one of several algorithms, chosen by the caller.</td></tr>
+                <tr><td>State</td><td>Allowed behavior depends on the mode of the object, and the mode changes over time.</td></tr>
+                <tr><td>Observer</td><td>Several parties need to hear that something happened, and the source should not know them.</td></tr>
+                <tr><td>Command</td><td>A request should be queued, logged, retried, or undone as a thing of its own.</td></tr>
+                <tr><td>Template method</td><td>The skeleton of an algorithm is stable and a few steps vary by subtype.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Strategy and state look similar in code. Strategy is swapped in from outside. State changes because of what the object has already done. If you cannot say which one you mean, the design is still vague.</p>
+          <div class="callout">Observer is easy to add and hard to debug. Name the event, keep the payload small, and decide what happens when a listener fails.</div>
+        </section>
+        <section id="styles" data-section>
+          <h2>Architectural styles</h2>
+          <p>A style organizes the whole system. A pattern organizes a collaboration inside it. Mixing the two in one conversation makes both sound optional. They are not the same altitude.</p>
+          <h3>Layered</h3>
+          <p>Presentation, application, domain, and infrastructure sit in layers. Dependencies point toward the domain, not toward the database driver. The gain is a place for rules that are not HTTP and not SQL. The cost is pass-through code when a feature is a simple read.</p>
+          <h3>Hexagonal, or ports and adapters</h3>
+          <p>The application core defines ports: interfaces for the things it needs from the outside. Adapters implement those ports for a database, a queue, or a test double. The core does not import the framework. This is layered architecture with the dependency rule made explicit. Use it when you expect to test the core without the infrastructure, or to replace an adapter later.</p>
+          <h3>Event-driven</h3>
+          <p>Producers record that something happened. Consumers react. The coupling is through the event, not through a call that waits. You gain independent deploy and a natural audit. You pay with eventual consistency, uncertain order, and the need for idempotent consumers.</p>
+          <h3>Pipes and filters</h3>
+          <p>Each stage reads an input and writes an output. Stages can be reused and reordered when they do not share hidden state. It fits transforms and enrichment. It fits poorly when a later stage must reach back into an earlier one.</p>
+        </section>
+        <section id="choosing" data-section>
+          <h2>How to choose</h2>
+          <p>Start from the pain, not from the catalog.</p>
+          <ol>
+            <li>Write the force in one sentence. "Callers know every storage class." "Construction can be left half done." "Behavior flips when the invoice is paid."</li>
+            <li>Match the altitude. If the force is local, stay with a pattern. If the force is "the database is visible from the UI," you need a style.</li>
+            <li>Name the cost you accept: more types, a delayed read, a harder stack trace, a copied event schema.</li>
+            <li>Put the variation in one place. A strategy used once, with one implementation, is a function.</li>
+            <li>Re-read the code a week later. If the pattern's name is the only way to understand a simple path, remove it.</li>
+          </ol>
+          <div class="callout">A good choice is reversible. Hide the decision behind a small interface at the boundary, and keep the first implementation boring.</div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap wrap-wide">
+      <p>Soumya Ranjan Panda · Knowledge Portfolio</p>
+      <p><a href="../index.html">All topics</a> · <a href="https://github.com/search4soumya/knowledge-portfolio">Source on GitHub</a></p>
+    </div>
+  </footer>
+  <script src="../js/reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI / ML — Knowledge Portfolio</title>
+  <meta name="description" content="Notes on machine learning: kinds of learning, data, evaluation, serving, and the limits that stay with the team.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/ai-ml/">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body data-topic="aiml">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../index.html">
+        <img src="../images/favicon.svg" alt="" width="36" height="36">
+        <span>
+          <span class="brand-name">Knowledge Portfolio</span>
+          <span class="brand-by">Soumya Ranjan Panda</span>
+        </span>
+      </a>
+      <a class="header-link" href="../index.html">All topics</a>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">04 · Notes</p>
+    <div class="title-row">
+      <h1>AI / ML</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Sections</button>
+    </div>
+    <p class="deck">A model is one step in a pipeline. These notes follow the path from a decision you need, through data and evaluation, to a system that can be turned off safely.</p>
+    <noscript><p class="noscript">Section links jump down the page. With JavaScript off, every section is shown together.</p></noscript>
+    <div class="reader">
+      <!-- Add a subsection: a link here, and a section with the same id inside #notes. -->
+      <nav id="toc" class="toc" aria-labelledby="toc-title">
+        <p id="toc-title" class="toc-title">Sections</p>
+        <a href="#map">Map of the work</a>
+        <a href="#learning">Kinds of learning</a>
+        <a href="#data">Data and features</a>
+        <a href="#evaluation">Training and evaluation</a>
+        <a href="#serving">Serving</a>
+        <a href="#judgment">Judgment and limits</a>
+      </nav>
+      <div id="notes" class="note">
+        <section id="map" data-section class="is-active">
+          <h2>Map of the work</h2>
+          <p>Machine learning builds a function from examples instead of writing every rule by hand. Artificial intelligence is the broader aim: systems that take on tasks we associate with judgment. Most useful systems are narrower than the aim. They classify, rank, forecast, or generate, inside a boundary someone chose.</p>
+          <p>A model is that function plus its parameters. It is the middle of a pipeline:</p>
+          <ol>
+            <li>Decide the action the system may take, and the cost of being wrong.</li>
+            <li>Collect examples that match the moment of decision, not a convenient export.</li>
+            <li>Train, then measure against a baseline a person could explain.</li>
+            <li>Serve the model behind the same standards as any other dependency: latency, failure, and a way to roll back.</li>
+            <li>Watch the inputs. A model does not announce that the world moved.</li>
+          </ol>
+          <div class="callout">If a short rule or a query already makes the decision well, a model is extra machinery. Start there. Add learning when the rule table is what keeps breaking.</div>
+        </section>
+        <section id="learning" data-section>
+          <h2>Kinds of learning</h2>
+          <p>The kind of learning follows from the feedback you have, not from whichever algorithm is popular this year.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Match the setup to the signal you can actually collect.</caption>
+              <thead>
+                <tr><th>Setup</th><th>The signal</th><th>Typical job</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Supervised</td><td>Each example has a label or a target number</td><td>Spam or not, price, next value, "which class"</td></tr>
+                <tr><td>Unsupervised</td><td>No labels, only the structure in the inputs</td><td>Grouping, finding odd points, compressing</td></tr>
+                <tr><td>Reinforcement</td><td>A reward after a sequence of actions</td><td>Control and game-like decisions, expensive to get right outside a simulator</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>A discriminative model scores or labels an input. A generative model draws new samples that resemble its training data. Generation is not understanding, and a fluent paragraph is not a checked fact. If the product needs a source of truth, put retrieval or a system of record next to the model and design for the case where they disagree.</p>
+          <p>Transfer learning starts from a model trained on a broad set and adapts it to a smaller one. It helps when your labeled set is thin and the broad model has seen similar inputs. It still needs an evaluation on <em>your</em> data. A leaderboard score is not that evaluation.</p>
+        </section>
+        <section id="data" data-section>
+          <h2>Data and features</h2>
+          <p>Label quality beats model cleverness more often than notes like this admit. A clean definition of the label, written down, is part of the system. "Churn" that means three different things to three teams will train a model that is sure and useless.</p>
+          <h3>Leakage</h3>
+          <p>Leakage is when the training rows contain information that will not exist at decision time, or information that is the answer in disguise. A column copied from the outcome, a feature computed with the full future window, or a random split that puts the same user in both train and test: the offline score looks wonderful, and production looks ordinary.</p>
+          <h3>Splits</h3>
+          <ul>
+            <li>Split by time when the world moves forward. Train on the past, test on a later period.</li>
+            <li>Split by entity when rows are repeated per user, device, or account, so the model cannot memorize an identity.</li>
+            <li>Random row splits are for independent rows. Most business tables are not independent rows.</li>
+          </ul>
+          <p>A feature must be computable when you predict. If building it requires tomorrow's table, it is not a feature. It is a leak, or it is a batch job you have not scheduled. Document the freshness: how old the value may be, and what the model should do when it is missing.</p>
+          <div class="callout">Bias in the collection shows up as confidence later. Who is missing from the examples will be the group the metric does not describe.</div>
+        </section>
+        <section id="evaluation" data-section>
+          <h2>Training and evaluation</h2>
+          <p>Training fits parameters to a training set. Evaluation asks whether the fit helps on data the fit did not see. Report the second number. Keep a baseline next to it: the majority class, the current rule, or a small linear model. A complex model that does not beat the baseline has not earned its operational cost.</p>
+          <h3>Metrics follow the cost of errors</h3>
+          <ul>
+            <li><strong>Accuracy</strong> hides failure when one class is rare. A model that always says "no fraud" can be 99% accurate and never catch a case.</li>
+            <li><strong>Precision</strong> is the share of alarms that were right. Low precision trains people to ignore the system.</li>
+            <li><strong>Recall</strong> is the share of real cases you caught. Low recall is silent miss.</li>
+            <li><strong>Calibration</strong> asks whether a score of 0.8 is right about four times in five. Rankings can look fine while the probability is fiction. Do not show an uncalibrated score as a probability.</li>
+          </ul>
+          <p>Slice the metric. An average can rise while a region, a language, or a customer tier gets worse. The slice you refuse to measure is the one that will page you.</p>
+          <p>Offline evaluation is a filter, not a launch. When the cost of a wrong action is high, shadow the model on live traffic, or send a small share of decisions, before it acts alone. Watch the decision, not only the loss curve.</p>
+        </section>
+        <section id="serving" data-section>
+          <h2>Serving</h2>
+          <p>A trained file is not a service. Serving is an ordinary production problem with a versioned artifact in the middle.</p>
+          <ul>
+            <li><strong>Batch</strong> scores a table on a schedule. It fits when the decision can wait: nightly limits, morning lists.</li>
+            <li><strong>Online</strong> scores one request inside a latency budget. It needs a feature lookup that is as fast as the model, and a timeout.</li>
+            <li><strong>Fallback</strong> is the path when the model is slow, down, or unsure. A default rule, a previous score, or a human queue. Shipping without a fallback is shipping a hard dependency.</li>
+          </ul>
+          <p>Version the model, the code that builds features, and the training data pointer together. A rollback that restores the model and leaves a new feature definition in place is not a rollback. Record the version on each prediction so a bad week can be traced.</p>
+          <h3>After launch</h3>
+          <p>Input drift means today's examples do not look like training. Prediction drift means the score distribution moved. Neither proves the decisions got worse, and a stable dashboard does not prove they stayed good. Keep a sample of outcomes, with a delay that matches how long the truth takes to arrive, and compare.</p>
+          <div class="callout">Cache a prediction only when the same inputs must yield the same action. Do not cache your way past a user who withdrew consent or a price that changed.</div>
+        </section>
+        <section id="judgment" data-section>
+          <h2>Judgment and limits</h2>
+          <p>A model repeats patterns in the data, including unfair ones and outdated ones. It does not know your policy. Policy has to be written beside it: who may be scored, what the score may change, and which decisions stay with a person.</p>
+          <ul>
+            <li>State the intended use and the uses that are out of scope. A model fit for ranking search results is not a model fit for denying a service.</li>
+            <li>Treat training data as data you are accountable for. Private text, customer records, and scraped content do not become harmless because a training job consumed them.</li>
+            <li>Generated text can be confident and false. If you display it, give the reader a way to see the source, or do not present it as a record.</li>
+            <li>Keep a person responsible for the decision the system informs. "The model said so" is not an owner.</li>
+            <li>Plan to turn the model off. If the business cannot run the fallback for a day, you do not have a model in the loop. You have a single point of failure with a research name.</li>
+          </ul>
+          <div class="callout">Measure harm on the groups affected, not only on the average user. A small overall error can still be a large error for the people with the least room to absorb it.</div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap wrap-wide">
+      <p>Soumya Ranjan Panda · Knowledge Portfolio</p>
+      <p><a href="../index.html">All topics</a> · <a href="https://github.com/search4soumya/knowledge-portfolio">Source on GitHub</a></p>
+    </div>
+  </footer>
+  <script src="../js/reader.js"></script>
+</body>
+</html>
