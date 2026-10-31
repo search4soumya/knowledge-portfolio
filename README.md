@@ -17,6 +17,9 @@ Each card opens a topic overview. Every subtopic is a separate HTML file and is 
 
 The Architecture library contains 300 generated HTML essays sourced from the Eidos MDX collection: 100 Basic, 100 Intermediate, and 100 Advanced.
 
+The complete text table of all 300 architecture topics is available at
+`content/architecture-topics.md`, with each row linked to its generated HTML page.
+
 Published site: https://search4soumya.github.io/knowledge-portfolio/
 
 ## Preview locally
@@ -37,6 +40,10 @@ After adding or editing MDX in `Eidos-Design-Pattern/src/content/topics`, run:
 cd C:\Users\spanda\Projects\knowledge-portfolio
 python scripts\generate_architecture_pages.py --source C:\Users\spanda\Projects\Eidos-Design-Pattern\src\content\topics
 ```
+
+The command also keeps the architecture page set current. Regenerate
+`content/architecture-topics.md` from the same source when topic metadata or
+titles change.
 
 This rewrites `site/architecture/index.html` and all files under:
 
