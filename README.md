@@ -21,7 +21,13 @@ The Architecture library contains 300 generated HTML essays sourced from the Eid
 The complete text table of all 300 architecture topics is available at
 `content/architecture-topics.md`, with each row linked to its generated HTML page.
 
-The header includes **Blueprint Designer**, a full drag-and-drop architecture canvas at `site/blueprint/`. It is the same static HTML, CSS, and JavaScript designer as `architecture-blueprint-designer`: icon library, connectors, roadmap/flow layout, undo/redo, local autosave, and PNG/SVG/JSON export. No new runtime libraries were added. Icon source terms are in `site/blueprint/NOTICES.md`.
+The header includes three static tools, each a self-contained HTML/CSS/JavaScript page with no new libraries:
+
+- **Blueprint Designer** (`site/blueprint/`) — architecture diagrams with the 1,698-icon library
+- **Whiteboard** (`site/whiteboard/`) — freehand sketches, shapes, arrows, text, and sticky notes
+- **Mind Map** (`site/mindmap/`) — idea trees with child/sibling nodes, collapse, and auto-layout
+
+All three autosave in the browser and export PNG or JSON. Icon source terms for Blueprint Designer are in `site/blueprint/NOTICES.md`.
 
 Published site: https://search4soumya.github.io/knowledge-portfolio/
 
