@@ -70,6 +70,8 @@ python scripts\generate_tile_pages.py
 
 This writes one overview and one HTML file per subtopic for Cloud, Kubernetes, AI/ML, Microservices, DevOps, Case Study, Learning Path, and System Design.
 
+System Design pages are generated from `scripts/build_system_design.py`. That script writes the 30 case studies into `content/manual_topics.json`, including a blueprint diagram, module explanations, and per-module core concepts. Run it before `generate_tile_pages.py` when those essays change.
+
 Do not edit those generated HTML files directly; the next generator run will replace them.
 
 ## Add a home card

@@ -721,6 +721,65 @@ th {
   border-left: 3px solid var(--gold);
 }
 
+.blueprint {
+  margin: 1.25rem 0;
+  padding: 0.85rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.blueprint-svg {
+  display: block;
+  width: 100%;
+  min-width: 40rem;
+  height: auto;
+}
+
+.blueprint figcaption {
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.module-block {
+  margin: 1.2rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.module-block h3 { margin-top: 0; }
+
+.module-concepts-label {
+  margin: 0.9rem 0 0.35rem;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.concept-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.concept-list li {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+}
+
 .diagram-source { margin: 1.25rem 0; }
 
 .diagram-source figcaption {
@@ -954,6 +1013,7 @@ th {
   .catalog-groups { grid-template-columns: 1fr; }
   .subtopic-list a { display: block; }
   .subtopic-list span { display: block; margin-top: 0.25rem; }
+  .blueprint-svg { min-width: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

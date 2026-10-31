@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>System Design: Tinder — Design Principles</title>
-  <meta name="description" content="Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.">
+  <meta name="description" content="Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/system-design/tinder.html">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
@@ -30,7 +30,7 @@
       <h1>System Design: Tinder</h1>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
-    <p class="deck">Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.</p>
+    <p class="deck">Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.</p>
     <div class="reader">
 <nav id="toc" class="toc" aria-labelledby="toc-title">
 <p id="toc-title" class="toc-title">Subtopics</p>
@@ -67,18 +67,27 @@
 <a href="yelp-nearby-places.html">Yelp / nearby places</a>
 </nav>
       <article class="note topic-article">
-<h2>What this system teaches</h2>
-          <p>Tinder is a useful case study because it turns a familiar product into a set of engineering decisions. Start with the user action, identify the data that must survive, and then decide which work can happen later.</p>
-          <ul><li><strong>Geo-matching</strong> — find nearby candidates</li><li><strong>Swipe consistency</strong> — record decisions once</li><li><strong>Recommendations</strong> — rank a changing pool</li><li><strong>Privacy</strong> — limit location exposure</li></ul>
-          <h2>How a request moves</h2>
-          <p>A user requests a batch of candidates. The service filters by distance, preferences, prior swipes, and safety rules. A swipe is stored idempotently; a mutual like creates a match event and opens a conversation path.</p>
-          <h2>A beginner-friendly design</h2>
-          <p>Use coarse geospatial cells rather than exposing exact coordinates. Keep swipe decisions append-only with a uniqueness rule. Generate candidate batches asynchronously, then filter again at read time for freshness.</p>
-          <h3>Data, scale, and consistency</h3>
-          <p>Keep the first version simple: separate the request path from background work, measure the slowest dependency, and store an identifier that makes retries safe. Add replicas and caches only after the access pattern is visible. Decide which values may be briefly stale and which action must be serialized, such as a payment or seat reservation.</p>
-          <h2>What can go wrong</h2>
-          <p>The same candidate can be shown twice, a user can swipe while the pool changes, and exact locations can leak. Use stable IDs, deduplication, expiry, privacy-preserving distance checks, and moderation.</p>
-          <div class="callout"><strong>Key takeaway:</strong> Matching is a recommendation problem wrapped around a small but important set of durable decisions.</div>
+<h2>What this system is solving</h2>
+          <p>A dating app is geo-aware recommendation plus a tiny set of durable decisions: swipe left, swipe right, and match. Exact GPS should not be a product feature you leak. Candidates are generated in batches, filtered again at serve time, and swipes are append-only so a retry does not create two matches.</p>
+          <h2>System blueprint</h2>
+          <figure class="blueprint">
+            <svg class="blueprint-svg" viewBox="0 0 920 408" role="img" aria-label="System blueprint"><rect width="920" height="408" fill="#0a0e17" rx="10"/><text x="18" y="60" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Clients</text><rect x="404.0" y="30.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="61.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">App</text><text x="18" y="152" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Edge</text><rect x="404.0" y="122.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="153.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">API</text><path d="M502.0 56.0 L502.0 80.0 L502.0 140.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="244" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Services</text><rect x="108.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="202.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Candidate gen</text><rect x="308.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="402.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Geo filter</text><rect x="508.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="602.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Swipe service</text><rect x="708.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="802.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Match service</text><path d="M502.0 148.0 L502.0 172.0 L502.0 232.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="336" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Data</text><rect x="196.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="294.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Profiles</text><rect x="404.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Geo cells</text><rect x="612.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="710.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Swipe log</text><path d="M202.0 240.0 L202.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M402.0 240.0 L402.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M602.0 240.0 L602.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M802.0 240.0 L802.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/></svg>
+            <figcaption>Geo cells and preferences build a candidate stack. Swipes are logged. A mutual like opens a match.</figcaption>
+          </figure>
+          <p>The stack you see is a recommendation. The swipe log is the contract. Matches are derived from two complementary likes.</p>
+          <h2>Modules in the blueprint</h2>
+          <p>Each box above is a real responsibility. The notes below explain what that module owns, why it exists, and which ideas you should be able to name in an interview or design review.</p>
+          <section class="module-block" id="tinder-candidates"><h3>1. Candidate generation</h3><p>This module builds a stack using preferences, past swipes, and activity. It should run ahead of the user so swiping feels instant. Exclude already-swiped IDs. For a new user, fall back to popular or recently active profiles in the area. Generation can be approximate; the serve path filters again.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Batch stacks</li><li>Negative filters</li><li>Cold start</li><li>Prefetch</li></ul></section><section class="module-block" id="tinder-geo"><h3>2. Geo filter</h3><p>People are indexed into cells. Query the current cell and neighbors, then widen. Do not return exact coordinates to the other user. Distance bands are enough. Travelers create a burst of writes; those should not explode a single city partition without overflow cells.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Cell indexes</li><li>Neighbor queries</li><li>Privacy-preserving distance</li><li>Travel bursts</li></ul></section><section class="module-block" id="swipes"><h3>3. Swipe service</h3><p>A swipe is unique on (from, to). Replay must not create a second like. Store direction and time. This log is also how you prevent showing the same person again. Rate-limit to reduce bots. The swipe service should not send chat messages; it emits an event if the like might complete a match.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Idempotent swipes</li><li>Uniqueness constraint</li><li>Replay safety</li><li>Bot rate limits</li></ul></section><section class="module-block" id="matches"><h3>4. Match service</h3><p>A match exists when both sides liked. Create it once, open a conversation, and notify. Unmatching is a state change that should hide history according to policy. This module is small and must be correct; duplicate matches confuse billing and chat authorization.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Mutual like</li><li>Exactly-once match</li><li>Conversation grant</li><li>Unmatch policy</li></ul></section>
+          <h2>How the modules work together</h2>
+          <p>A session asks for a batch. Geo filter keeps people in a coarse radius and preference window. The client swipes. Each swipe is written once. When a like is mutual, match service creates a conversation thread and notifies both sides. Blocks and reports remove people from future batches immediately. Distance is computed from cells, not from a live share of street address.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Core concepts mapped to modules.</caption>
+              <thead><tr><th>Module</th><th>Core concepts</th></tr></thead>
+              <tbody><tr><td>Candidate generation</td><td>Batch stacks, Negative filters, Cold start, Prefetch</td></tr><tr><td>Geo filter</td><td>Cell indexes, Neighbor queries, Privacy-preserving distance, Travel bursts</td></tr><tr><td>Swipe service</td><td>Idempotent swipes, Uniqueness constraint, Replay safety, Bot rate limits</td></tr><tr><td>Match service</td><td>Mutual like, Exactly-once match, Conversation grant, Unmatch policy</td></tr></tbody>
+            </table>
+          </div>
+          <div class="callout"><strong>Key takeaway:</strong> Recommend in batches, persist swipes once, and derive matches; keep location coarse.</div>
 <nav class="article-pager" aria-label="Adjacent subtopics"><a href="pinterest.html">← <span>Pinterest</span></a><a class="next" href="google-docs.html"><span>Google Docs</span> →</a></nav>
       </article>
     </div>
