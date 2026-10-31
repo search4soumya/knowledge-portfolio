@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interoperability: HL7, FHIR, and IHE — Design Principles</title>
+  <meta name="description" content="Interoperability: HL7, FHIR, and IHE, a Healthcare domain note.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/business-domain/healthcare/interoperability-hl7-fhir-and-ihe.html">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body data-topic="business-domain">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../../index.html">
+        <img src="../../images/portrait.jpg" alt="" width="36" height="36">
+        <span class="brand-name">Design Principles</span>
+      </a>
+      <nav class="header-nav" aria-label="Site">
+        <a class="header-link" href="../../index.html">Home</a>
+        <a class="header-link" href="../../blueprint/">Blueprint Designer</a>
+        <a class="header-link" href="../../whiteboard/">Whiteboard</a>
+        <a class="header-link" href="../../mindmap/">Mind Map</a>
+        <a class="header-link" href="../../about.html">About me</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">H06 · Healthcare · Interop and privacy</p>
+    <div class="title-row">
+      <h1>Interoperability: HL7, FHIR, and IHE</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Topics</button>
+    </div>
+    <div class="reader library-reader">
+<nav id="toc" class="toc library-nav" aria-labelledby="toc-title">
+<p id="toc-title" class="toc-title">Domain topics</p>
+<label class="topic-filter-label" for="topic-filter">Find a topic</label>
+<input id="topic-filter" class="topic-filter" type="search" placeholder="Filter 32 topics" autocomplete="off">
+<a class="library-overview" href="../index.html">Domain overview</a>
+<div id="topic-tree">
+<details class="topic-tier"><summary>Telecom <span>8</span></summary>
+<details class="topic-category"><summary>Network <span>3</span></summary>
+<a href="../telecom/how-a-telecom-network-is-organized.html" data-topic-link><span>T01</span> How a telecom network is organized</a>
+<a href="../telecom/ran-spectrum-and-last-mile-access.html" data-topic-link><span>T02</span> RAN, spectrum, and last-mile access</a>
+<a href="../telecom/packet-core-ims-and-session-control.html" data-topic-link><span>T03</span> Packet core, IMS, and session control</a>
+</details>
+<details class="topic-category"><summary>Customer and charging <span>3</span></summary>
+<a href="../telecom/subscriber-identity-sim-and-number-management.html" data-topic-link><span>T04</span> Subscriber identity, SIM, and number management</a>
+<a href="../telecom/charging-billing-and-prepaid-vs-postpaid.html" data-topic-link><span>T05</span> Charging, billing, and prepaid vs postpaid</a>
+<a href="../telecom/product-catalog-and-order-to-activate.html" data-topic-link><span>T06</span> Product catalog and order-to-activate</a>
+</details>
+<details class="topic-category"><summary>Operations <span>2</span></summary>
+<a href="../telecom/oss-inventory-faults-and-assurance.html" data-topic-link><span>T07</span> OSS: inventory, faults, and assurance</a>
+<a href="../telecom/5g-slicing-and-digital-services.html" data-topic-link><span>T08</span> 5G slicing and digital services</a>
+</details>
+</details>
+<details class="topic-tier" open><summary>Healthcare <span>8</span></summary>
+<details class="topic-category"><summary>Clinical <span>4</span></summary>
+<a href="../healthcare/how-a-health-system-is-organized.html" data-topic-link><span>H01</span> How a health system is organized</a>
+<a href="../healthcare/the-clinical-encounter-and-the-ehr.html" data-topic-link><span>H02</span> The clinical encounter and the EHR</a>
+<a href="../healthcare/orders-labs-pharmacy-and-results.html" data-topic-link><span>H03</span> Orders, labs, pharmacy, and results</a>
+<a href="../healthcare/care-pathways-and-population-health.html" data-topic-link><span>H08</span> Care pathways and population health</a>
+</details>
+<details class="topic-category"><summary>Administrative <span>2</span></summary>
+<a href="../healthcare/claims-eligibility-and-adjudication.html" data-topic-link><span>H04</span> Claims, eligibility, and adjudication</a>
+<a href="../healthcare/revenue-cycle-and-medical-coding.html" data-topic-link><span>H05</span> Revenue cycle and medical coding</a>
+</details>
+<details class="topic-category" open><summary>Interop and privacy <span>2</span></summary>
+<a href="../healthcare/interoperability-hl7-fhir-and-ihe.html" data-topic-link aria-current="page"><span>H06</span> Interoperability: HL7, FHIR, and IHE</a>
+<a href="../healthcare/privacy-consent-and-hipaa-style-controls.html" data-topic-link><span>H07</span> Privacy, consent, and HIPAA-style controls</a>
+</details>
+</details>
+<details class="topic-tier"><summary>Insurance <span>8</span></summary>
+<details class="topic-category"><summary>Product and policy <span>2</span></summary>
+<a href="../insurance/how-an-insurance-book-of-business-works.html" data-topic-link><span>I01</span> How an insurance book of business works</a>
+<a href="../insurance/policy-administration-and-product-configuration.html" data-topic-link><span>I02</span> Policy administration and product configuration</a>
+</details>
+<details class="topic-category"><summary>Risk and claims <span>3</span></summary>
+<a href="../insurance/underwriting-and-risk-selection.html" data-topic-link><span>I03</span> Underwriting and risk selection</a>
+<a href="../insurance/rating-pricing-and-actuarial-feedback.html" data-topic-link><span>I04</span> Rating, pricing, and actuarial feedback</a>
+<a href="../insurance/claims-fnol-to-settlement.html" data-topic-link><span>I05</span> Claims: FNOL to settlement</a>
+</details>
+<details class="topic-category"><summary>Distribution and capital <span>3</span></summary>
+<a href="../insurance/distribution-agents-brokers-and-direct.html" data-topic-link><span>I06</span> Distribution: agents, brokers, and direct</a>
+<a href="../insurance/reinsurance-and-capital.html" data-topic-link><span>I07</span> Reinsurance and capital</a>
+<a href="../insurance/regulatory-reporting-and-solvency.html" data-topic-link><span>I08</span> Regulatory reporting and solvency</a>
+</details>
+</details>
+<details class="topic-tier"><summary>Finance <span>8</span></summary>
+<details class="topic-category"><summary>Core banking <span>3</span></summary>
+<a href="../finance/how-a-bank-is-organized.html" data-topic-link><span>F01</span> How a bank is organized</a>
+<a href="../finance/accounts-ledgers-and-double-entry.html" data-topic-link><span>F02</span> Accounts, ledgers, and double-entry</a>
+<a href="../finance/lending-credit-and-collections.html" data-topic-link><span>F03</span> Lending, credit, and collections</a>
+</details>
+<details class="topic-category"><summary>Payments <span>3</span></summary>
+<a href="../finance/payment-rails-and-settlement.html" data-topic-link><span>F04</span> Payment rails and settlement</a>
+<a href="../finance/cards-authorization-clearing-and-chargeback.html" data-topic-link><span>F05</span> Cards: authorization, clearing, and chargeback</a>
+<a href="../finance/markets-trading-and-custody.html" data-topic-link><span>F06</span> Markets, trading, and custody</a>
+</details>
+<details class="topic-category"><summary>Risk and compliance <span>2</span></summary>
+<a href="../finance/kyc-aml-and-financial-crime.html" data-topic-link><span>F07</span> KYC, AML, and financial crime</a>
+<a href="../finance/regulatory-capital-and-operational-risk.html" data-topic-link><span>F08</span> Regulatory capital and operational risk</a>
+</details>
+</details>
+</div>
+</nav>
+      <article class="note topic-article">
+<p>Healthcare interoperability is the work of moving clinical and administrative meaning between systems that were not designed to agree. HL7 v2, CDA, FHIR, DICOM, and X12 are not competing fashions. They are the dialects already on the wire. A strategy that says "we will only do FHIR" is a wish. A strategy that maps each workflow to the dialect the other party actually speaks is a design.</p>
+<h2 id="concept">Concept</h2>
+<p><strong>HL7 v2</strong> is the workhorse of in-hospital messaging: ADT (admit/discharge/transfer), ORM/ORU (orders/results), DFT (charges). It is pipe-delimited, version-skewed, and everywhere. You will parse it. You will not replace it this year.</p>
+<p><strong>CDA and documents.</strong> Discharge summaries and referral packets are often documents, not tidy resources. They are messy and they are how a specialist actually receives history.</p>
+<p><strong>FHIR</strong> is a resource model (Patient, Encounter, Observation, ServiceRequest) with REST, SMART apps, and bulk export. It is the right shape for new APIs, patient access, and many national programs. It is not automatically populated. Someone must map the EHR's chart into those resources and keep the map honest.</p>
+<p><strong>IHE profiles</strong> (XDS, PIX/PDQ, MHD) describe how documents and identities move in a community. They exist because "PUT a FHIR Bundle" does not settle who is the registry, who is the repository, and how a patient is correlated.</p>
+<p><strong>Administrative EDI</strong> (X12 270/271, 837, 835, and their regional cousins) is how eligibility and claims move. That is interoperability too. Do not hide it in a "we'll add billing later" column.</p>
+<h2 id="design-implications">Design implications</h2>
+<p>Identity is the first interop problem. An MPI or a PIX manager, plus an enterprise id, plus a rule for duplicates, comes before the resource model. A perfect FHIR Patient with the wrong person is a safety incident.</p>
+<p>Subscriptions and eventing (ADT → update the downstream) need at-least-once delivery and a way to rebuild. Hospitals reboot interface engines. Your consumer must catch up.</p>
+<p>Versioning is political. You will support v2.3.1 and FHIR R4 at the same time. Hide that behind your own canonical model only if you are willing to fund the canonical model as a product.</p>
+<h2 id="trade-offs">Trade-offs</h2>
+<div class="table-wrap"><table><thead><tr><th>Approach</th><th>When it wins</th><th>Cost / risk</th></tr></thead><tbody><tr><td>Speak the partner's dialect at the edge, canonicalize inside</td><td>You must connect to real EHRs</td><td>Mapping work never ends</td></tr><tr><td>FHIR-only</td><td>Greenfield and regulated patient access</td><td>You will still meet v2 in the hospital</td></tr><tr><td>Point-to-point every interface</td><td>Two systems</td><td>The nth interface is unmaintainable</td></tr></tbody></table></div>
+<p>Ask which event makes a downstream system update, how a missed message is replayed, and which identifier is used to match the patient. If the answer is "the interface engine," ask to see its dead-letter queue.</p>
+<nav class="article-pager" aria-label="Adjacent topics"><a href="../healthcare/revenue-cycle-and-medical-coding.html">← <span>Revenue cycle and medical coding</span></a><a class="next" href="../healthcare/privacy-consent-and-hipaa-style-controls.html"><span>Privacy, consent, and HIPAA-style controls</span> →</a></nav>
+      </article>
+    </div>
+  </main>
+
+  <section class="connect" id="contact">
+    <div class="wrap wrap-wide">
+      <div class="section-header"><h2 class="section-title">Let's Connect</h2></div>
+      <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+
+      <div class="social-links">
+        <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a class="social-link" href="https://linkedin.com/in/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-link" href="https://twitter.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:soumya@example.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script src="../../js/reader.js"></script>
+</body>
+</html>
