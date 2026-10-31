@@ -1,0 +1,241 @@
+{
+  "cloud": {
+    "title": "Cloud Fundamental",
+    "deck": "Platform names change. The parts do not: a place to run, a place to store, a network, an identity, and a bill. These notes stay on that shared model.",
+    "kicker": "02 · Notes",
+    "sections": [
+      {
+        "slug": "model",
+        "label": "The cloud model",
+        "html": "<h2>The cloud model</h2>\n          <p>A cloud provider runs large pools of machines, disks, and networks, and rents slices of them through an API. You stop ordering hardware for each new service. You start describing what you want, and you pay for what stays switched on.</p>\n          <p>Elasticity is the ability to add or remove capacity. Scalability is the ability of the design to handle growth at all. A single large virtual machine can be scaled up until it cannot. An elastic design adds copies and later removes them.</p>\n          <div class=\"table-wrap\">\n            <table>\n              <caption>How much of the stack you still operate.</caption>\n              <thead>\n                <tr><th>Model</th><th>You manage</th><th>Provider manages</th></tr>\n              </thead>\n              <tbody>\n                <tr><td>Infrastructure as a service</td><td>Operating system, runtime, application, data</td><td>Hardware, hypervisor, the physical network</td></tr>\n                <tr><td>Platform as a service</td><td>Application and data</td><td>Runtime patching, the machines underneath</td></tr>\n                <tr><td>Software as a service</td><td>Configuration, users, and the data you upload</td><td>The application itself</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <h3>Places</h3>\n          <p>A region is a group of data centers in a geography. An availability zone is an isolated group inside that region, with separate power and network. Putting two copies in one zone protects you from a bad deploy. Putting them in two zones protects you from a building. Putting them in two regions protects you from a region, and it costs more in latency, data transfer, and operational work.</p>\n          <p>The account, subscription, or project is the blast-radius boundary. Production and experiments should not share one. Bills, permissions, and quotas attach to that boundary.</p>"
+      },
+      {
+        "slug": "compute",
+        "label": "Compute",
+        "html": "<h2>Compute</h2>\n          <p>Compute is anything that runs your code. The useful split is how long it lives and what you must patch.</p>\n          <ul>\n            <li><strong>Virtual machines</strong> look like servers. You choose the size, the image, and usually the operating system patches. They fit long-running processes, licensed software, and lift-and-shift.</li>\n            <li><strong>Containers</strong> package a process and its dependencies. You still need something to run the containers: a service, or a cluster you operate. They fit when many services should share the same deployment shape.</li>\n            <li><strong>Functions</strong> run for one event or request, then disappear. The provider patches the runtime. They fit irregular traffic and glue between services. They fit poorly when you need a long-held connection, local disk, or a cold start that breaks the latency budget.</li>\n          </ul>\n          <p>Stateless compute is easier to scale. Put durable data in a store, not on the instance disk. An instance can disappear in a replacement, a scale-in, or a zone failure. If the only copy of a file lived there, it is gone.</p>\n          <div class=\"callout\">Scale out by adding copies when the work can be split. Scale up by buying a bigger machine when the work cannot. Most \"just make it bigger\" stories end when the biggest size is still not enough.</div>"
+      },
+      {
+        "slug": "storage",
+        "label": "Storage",
+        "html": "<h2>Storage</h2>\n          <p>Pick storage from the access pattern, not from the product name.</p>\n          <div class=\"table-wrap\">\n            <table>\n              <caption>Three shapes, three jobs.</caption>\n              <thead>\n                <tr><th>Shape</th><th>Looks like</th><th>Good for</th></tr>\n              </thead>\n              <tbody>\n                <tr><td>Block</td><td>A disk attached to a machine</td><td>Databases and anything that expects a filesystem on one host</td></tr>\n                <tr><td>File</td><td>A shared filesystem</td><td>Several machines reading the same tree</td></tr>\n                <tr><td>Object</td><td>A key and a blob, reached over HTTP</td><td>Uploads, backups, images, data files, static sites</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <p>Object storage is durable because the provider keeps copies. It is not a POSIX disk, and it is not a database. You do not edit a byte in the middle. You write a new object.</p>\n          <p>A managed database is someone else's operational work: patching, backups, and often failover. You still own schema, indexes, query shape, and the decision about what the data means. Running the database yourself is reasonable when you need a specific version, extension, or placement. It is an ongoing job, not a checkbox.</p>\n          <h3>Copies</h3>\n          <p>Durability is \"the provider did not lose the bits.\" Availability is \"you can read them now.\" A backup is a separate copy you can restore, preferably in another region, with a tested restore. A replica that accepts the same bad write as the primary is not a backup.</p>"
+      },
+      {
+        "slug": "networking",
+        "label": "Networking",
+        "html": "<h2>Networking</h2>\n          <p>A virtual network is your address space inside the provider. Subnets divide it. Routes and security rules decide what may talk. Private subnets have no direct route from the internet. Public ones do, and that should be a small set: load balancers and bastions, not every application server.</p>\n          <ul>\n            <li><strong>Load balancer.</strong> Spreads traffic across healthy copies and gives callers one address. Health checks must match real readiness, or the balancer will send users to a process that is up and useless.</li>\n            <li><strong>DNS.</strong> Turns names into addresses. Use it for failover only when you have measured how long caches keep the old answer.</li>\n            <li><strong>TLS.</strong> Protects the hop you terminate. Termination at the load balancer is common. Traffic behind it should still be restricted, and sometimes encrypted again, depending on who else shares the network.</li>\n          </ul>\n          <p>Egress is easy to forget in the design and obvious on the bill. Data leaving a region, or leaving the provider toward the internet, is often priced differently from data staying inside. A chatty service that pulls from another region on every request will show up as cost before it shows up as latency you noticed.</p>\n          <div class=\"callout\">Draw trust boundaries first: internet, your network, the data store, the management plane. Then place controls on the lines you actually cross.</div>"
+      },
+      {
+        "slug": "identity",
+        "label": "Identity and access",
+        "html": "<h2>Identity and access</h2>\n          <p>Every call is made by someone or something. Users are people. Workloads are the programs: a virtual machine, a function, a pipeline. They should not share an account. A person leaving the team is not the same event as rotating what a service uses.</p>\n          <ul>\n            <li>Grant the smallest permission that lets the job finish. Wide roles feel faster until a leaked key can do everything the admin can do.</li>\n            <li>Prefer short-lived credentials issued to the workload. Long-lived keys in a repository or a laptop are a common breach path.</li>\n            <li>Federate human login to one identity provider so joiners and leavers are handled in one place.</li>\n            <li>Separate the permission to change infrastructure from the permission to read production data.</li>\n          </ul>\n          <p>Audit logs answer \"who did what.\" Turn them on before you need them, and send them somewhere the same account cannot quietly delete. A trail that the attacker can erase is a diary, not evidence.</p>\n          <div class=\"callout\">Identity is the real perimeter. Network rules still matter, but a valid key from anywhere will walk past a diagram that only shows firewalls.</div>"
+      },
+      {
+        "slug": "responsibility",
+        "label": "Cost and responsibility",
+        "html": "<h2>Cost and responsibility</h2>\n          <p>The shared responsibility model is the contract under the marketing. The provider secures the cloud: buildings, hardware, the hypervisor. You secure what you put in it: accounts, data, network exposure, and most configuration. On infrastructure as a service you patch the guest operating system. On functions the provider patches the platform, and you still own the code and the permissions it runs with.</p>\n          <h3>Where money goes</h3>\n          <ul>\n            <li>Compute that is on while idle. Stop it, or size it to the real load.</li>\n            <li>Storage you forgot: old snapshots, unused disks, logs with no expiry.</li>\n            <li>Data transfer across regions and out to the internet.</li>\n            <li>Over-provisioned managed services left at their default size.</li>\n          </ul>\n          <p>Tag resources with the system and the environment so a bill can be read. Set a budget alert before the month closes. A quota protects the account from a runaway loop. A budget alert tells a person.</p>\n          <div class=\"callout\">Deleting an experiment is part of the design. If you cannot say who owns a resource, you cannot say whether it should still be running.</div>"
+      }
+    ]
+  },
+  "kubernetes": {
+    "title": "Kubernetes",
+    "deck": "Kubernetes keeps a cluster moving toward the state you declared. These notes cover the objects you actually write, and the habits that make a cluster operable.",
+    "kicker": "03 · Notes",
+    "sections": [
+      {
+        "slug": "picture",
+        "label": "The cluster picture",
+        "html": "<h2>The cluster picture</h2>\n          <p>A Kubernetes cluster has a control plane and a set of worker nodes. You submit a desired state, usually as YAML: \"three copies of this container, reachable under this name.\" Controllers watch the current state and try to close the gap. That loop is the product. SSH into a node is a debugging tool, not the way you make a change stick.</p>\n          <p>The API server is the front door. <code>etcd</code> stores the cluster data. Schedulers place pods onto nodes that have room. Kubelets on each node start the containers the scheduler assigned. You can run this yourself, or you can use a managed control plane and still own the workloads, the identity, and the network policy.</p>\n          <div class=\"callout\">If a change is not in the manifest that Git holds, the next reconcile can erase it. The cluster is a mirror. The repository is the source.</div>\n          <h3>Labels are the join key</h3>\n          <p>Kubernetes does not wire objects by memory address. A Service selects pods by labels. A network rule selects pods by labels. Spend the time to make labels boring and consistent: application, component, environment. A typo in a selector looks like \"the app is down\" when the app is running and invisible.</p>"
+      },
+      {
+        "slug": "pods",
+        "label": "Pods",
+        "html": "<h2>Pods</h2>\n          <p>A pod is the smallest thing you deploy. It is one or more containers that share a network namespace, which means they share <code>localhost</code>, and they can share volumes. Containers in a pod are started, scheduled, and die together. Most pods hold one application container. A second container is justified when it must share the pod's files or network: a proxy sidecar, or a helper that refreshes a certificate into a shared volume.</p>\n          <p>Pods are ephemeral. The disk inside the container goes away with the pod unless you mounted a volume. The pod IP changes when the pod is replaced. Callers should use a Service name, not a pod IP they happened to see.</p>\n          <h3>Probes</h3>\n          <ul>\n            <li><strong>Startup</strong> tells the kubelet the process is still booting, so a slow start is not mistaken for a deadlock.</li>\n            <li><strong>Readiness</strong> tells the Service whether this pod should receive traffic. Fail it when a dependency you need is down.</li>\n            <li><strong>Liveness</strong> restarts the container. Use it for a stuck process. Do not use it for a downed database, or the cluster will restart healthy code in a loop.</li>\n          </ul>\n          <h3>Requests and limits</h3>\n          <p>A CPU or memory <em>request</em> is what the scheduler reserves. A <em>limit</em> is what the container is allowed to use. Without requests, the scheduler can pack a node until everything is slow. A memory limit that is too low kills the process. Set requests from a measurement, not from a guess you copy between services.</p>"
+      },
+      {
+        "slug": "workloads",
+        "label": "Workloads",
+        "html": "<h2>Workloads</h2>\n          <p>You rarely create pods by hand. A workload controller creates them and replaces them when they disappear.</p>\n          <div class=\"table-wrap\">\n            <table>\n              <caption>Choose the controller from identity and lifetime, not from habit.</caption>\n              <thead>\n                <tr><th>Controller</th><th>Use when</th></tr>\n              </thead>\n              <tbody>\n                <tr><td>Deployment</td><td>You want N interchangeable copies. A rolling update replaces them. This is the default for stateless HTTP services.</td></tr>\n                <tr><td>StatefulSet</td><td>Each replica needs a stable name, ordered startup, or its own disk. Databases and queues often land here, and they still need care that a YAML file does not supply.</td></tr>\n                <tr><td>DaemonSet</td><td>Every node (or a selected set) should run one copy: log collectors, network agents.</td></tr>\n                <tr><td>Job</td><td>The work should run to completion, then stop.</td></tr>\n                <tr><td>CronJob</td><td>The work should run on a schedule. Make the task safe to run twice, because a retry will.</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <p>A Deployment owns a ReplicaSet, which owns the pods. Roll back the Deployment, not a single pod. Deleting a pod is a restart. It is not a rollback, and it is not a fix for a bad image.</p>\n          <div class=\"callout\">Horizontal scaling adds pods. It only helps when one request does not need more resources than a single pod has, and when sessions are not trapped on one copy.</div>"
+      },
+      {
+        "slug": "networking",
+        "label": "Services and traffic",
+        "html": "<h2>Services and traffic</h2>\n          <p>Every pod can reach every other pod by IP, across nodes. That flat network is convenient and it is also a wide default. Treat it as a starting point, then restrict it when the cluster holds more than one trust level.</p>\n          <div class=\"table-wrap\">\n            <table>\n              <caption>A Service gives a stable name to a changing set of pods.</caption>\n              <thead>\n                <tr><th>Type</th><th>Who can use it</th></tr>\n              </thead>\n              <tbody>\n                <tr><td>ClusterIP</td><td>Other workloads inside the cluster. This is the normal choice.</td></tr>\n                <tr><td>NodePort</td><td>A port on every node. Useful for demos and odd network setups, noisy as a public design.</td></tr>\n                <tr><td>LoadBalancer</td><td>An external load balancer from the platform, with its own address.</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <p>HTTP routing sits above Services. An Ingress, or a Gateway, maps host names and paths to Services and often terminates TLS. The controller behind that object is a separate install. The Ingress resource does nothing until a controller is watching it.</p>\n          <p>Cluster DNS resolves Service names. Prefer <code>name.namespace.svc.cluster.local</code> in documentation, and the short name <code>name</code> only from callers in the same namespace. Cross-namespace calls should be explicit so a rename is visible.</p>\n          <div class=\"callout\">NetworkPolicy is a lock you add once you know the allowed paths. An empty policy that selects nothing protects nothing. A policy that selects pods and lists no ingress denies them.</div>"
+      },
+      {
+        "slug": "configuration",
+        "label": "Configuration",
+        "html": "<h2>Configuration</h2>\n          <p>Keep configuration out of the image. The same image should run in a test namespace and in production, with different config. Bake the build identity into the image. Inject the environment at deploy time.</p>\n          <ul>\n            <li><strong>ConfigMap</strong> holds plain settings: feature flags, addresses, small files. It is not secret, and it is not a place for a large binary.</li>\n            <li><strong>Secret</strong> holds credentials and keys. The value is base64-encoded in the API, which is encoding, not encryption. Encryption at rest is a cluster setting. Anyone who can read Secrets in the namespace can use them.</li>\n            <li>Environment variables are easy and frozen at process start. Mounted files can be updated without a restart if the application re-reads them. Pick the one the process actually supports.</li>\n          </ul>\n          <p>Do not store live Secrets in a public Git repository. A common pattern is to commit encrypted or referenced secrets, and let a controller materialize the Kubernetes Secret in the cluster. The manifest you review should not contain the raw password.</p>\n          <div class=\"callout\">A ConfigMap change does not restart pods by itself. If the process only reads the environment at startup, roll the workload or the new value will sit unused.</div>"
+      },
+      {
+        "slug": "operations",
+        "label": "Day-2 operations",
+        "html": "<h2>Day-2 operations</h2>\n          <p>The first deploy is the easy day. The cluster earns its cost on the days a node disappears, a rollout sticks, or a namespace runs out of memory.</p>\n          <h3>Rollouts</h3>\n          <p>A rolling update starts new pods before, or as, it stops old ones, depending on the surge and unavailable settings. Readiness must go green only when the new pod can serve. If readiness is always true, the rollout will happily replace a working version with a broken one. Keep the previous ReplicaSet so rollback is a declared change, not a scavenger hunt.</p>\n          <h3>Namespaces and quotas</h3>\n          <p>A namespace is a folder for names and a boundary for policy. It is not a strong security boundary by itself, but it is where you attach resource quotas, default limits, and who may deploy. Production and development on one cluster should at least be separate namespaces, with separate permissions. Many teams use separate clusters once the blast radius matters more than the extra cost.</p>\n          <h3>What to look at</h3>\n          <ul>\n            <li>Events and pod status explain scheduling and crash loops.</li>\n            <li>Logs explain the process. Ship them off the node, because the node will be replaced.</li>\n            <li>Metrics explain saturation: CPU throttling, memory approaching the limit, restart counts.</li>\n            <li>A request id that crosses services explains a single failure better than a dashboard of averages.</li>\n          </ul>\n          <div class=\"callout\"><code>kubectl</code> is a window onto the API. Changes made only there will drift. Prefer a pull request that changes the manifest, then watch the controllers catch up.</div>"
+      }
+    ]
+  },
+  "ai-ml": {
+    "title": "AI / ML",
+    "deck": "A model is one step in a pipeline. These notes follow the path from a decision you need, through data and evaluation, to a system that can be turned off safely.",
+    "kicker": "04 · Notes",
+    "sections": [
+      {
+        "slug": "map",
+        "label": "Map of the work",
+        "html": "<h2>Map of the work</h2>\n          <p>Machine learning builds a function from examples instead of writing every rule by hand. Artificial intelligence is the broader aim: systems that take on tasks we associate with judgment. Most useful systems are narrower than the aim. They classify, rank, forecast, or generate, inside a boundary someone chose.</p>\n          <p>A model is that function plus its parameters. It is the middle of a pipeline:</p>\n          <ol>\n            <li>Decide the action the system may take, and the cost of being wrong.</li>\n            <li>Collect examples that match the moment of decision, not a convenient export.</li>\n            <li>Train, then measure against a baseline a person could explain.</li>\n            <li>Serve the model behind the same standards as any other dependency: latency, failure, and a way to roll back.</li>\n            <li>Watch the inputs. A model does not announce that the world moved.</li>\n          </ol>\n          <div class=\"callout\">If a short rule or a query already makes the decision well, a model is extra machinery. Start there. Add learning when the rule table is what keeps breaking.</div>"
+      },
+      {
+        "slug": "learning",
+        "label": "Kinds of learning",
+        "html": "<h2>Kinds of learning</h2>\n          <p>The kind of learning follows from the feedback you have, not from whichever algorithm is popular this year.</p>\n          <div class=\"table-wrap\">\n            <table>\n              <caption>Match the setup to the signal you can actually collect.</caption>\n              <thead>\n                <tr><th>Setup</th><th>The signal</th><th>Typical job</th></tr>\n              </thead>\n              <tbody>\n                <tr><td>Supervised</td><td>Each example has a label or a target number</td><td>Spam or not, price, next value, \"which class\"</td></tr>\n                <tr><td>Unsupervised</td><td>No labels, only the structure in the inputs</td><td>Grouping, finding odd points, compressing</td></tr>\n                <tr><td>Reinforcement</td><td>A reward after a sequence of actions</td><td>Control and game-like decisions, expensive to get right outside a simulator</td></tr>\n              </tbody>\n            </table>\n          </div>\n          <p>A discriminative model scores or labels an input. A generative model draws new samples that resemble its training data. Generation is not understanding, and a fluent paragraph is not a checked fact. If the product needs a source of truth, put retrieval or a system of record next to the model and design for the case where they disagree.</p>\n          <p>Transfer learning starts from a model trained on a broad set and adapts it to a smaller one. It helps when your labeled set is thin and the broad model has seen similar inputs. It still needs an evaluation on <em>your</em> data. A leaderboard score is not that evaluation.</p>"
+      },
+      {
+        "slug": "data",
+        "label": "Data and features",
+        "html": "<h2>Data and features</h2>\n          <p>Label quality beats model cleverness more often than notes like this admit. A clean definition of the label, written down, is part of the system. \"Churn\" that means three different things to three teams will train a model that is sure and useless.</p>\n          <h3>Leakage</h3>\n          <p>Leakage is when the training rows contain information that will not exist at decision time, or information that is the answer in disguise. A column copied from the outcome, a feature computed with the full future window, or a random split that puts the same user in both train and test: the offline score looks wonderful, and production looks ordinary.</p>\n          <h3>Splits</h3>\n          <ul>\n            <li>Split by time when the world moves forward. Train on the past, test on a later period.</li>\n            <li>Split by entity when rows are repeated per user, device, or account, so the model cannot memorize an identity.</li>\n            <li>Random row splits are for independent rows. Most business tables are not independent rows.</li>\n          </ul>\n          <p>A feature must be computable when you predict. If building it requires tomorrow's table, it is not a feature. It is a leak, or it is a batch job you have not scheduled. Document the freshness: how old the value may be, and what the model should do when it is missing.</p>\n          <div class=\"callout\">Bias in the collection shows up as confidence later. Who is missing from the examples will be the group the metric does not describe.</div>"
+      },
+      {
+        "slug": "evaluation",
+        "label": "Training and evaluation",
+        "html": "<h2>Training and evaluation</h2>\n          <p>Training fits parameters to a training set. Evaluation asks whether the fit helps on data the fit did not see. Report the second number. Keep a baseline next to it: the majority class, the current rule, or a small linear model. A complex model that does not beat the baseline has not earned its operational cost.</p>\n          <h3>Metrics follow the cost of errors</h3>\n          <ul>\n            <li><strong>Accuracy</strong> hides failure when one class is rare. A model that always says \"no fraud\" can be 99% accurate and never catch a case.</li>\n            <li><strong>Precision</strong> is the share of alarms that were right. Low precision trains people to ignore the system.</li>\n            <li><strong>Recall</strong> is the share of real cases you caught. Low recall is silent miss.</li>\n            <li><strong>Calibration</strong> asks whether a score of 0.8 is right about four times in five. Rankings can look fine while the probability is fiction. Do not show an uncalibrated score as a probability.</li>\n          </ul>\n          <p>Slice the metric. An average can rise while a region, a language, or a customer tier gets worse. The slice you refuse to measure is the one that will page you.</p>\n          <p>Offline evaluation is a filter, not a launch. When the cost of a wrong action is high, shadow the model on live traffic, or send a small share of decisions, before it acts alone. Watch the decision, not only the loss curve.</p>"
+      },
+      {
+        "slug": "serving",
+        "label": "Serving",
+        "html": "<h2>Serving</h2>\n          <p>A trained file is not a service. Serving is an ordinary production problem with a versioned artifact in the middle.</p>\n          <ul>\n            <li><strong>Batch</strong> scores a table on a schedule. It fits when the decision can wait: nightly limits, morning lists.</li>\n            <li><strong>Online</strong> scores one request inside a latency budget. It needs a feature lookup that is as fast as the model, and a timeout.</li>\n            <li><strong>Fallback</strong> is the path when the model is slow, down, or unsure. A default rule, a previous score, or a human queue. Shipping without a fallback is shipping a hard dependency.</li>\n          </ul>\n          <p>Version the model, the code that builds features, and the training data pointer together. A rollback that restores the model and leaves a new feature definition in place is not a rollback. Record the version on each prediction so a bad week can be traced.</p>\n          <h3>After launch</h3>\n          <p>Input drift means today's examples do not look like training. Prediction drift means the score distribution moved. Neither proves the decisions got worse, and a stable dashboard does not prove they stayed good. Keep a sample of outcomes, with a delay that matches how long the truth takes to arrive, and compare.</p>\n          <div class=\"callout\">Cache a prediction only when the same inputs must yield the same action. Do not cache your way past a user who withdrew consent or a price that changed.</div>"
+      },
+      {
+        "slug": "judgment",
+        "label": "Judgment and limits",
+        "html": "<h2>Judgment and limits</h2>\n          <p>A model repeats patterns in the data, including unfair ones and outdated ones. It does not know your policy. Policy has to be written beside it: who may be scored, what the score may change, and which decisions stay with a person.</p>\n          <ul>\n            <li>State the intended use and the uses that are out of scope. A model fit for ranking search results is not a model fit for denying a service.</li>\n            <li>Treat training data as data you are accountable for. Private text, customer records, and scraped content do not become harmless because a training job consumed them.</li>\n            <li>Generated text can be confident and false. If you display it, give the reader a way to see the source, or do not present it as a record.</li>\n            <li>Keep a person responsible for the decision the system informs. \"The model said so\" is not an owner.</li>\n            <li>Plan to turn the model off. If the business cannot run the fallback for a day, you do not have a model in the loop. You have a single point of failure with a research name.</li>\n          </ul>\n          <div class=\"callout\">Measure harm on the groups affected, not only on the average user. A small overall error can still be a large error for the people with the least room to absorb it.</div>"
+      }
+    ]
+  },
+  "microservices": {
+    "title": "Microservices",
+    "deck": "A microservice is a deployable boundary with its own data and its own reason to change. These notes stay on that boundary, not on a diagram full of boxes.",
+    "kicker": "05 · Notes",
+    "sections": [
+      {
+        "slug": "boundary",
+        "label": "The boundary",
+        "html": "<h2>The boundary</h2>\n          <p>Split a system where the business already splits. Orders, catalog, and billing change for different reasons and are often owned by different people. That is a candidate boundary. A function that is merely \"small\" is not.</p>\n          <p>Each service should be deployable without a lockstep release of the others. If every change still needs three teams to ship on the same day, the split is only a network hop.</p>\n          <div class=\"callout\">Start with a modular codebase and a clear data owner. Extract a service when independent deploy is the pain you are relieving.</div>"
+      },
+      {
+        "slug": "data",
+        "label": "Owned data",
+        "html": "<h2>Owned data</h2>\n          <p>A service owns the tables it writes. Other services ask it, or subscribe to what it publishes. They do not share its database. A shared database hides the coupling until a column rename takes the neighbors down.</p>\n          <ul>\n            <li>One writer for each fact.</li>\n            <li>Copies elsewhere are caches or projections, with a known delay.</li>\n            <li>A transaction that must update two services is a design smell. Put the rule in one service, or accept a process that can be retried.</li>\n          </ul>"
+      },
+      {
+        "slug": "contracts",
+        "label": "Contracts",
+        "html": "<h2>Contracts</h2>\n          <p>The contract is the request, the response, and the errors a caller can handle. Write it down. A breaking change is a new version, or a field that callers can ignore until they are ready.</p>\n          <p>Do not leak your tables through the API. Return the words the caller needs. Internal names can change without a coordinated release.</p>"
+      },
+      {
+        "slug": "calls",
+        "label": "Calls between services",
+        "html": "<h2>Calls between services</h2>\n          <p>A synchronous call is simple and it couples availability. If the catalog is down, checkout waits. Use it when the caller cannot continue without the answer and the latency budget allows it.</p>\n          <p>An event is better when the receiver can act later. The publisher records that something happened. Consumers react, and they must tolerate duplicates and uncertain order. Name the event for the fact, not for the command you wish the other team would run.</p>"
+      },
+      {
+        "slug": "failure",
+        "label": "Failure",
+        "html": "<h2>Failure</h2>\n          <p>The network will drop calls, and a dependency will be slow. Time out. Limit how many calls you pile up. Decide the fallback: a cached answer, a smaller feature, or a clear error. Retry only when the operation is safe to run twice.</p>\n          <div class=\"callout\">Give every request an id that crosses services. A dashboard of averages will not tell you which checkout failed.</div>"
+      }
+    ]
+  },
+  "devops": {
+    "title": "DevOps",
+    "deck": "DevOps is the habit of shipping a small change and knowing, quickly, whether it helped. These notes follow that loop from source to the running system.",
+    "kicker": "06 · Notes",
+    "sections": [
+      {
+        "slug": "loop",
+        "label": "The loop",
+        "html": "<h2>The loop</h2>\n          <p>A change is not done when the code is merged. It is done when it is running, observed, and reversible. The same people who write the change should be able to see it fail and roll it back.</p>\n          <p>Small batches make that possible. A release that contains a month of work hides the cause. A release that contains one change tells you where to look.</p>"
+      },
+      {
+        "slug": "build",
+        "label": "Build",
+        "html": "<h2>Build</h2>\n          <p>The build should be repeatable. Same source, same result. Pin the dependencies. Do not compile on a laptop and copy the artifact by hand.</p>\n          <ul>\n            <li>One artifact, promoted through environments. Do not rebuild with different flags for production.</li>\n            <li>Tests that must pass before the artifact exists: unit checks, and a small set of contract checks.</li>\n            <li>A version you can point at: a commit id on the artifact and in the running process.</li>\n          </ul>"
+      },
+      {
+        "slug": "pipeline",
+        "label": "Pipeline",
+        "html": "<h2>Pipeline</h2>\n          <p>The pipeline is the only path to production. If someone can still shell in and patch a server, the pipeline is a suggestion. Steps should be visible: build, test, publish, deploy, and a check that the new version is serving.</p>\n          <div class=\"callout\">A green pipeline that never looks at the running system will ship a process that starts and then fails its first request.</div>"
+      },
+      {
+        "slug": "environments",
+        "label": "Environments",
+        "html": "<h2>Environments</h2>\n          <p>Development, a shared test environment, and production should differ by configuration, not by a mystery set of manual steps. Secrets stay out of the repository. Data in test is either synthetic or carefully reduced. Production data does not travel to a laptop.</p>\n          <p>Name who is allowed to deploy where. Production is a smaller group, and the action is still a recorded change, not a private click.</p>"
+      },
+      {
+        "slug": "operate",
+        "label": "After release",
+        "html": "<h2>After release</h2>\n          <p>Watch the new version, not only the cluster. Error rate, latency, and a business signal such as completed checkouts. Keep the previous version ready so rollback is a deploy, not a reconstruction.</p>\n          <p>Write down what you learned when a release hurts. The next pipeline check should catch that class of mistake. An incident that only lives in chat will happen again.</p>"
+      }
+    ]
+  },
+  "case-study": {
+    "title": "Case Study",
+    "deck": "A case study is useful when it shows the constraint, not only the architecture diagram. These notes are a way to read one, and a place to file the next one.",
+    "kicker": "07 · Notes",
+    "sections": [
+      {
+        "slug": "reading",
+        "label": "How to read one",
+        "html": "<h2>How to read one</h2>\n          <p>Start with the question the system had to answer, and the limit it could not ignore: latency, cost, a regulation, a team size, a traffic spike. The boxes on the diagram are the answer to that limit. Without the limit, the diagram is fashion.</p>\n          <p>Add a new case here as its own subsection when you have those facts. A title, the constraint, the design, and the outcome are enough. A slide full of product names is not.</p>"
+      },
+      {
+        "slug": "constraint",
+        "label": "Constraint",
+        "html": "<h2>Constraint</h2>\n          <p>Write the constraint in one sentence. \"Checkout must answer in under 200 milliseconds.\" \"Two teams must deploy without waiting for each other.\" \"The audit trail cannot be edited.\" If you cannot say it, you cannot judge the design.</p>\n          <p>Also write what was deliberately left out. A system that ignores search, or ignores multi-region, is not incomplete if that was the deal. It is incomplete if readers are not told.</p>"
+      },
+      {
+        "slug": "design",
+        "label": "Design",
+        "html": "<h2>Design</h2>\n          <p>Name the few parts that carry the constraint. A cache in front of a catalog. A queue between payment and fulfillment. A single service that owns the ledger. Resist listing every sidecar.</p>\n          <ul>\n            <li>What data is the source of truth.</li>\n            <li>What is allowed to be stale.</li>\n            <li>How a request is identified from the edge to the store.</li>\n          </ul>"
+      },
+      {
+        "slug": "broke",
+        "label": "What broke",
+        "html": "<h2>What broke</h2>\n          <p>Every honest case has a failure. A cache that served a price after it changed. A queue that grew until orders were hours late. A rollout that passed health checks and still dropped payments. Record the symptom, the cause, and the change that followed.</p>\n          <div class=\"callout\">A case with no failure mode is an advertisement. Treat it as incomplete.</div>"
+      },
+      {
+        "slug": "copy",
+        "label": "What to copy",
+        "html": "<h2>What to copy</h2>\n          <p>Copy the decision, not the vendor list. If your constraint matches, the shape may match. If your traffic, team, or data rules do not, leave the shape alone. Write one line: \"Use this when…\" and \"Do not use this when…\".</p>\n          <p>File the next study as a new section in this page. Link it from the left navigation, keep the same four questions, and push the page. The home card already points here.</p>"
+      }
+    ]
+  },
+  "learning-path": {
+    "title": "Learning Path",
+    "deck": "Read these notes in an order that builds a small system, not in the order the cards happen to sit on the home page.",
+    "kicker": "08 · Notes",
+    "sections": [
+      {
+        "slug": "order",
+        "label": "Suggested order",
+        "html": "<h2>Suggested order</h2>\n          <p>Do not try to finish every page before you build anything. One pass through the vocabulary, one small design, then the notes that explain how that design is shipped and how it fails.</p>\n          <ol>\n            <li><a href=\"../cloud/\">Cloud Fundamental</a>, so the words for place, compute, storage, and identity are shared.</li>\n            <li><a href=\"../architecture/\">Architect Design Patterns</a>, so a local mess and a system-wide style are not confused.</li>\n            <li><a href=\"../microservices/\">Microservices</a>, only after you can say what must deploy apart.</li>\n            <li><a href=\"../kubernetes/\">Kubernetes</a> and <a href=\"../devops/\">DevOps</a>, so the design can be run and changed.</li>\n            <li><a href=\"../case-study/\">Case Study</a>, to test the design against someone else's constraint.</li>\n            <li><a href=\"../ai-ml/\">AI / ML</a>, when a model is actually part of the decision, not as a first step.</li>\n          </ol>"
+      },
+      {
+        "slug": "vocabulary",
+        "label": "Vocabulary",
+        "html": "<h2>Vocabulary</h2>\n          <p>Spend the first pass on names you will reuse: region, request and limit, service boundary, pipeline, readiness. If a term is fuzzy, stay on that section until you can explain it without the page open.</p>\n          <p>Skip ahead only when the current section is not the problem you have. A team already running a cluster does not need to pretend they have never seen a pod. They do need the failure notes.</p>"
+      },
+      {
+        "slug": "shape",
+        "label": "Shape a system",
+        "html": "<h2>Shape a system</h2>\n          <p>Pick one workflow you know, such as placing an order or publishing a document. Write the constraint, the data owner, and the one dependency that would hurt if it were slow. Then open the pattern and microservice notes and see which split you actually need.</p>\n          <div class=\"callout\">A learning design that needs five services on day one is practicing diagrams. Two processes and a database will teach more.</div>"
+      },
+      {
+        "slug": "run",
+        "label": "Run and change it",
+        "html": "<h2>Run and change it</h2>\n          <p>Put the small system somewhere you can deploy twice. Use the DevOps notes for the pipeline and the Kubernetes notes if the runtime is a cluster. Change one thing, watch one signal, and roll it back on purpose.</p>\n          <p>The point is the loop, not the platform logo. A single virtual machine with a repeatable deploy still counts.</p>"
+      },
+      {
+        "slug": "deeper",
+        "label": "Go deeper",
+        "html": "<h2>Go deeper</h2>\n          <p>After the loop works, return to the section that felt thin. Add a subsection on that topic page rather than starting a second notebook. A case study belongs on the Case Study page, in the same four questions: constraint, design, what broke, what to copy.</p>\n          <p>When a new shelf is large enough for its own card, add the folder, link it from the home page, and push to <code>main</code>. The deploy workflow publishes the new tile.</p>"
+      }
+    ]
+  }
+}

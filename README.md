@@ -2,14 +2,20 @@
 
 Static study notes by Soumya Ranjan Panda. The site is plain HTML, CSS, JavaScript, and SVG images. It does not use a framework, a package manager, or a CDN.
 
-The home page has four flash cards:
+The home page has eight topic cards:
 
 - Architect Design Patterns
 - Cloud Fundamental
 - Kubernetes
 - AI / ML
+- Microservices
+- DevOps
+- Case Study
+- Learning Path
 
-Each card opens a topic page. Sections are listed in the left-hand navigation. The selected section is shown in the right-hand panel.
+Each card opens a topic overview. Every subtopic is a separate HTML file and is linked from the left-hand navigation.
+
+The Architecture library contains 300 generated HTML essays sourced from the Eidos MDX collection: 100 Basic, 100 Intermediate, and 100 Advanced.
 
 Published site: https://search4soumya.github.io/knowledge-portfolio/
 
@@ -23,34 +29,47 @@ python -m http.server 8765
 
 Open http://127.0.0.1:8765/
 
-## Add a subsection
+## Regenerate the Architecture library
 
-1. Open the topic file, for example `site/architecture/index.html`.
-2. Add a link inside `<nav id="toc">`:
+After adding or editing MDX in `Eidos-Design-Pattern/src/content/topics`, run:
 
-```html
-<a href="#your-section">Your section title</a>
+```powershell
+cd C:\Users\spanda\Projects\knowledge-portfolio
+python scripts\generate_architecture_pages.py --source C:\Users\spanda\Projects\Eidos-Design-Pattern\src\content\topics
 ```
 
-3. Add a matching section inside `<div id="notes">`:
+This rewrites `site/architecture/index.html` and all files under:
 
-```html
-<section id="your-section" data-section>
-  <h2>Your section title</h2>
-  <p>Write the note here.</p>
-</section>
+- `site/architecture/basic/`
+- `site/architecture/intermediate/`
+- `site/architecture/advanced/`
+
+The generator includes only published MDX files and currently expects all 300 essays.
+
+## Edit a non-architecture subtopic
+
+The editable source is `content/manual_topics.json`. Each tile has a title, deck, kicker, and a `sections` array. Each section has:
+
+- `slug` — the HTML filename without `.html`
+- `label` — the text in the left navigation
+- `html` — the article body
+
+After editing the JSON, regenerate:
+
+```powershell
+python scripts\generate_tile_pages.py
 ```
 
-4. Commit and push to `main`.
+This writes one overview and one HTML file per subtopic for Cloud, Kubernetes, AI/ML, Microservices, DevOps, Case Study, and Learning Path.
 
-The `id` and the link target must match. The reader script uses that pair to show one section at a time. With JavaScript turned off, every section on the page is still visible.
+Do not edit those generated HTML files directly; the next generator run will replace them.
 
-## Add a topic
+## Add a home card
 
-1. Copy an existing folder under `site/`, for example `site/architecture/`, and rename it.
-2. Edit the title, the navigation, and the sections.
-3. Add a flash card on `site/index.html` that links to the new folder.
-4. Push to `main`.
+1. Add its `<a class="expertise-card">` block to `site/index.html`.
+2. Add its source and generator configuration, or create a folder containing `index.html` and separate subtopic HTML files.
+3. Link every subtopic from the overview's left navigation.
+4. Preview, commit, and push.
 
 Any new HTML file under `site/` is published on the next deploy, even before it is linked. Link it from the home page or from a topic navigation so people can find it.
 

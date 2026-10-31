@@ -1,10 +1,12 @@
 (function () {
+  document.documentElement.classList.add("js");
   var nav = document.getElementById("toc");
   var notes = document.getElementById("notes");
-  if (!nav || !notes) return;
-
   var toggle = document.querySelector(".nav-toggle");
-  var sections = Array.prototype.slice.call(notes.querySelectorAll("[data-section]"));
+  var sections = notes
+    ? Array.prototype.slice.call(notes.querySelectorAll("[data-section]"))
+    : [];
+  if (!nav) return;
 
   function elementFrom(target) {
     if (!target) return null;
@@ -23,6 +25,7 @@
   }
 
   function show(id, options) {
+    if (!notes || !sections.length) return;
     options = options || {};
     var match = null;
     sections.forEach(function (section) {
@@ -81,9 +84,11 @@
     if (toggle) toggle.setAttribute("aria-expanded", "false");
   });
 
-  window.addEventListener("popstate", function () {
-    show(idFromHash(), { align: true });
-  });
+  if (notes && sections.length) {
+    window.addEventListener("popstate", function () {
+      show(idFromHash(), { align: true });
+    });
+  }
 
   if (toggle) {
     toggle.addEventListener("click", function () {
@@ -98,5 +103,22 @@
     });
   }
 
-  show(idFromHash(), { align: location.hash !== "" });
+  var filter = document.getElementById("topic-filter");
+  if (filter) {
+    filter.addEventListener("input", function () {
+      var query = filter.value.trim().toLowerCase();
+      Array.prototype.forEach.call(nav.querySelectorAll("[data-topic-link]"), function (link) {
+        link.hidden = query !== "" && link.textContent.toLowerCase().indexOf(query) === -1;
+      });
+      Array.prototype.forEach.call(nav.querySelectorAll(".topic-category, .topic-tier"), function (group) {
+        var visible = group.querySelector("[data-topic-link]:not([hidden])");
+        group.hidden = !visible;
+        if (query && visible) group.open = true;
+      });
+    });
+  }
+
+  if (notes && sections.length) {
+    show(idFromHash(), { align: location.hash !== "" });
+  }
 })();

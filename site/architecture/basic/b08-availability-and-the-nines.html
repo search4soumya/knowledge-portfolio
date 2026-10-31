@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Availability and the &quot;Nines&quot; — Knowledge Portfolio</title>
+  <meta name="description" content="Availability and the &quot;Nines&quot;, a basic architecture note.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/architecture/basic/b08-availability-and-the-nines.html">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body data-topic="architecture">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../../index.html">
+        <img src="../../images/portrait.jpg" alt="" width="36" height="36">
+        <span class="brand-name">Knowledge Portfolio</span>
+      </a>
+      <nav class="header-nav" aria-label="Site">
+        <a class="header-link" href="../../index.html">Home</a>
+        <a class="header-link" href="../../about.html">About me</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">B08 · Basic · Foundations</p>
+    <div class="title-row">
+      <h1>Availability and the &quot;Nines&quot;</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Topics</button>
+    </div>
+    <div class="reader library-reader">
+<nav id="toc" class="toc library-nav" aria-labelledby="toc-title">
+<p id="toc-title" class="toc-title">Architecture topics</p>
+<label class="topic-filter-label" for="topic-filter">Find a topic</label>
+<input id="topic-filter" class="topic-filter" type="search" placeholder="Filter 300 topics" autocomplete="off">
+<a class="library-overview" href="../index.html">Architecture overview</a>
+<div id="topic-tree">
+<details class="topic-tier" open><summary>Basic <span>100</span></summary>
+<details class="topic-category" open><summary>Foundations <span>12</span></summary>
+<a href="../basic/b01-what-is-system-design-a-roadmap-for-engineers.html" data-topic-link><span>B01</span> What Is System Design? A Roadmap for Engineers</a>
+<a href="../basic/b02-functional-vs-non-functional-requirements.html" data-topic-link><span>B02</span> Functional vs Non-Functional Requirements</a>
+<a href="../basic/b03-client-server-architecture-explained.html" data-topic-link><span>B03</span> Client-Server Architecture Explained</a>
+<a href="../basic/b04-monolithic-architecture-when-it-is-still-the-right-choice.html" data-topic-link><span>B04</span> Monolithic Architecture: When It Is Still the Right Choice</a>
+<a href="../basic/b05-layered-n-tier-architecture.html" data-topic-link><span>B05</span> Layered (N-Tier) Architecture</a>
+<a href="../basic/b06-latency-vs-throughput-vs-bandwidth.html" data-topic-link><span>B06</span> Latency vs Throughput vs Bandwidth</a>
+<a href="../basic/b07-vertical-vs-horizontal-scaling.html" data-topic-link><span>B07</span> Vertical vs Horizontal Scaling</a>
+<a href="../basic/b08-availability-and-the-nines.html" data-topic-link aria-current="page"><span>B08</span> Availability and the &quot;Nines&quot;</a>
+<a href="../basic/b09-reliability-vs-resilience-vs-fault-tolerance.html" data-topic-link><span>B09</span> Reliability vs Resilience vs Fault Tolerance</a>
+<a href="../basic/b10-back-of-the-envelope-estimation.html" data-topic-link><span>B10</span> Back-of-the-Envelope Estimation</a>
+<a href="../basic/b11-cap-theorem-in-plain-english.html" data-topic-link><span>B11</span> CAP Theorem in Plain English</a>
+<a href="../basic/b12-strong-vs-eventual-consistency.html" data-topic-link><span>B12</span> Strong vs Eventual Consistency</a>
+</details>
+<details class="topic-category"><summary>Networking and APIs <span>16</span></summary>
+<a href="../basic/b13-how-dns-works.html" data-topic-link><span>B13</span> How DNS Works</a>
+<a href="../basic/b14-the-http-https-request-lifecycle.html" data-topic-link><span>B14</span> The HTTP/HTTPS Request Lifecycle</a>
+<a href="../basic/b15-tcp-vs-udp.html" data-topic-link><span>B15</span> TCP vs UDP</a>
+<a href="../basic/b16-rest-api-design-basics.html" data-topic-link><span>B16</span> REST API Design Basics</a>
+<a href="../basic/b17-api-versioning-strategies.html" data-topic-link><span>B17</span> API Versioning Strategies</a>
+<a href="../basic/b18-pagination-offset-vs-cursor.html" data-topic-link><span>B18</span> Pagination: Offset vs Cursor</a>
+<a href="../basic/b19-idempotency-in-apis.html" data-topic-link><span>B19</span> Idempotency in APIs</a>
+<a href="../basic/b20-rate-limiting-basics.html" data-topic-link><span>B20</span> Rate Limiting Basics</a>
+<a href="../basic/b21-authentication-vs-authorization.html" data-topic-link><span>B21</span> Authentication vs Authorization</a>
+<a href="../basic/b22-sessions-vs-jwt.html" data-topic-link><span>B22</span> Sessions vs JWT</a>
+<a href="../basic/b23-oauth-2-0-and-openid-connect-basics.html" data-topic-link><span>B23</span> OAuth 2.0 and OpenID Connect Basics</a>
+<a href="../basic/b24-cors-explained.html" data-topic-link><span>B24</span> CORS Explained</a>
+<a href="../basic/b25-polling-long-polling-sse-and-websockets.html" data-topic-link><span>B25</span> Polling, Long Polling, SSE, and WebSockets</a>
+<a href="../basic/b26-rest-vs-graphql-vs-grpc.html" data-topic-link><span>B26</span> REST vs GraphQL vs gRPC</a>
+<a href="../basic/b27-webhooks-vs-polling.html" data-topic-link><span>B27</span> Webhooks vs Polling</a>
+<a href="../basic/b28-api-error-handling-and-status-codes.html" data-topic-link><span>B28</span> API Error Handling and Status Codes</a>
+</details>
+<details class="topic-category"><summary>Traffic management <span>10</span></summary>
+<a href="../basic/b29-load-balancer-basics-l4-vs-l7.html" data-topic-link><span>B29</span> Load Balancer Basics: L4 vs L7</a>
+<a href="../basic/b30-load-balancing-algorithms.html" data-topic-link><span>B30</span> Load Balancing Algorithms</a>
+<a href="../basic/b31-reverse-proxy-vs-forward-proxy.html" data-topic-link><span>B31</span> Reverse Proxy vs Forward Proxy</a>
+<a href="../basic/b32-api-gateway-basics.html" data-topic-link><span>B32</span> API Gateway Basics</a>
+<a href="../basic/b33-cdn-basics.html" data-topic-link><span>B33</span> CDN Basics</a>
+<a href="../basic/b34-health-checks-and-heartbeats.html" data-topic-link><span>B34</span> Health Checks and Heartbeats</a>
+<a href="../basic/b35-sticky-sessions-and-session-affinity.html" data-topic-link><span>B35</span> Sticky Sessions and Session Affinity</a>
+<a href="../basic/b36-service-discovery-basics.html" data-topic-link><span>B36</span> Service Discovery Basics</a>
+<a href="../basic/b37-timeouts-why-every-call-needs-one.html" data-topic-link><span>B37</span> Timeouts: Why Every Call Needs One</a>
+<a href="../basic/b38-retries-and-exponential-backoff.html" data-topic-link><span>B38</span> Retries and Exponential Backoff</a>
+</details>
+<details class="topic-category"><summary>Caching <span>8</span></summary>
+<a href="../basic/b39-caching-101-why-and-where.html" data-topic-link><span>B39</span> Caching 101: Why and Where</a>
+<a href="../basic/b40-cache-aside-pattern.html" data-topic-link><span>B40</span> Cache-Aside Pattern</a>
+<a href="../basic/b41-write-through-vs-write-back-vs-write-around.html" data-topic-link><span>B41</span> Write-Through vs Write-Back vs Write-Around</a>
+<a href="../basic/b42-cache-eviction-policies-lru-lfu-fifo.html" data-topic-link><span>B42</span> Cache Eviction Policies: LRU, LFU, FIFO</a>
+<a href="../basic/b43-ttl-and-cache-invalidation.html" data-topic-link><span>B43</span> TTL and Cache Invalidation</a>
+<a href="../basic/b44-browser-and-http-caching-headers.html" data-topic-link><span>B44</span> Browser and HTTP Caching Headers</a>
+<a href="../basic/b45-redis-vs-memcached.html" data-topic-link><span>B45</span> Redis vs Memcached</a>
+<a href="../basic/b46-cache-stampede-thundering-herd-basics.html" data-topic-link><span>B46</span> Cache Stampede (Thundering Herd) Basics</a>
+</details>
+<details class="topic-category"><summary>Databases <span>14</span></summary>
+<a href="../basic/b47-sql-vs-nosql.html" data-topic-link><span>B47</span> SQL vs NoSQL</a>
+<a href="../basic/b48-acid-properties.html" data-topic-link><span>B48</span> ACID Properties</a>
+<a href="../basic/b49-database-indexing-basics.html" data-topic-link><span>B49</span> Database Indexing Basics</a>
+<a href="../basic/b50-normalization-vs-denormalization.html" data-topic-link><span>B50</span> Normalization vs Denormalization</a>
+<a href="../basic/b51-keys-and-schema-design-basics.html" data-topic-link><span>B51</span> Keys and Schema Design Basics</a>
+<a href="../basic/b52-transactions-and-isolation-levels-an-introduction.html" data-topic-link><span>B52</span> Transactions and Isolation Levels: An Introduction</a>
+<a href="../basic/b53-key-value-document-column-and-graph-stores.html" data-topic-link><span>B53</span> Key-Value, Document, Column, and Graph Stores</a>
+<a href="../basic/b54-database-replication-basics.html" data-topic-link><span>B54</span> Database Replication Basics</a>
+<a href="../basic/b55-leader-follower-replication.html" data-topic-link><span>B55</span> Leader-Follower Replication</a>
+<a href="../basic/b56-database-sharding-basics.html" data-topic-link><span>B56</span> Database Sharding Basics</a>
+<a href="../basic/b57-choosing-a-shard-key.html" data-topic-link><span>B57</span> Choosing a Shard Key</a>
+<a href="../basic/b58-connection-pooling.html" data-topic-link><span>B58</span> Connection Pooling</a>
+<a href="../basic/b59-database-migrations-done-safely.html" data-topic-link><span>B59</span> Database Migrations Done Safely</a>
+<a href="../basic/b60-backup-and-restore-fundamentals.html" data-topic-link><span>B60</span> Backup and Restore Fundamentals</a>
+</details>
+<details class="topic-category"><summary>Messaging and async <span>8</span></summary>
+<a href="../basic/b61-synchronous-vs-asynchronous-communication.html" data-topic-link><span>B61</span> Synchronous vs Asynchronous Communication</a>
+<a href="../basic/b62-message-queues-explained.html" data-topic-link><span>B62</span> Message Queues Explained</a>
+<a href="../basic/b63-pub-sub-pattern.html" data-topic-link><span>B63</span> Pub/Sub Pattern</a>
+<a href="../basic/b64-producer-consumer-pattern.html" data-topic-link><span>B64</span> Producer-Consumer Pattern</a>
+<a href="../basic/b65-dead-letter-queues.html" data-topic-link><span>B65</span> Dead Letter Queues</a>
+<a href="../basic/b66-event-driven-architecture-an-introduction.html" data-topic-link><span>B66</span> Event-Driven Architecture: An Introduction</a>
+<a href="../basic/b67-background-jobs-and-workers.html" data-topic-link><span>B67</span> Background Jobs and Workers</a>
+<a href="../basic/b68-batch-vs-stream-processing.html" data-topic-link><span>B68</span> Batch vs Stream Processing</a>
+</details>
+<details class="topic-category"><summary>Architecture styles and patterns <span>12</span></summary>
+<a href="../basic/b69-microservices-vs-monolith.html" data-topic-link><span>B69</span> Microservices vs Monolith</a>
+<a href="../basic/b70-service-oriented-architecture-soa.html" data-topic-link><span>B70</span> Service-Oriented Architecture (SOA)</a>
+<a href="../basic/b71-client-side-vs-server-side-rendering.html" data-topic-link><span>B71</span> Client-Side vs Server-Side Rendering</a>
+<a href="../basic/b72-serverless-basics.html" data-topic-link><span>B72</span> Serverless Basics</a>
+<a href="../basic/b73-gang-of-four-patterns-every-architect-should-know.html" data-topic-link><span>B73</span> Gang of Four Patterns Every Architect Should Know</a>
+<a href="../basic/b74-dependency-injection-and-inversion-of-control.html" data-topic-link><span>B74</span> Dependency Injection and Inversion of Control</a>
+<a href="../basic/b75-solid-principles-at-the-architecture-level.html" data-topic-link><span>B75</span> SOLID Principles at the Architecture Level</a>
+<a href="../basic/b76-separation-of-concerns-and-modularity.html" data-topic-link><span>B76</span> Separation of Concerns and Modularity</a>
+<a href="../basic/b77-hexagonal-architecture-ports-and-adapters-an-introduction.html" data-topic-link><span>B77</span> Hexagonal Architecture (Ports and Adapters): An Introduction</a>
+<a href="../basic/b78-mvc-mvp-and-mvvm.html" data-topic-link><span>B78</span> MVC, MVP, and MVVM</a>
+<a href="../basic/b79-the-twelve-factor-app.html" data-topic-link><span>B79</span> The Twelve-Factor App</a>
+<a href="../basic/b80-stateless-vs-stateful-services.html" data-topic-link><span>B80</span> Stateless vs Stateful Services</a>
+</details>
+<details class="topic-category"><summary>Storage and data formats <span>4</span></summary>
+<a href="../basic/b81-block-file-and-object-storage.html" data-topic-link><span>B81</span> Block, File, and Object Storage</a>
+<a href="../basic/b82-blob-storage-and-pre-signed-urls.html" data-topic-link><span>B82</span> Blob Storage and Pre-Signed URLs</a>
+<a href="../basic/b83-serialization-json-protobuf-avro.html" data-topic-link><span>B83</span> Serialization: JSON, Protobuf, Avro</a>
+<a href="../basic/b84-compression-basics.html" data-topic-link><span>B84</span> Compression Basics</a>
+</details>
+<details class="topic-category"><summary>Security <span>4</span></summary>
+<a href="../basic/b85-tls-handshake-explained.html" data-topic-link><span>B85</span> TLS Handshake Explained</a>
+<a href="../basic/b86-owasp-top-10-for-architects.html" data-topic-link><span>B86</span> OWASP Top 10 for Architects</a>
+<a href="../basic/b87-secrets-management-basics.html" data-topic-link><span>B87</span> Secrets Management Basics</a>
+<a href="../basic/b88-encryption-at-rest-vs-in-transit.html" data-topic-link><span>B88</span> Encryption at Rest vs in Transit</a>
+</details>
+<details class="topic-category"><summary>Operations and delivery <span>11</span></summary>
+<a href="../basic/b89-logging-best-practices.html" data-topic-link><span>B89</span> Logging Best Practices</a>
+<a href="../basic/b90-metrics-traces-and-logs-the-three-pillars.html" data-topic-link><span>B90</span> Metrics, Traces, and Logs: The Three Pillars</a>
+<a href="../basic/b91-monitoring-vs-observability.html" data-topic-link><span>B91</span> Monitoring vs Observability</a>
+<a href="../basic/b92-sli-slo-and-sla.html" data-topic-link><span>B92</span> SLI, SLO, and SLA</a>
+<a href="../basic/b93-ci-cd-pipeline-basics.html" data-topic-link><span>B93</span> CI/CD Pipeline Basics</a>
+<a href="../basic/b94-containers-and-docker-for-architects.html" data-topic-link><span>B94</span> Containers and Docker for Architects</a>
+<a href="../basic/b95-kubernetes-basics-for-architects.html" data-topic-link><span>B95</span> Kubernetes Basics for Architects</a>
+<a href="../basic/b96-infrastructure-as-code-basics.html" data-topic-link><span>B96</span> Infrastructure as Code Basics</a>
+<a href="../basic/b97-blue-green-and-rolling-deployments.html" data-topic-link><span>B97</span> Blue-Green and Rolling Deployments</a>
+<a href="../basic/b98-feature-flags.html" data-topic-link><span>B98</span> Feature Flags</a>
+<a href="../basic/b99-cloud-basics-regions-availability-zones-and-failure-domains.html" data-topic-link><span>B99</span> Cloud Basics: Regions, Availability Zones, and Failure Domains</a>
+</details>
+<details class="topic-category"><summary>Case studies <span>1</span></summary>
+<a href="../basic/b100-case-study-designing-a-url-shortener.html" data-topic-link><span>B100</span> Case Study: Designing a URL Shortener</a>
+</details>
+</details>
+<details class="topic-tier"><summary>Intermediate <span>100</span></summary>
+<details class="topic-category"><summary>Distributed systems fundamentals <span>12</span></summary>
+<a href="../intermediate/i01-consistent-hashing.html" data-topic-link><span>I01</span> Consistent Hashing</a>
+<a href="../intermediate/i02-quorum-reads-and-writes.html" data-topic-link><span>I02</span> Quorum Reads and Writes</a>
+<a href="../intermediate/i03-leader-election.html" data-topic-link><span>I03</span> Leader Election</a>
+<a href="../intermediate/i04-gossip-protocols.html" data-topic-link><span>I04</span> Gossip Protocols</a>
+<a href="../intermediate/i05-vector-clocks-and-logical-time.html" data-topic-link><span>I05</span> Vector Clocks and Logical Time</a>
+<a href="../intermediate/i06-distributed-locks-redis-vs-zookeeper.html" data-topic-link><span>I06</span> Distributed Locks: Redis vs ZooKeeper</a>
+<a href="../intermediate/i07-two-phase-commit-vs-saga.html" data-topic-link><span>I07</span> Two-Phase Commit vs Saga</a>
+<a href="../intermediate/i08-saga-pattern-orchestration-vs-choreography.html" data-topic-link><span>I08</span> Saga Pattern: Orchestration vs Choreography</a>
+<a href="../intermediate/i09-idempotent-consumers-and-the-exactly-once-myth.html" data-topic-link><span>I09</span> Idempotent Consumers and the Exactly-Once Myth</a>
+<a href="../intermediate/i10-bloom-filters.html" data-topic-link><span>I10</span> Bloom Filters</a>
+<a href="../intermediate/i11-failure-detection-in-distributed-systems.html" data-topic-link><span>I11</span> Failure Detection in Distributed Systems</a>
+<a href="../intermediate/i12-pacelc-theorem-beyond-cap.html" data-topic-link><span>I12</span> PACELC Theorem: Beyond CAP</a>
+</details>
+<details class="topic-category"><summary>Microservices patterns <span>16</span></summary>
+<a href="../intermediate/i13-database-per-service.html" data-topic-link><span>I13</span> Database per Service</a>
+<a href="../intermediate/i14-api-gateway-vs-backend-for-frontend-bff.html" data-topic-link><span>I14</span> API Gateway vs Backend for Frontend (BFF)</a>
+<a href="../intermediate/i15-service-mesh-istio-and-linkerd.html" data-topic-link><span>I15</span> Service Mesh: Istio and Linkerd</a>
+<a href="../intermediate/i16-sidecar-pattern.html" data-topic-link><span>I16</span> Sidecar Pattern</a>
+<a href="../intermediate/i17-circuit-breaker.html" data-topic-link><span>I17</span> Circuit Breaker</a>
+<a href="../intermediate/i18-bulkhead-pattern.html" data-topic-link><span>I18</span> Bulkhead Pattern</a>
+<a href="../intermediate/i19-the-resilience-stack-retry-timeout-fallback.html" data-topic-link><span>I19</span> The Resilience Stack: Retry, Timeout, Fallback</a>
+<a href="../intermediate/i20-strangler-fig-pattern.html" data-topic-link><span>I20</span> Strangler Fig Pattern</a>
+<a href="../intermediate/i21-anti-corruption-layer.html" data-topic-link><span>I21</span> Anti-Corruption Layer</a>
+<a href="../intermediate/i22-domain-driven-design-bounded-contexts.html" data-topic-link><span>I22</span> Domain-Driven Design: Bounded Contexts</a>
+<a href="../intermediate/i23-aggregates-and-entities-in-ddd.html" data-topic-link><span>I23</span> Aggregates and Entities in DDD</a>
+<a href="../intermediate/i24-event-storming-workshops.html" data-topic-link><span>I24</span> Event Storming Workshops</a>
+<a href="../intermediate/i25-microservice-decomposition-strategies.html" data-topic-link><span>I25</span> Microservice Decomposition Strategies</a>
+<a href="../intermediate/i26-sync-vs-async-inter-service-communication-trade-offs.html" data-topic-link><span>I26</span> Sync vs Async Inter-Service Communication Trade-Offs</a>
+<a href="../intermediate/i27-the-distributed-monolith-anti-pattern.html" data-topic-link><span>I27</span> The Distributed Monolith Anti-Pattern</a>
+<a href="../intermediate/i28-shared-libraries-vs-shared-services.html" data-topic-link><span>I28</span> Shared Libraries vs Shared Services</a>
+</details>
+<details class="topic-category"><summary>Data patterns <span>20</span></summary>
+<a href="../intermediate/i29-cqrs.html" data-topic-link><span>I29</span> CQRS</a>
+<a href="../intermediate/i30-event-sourcing.html" data-topic-link><span>I30</span> Event Sourcing</a>
+<a href="../intermediate/i31-transactional-outbox-pattern.html" data-topic-link><span>I31</span> Transactional Outbox Pattern</a>
+<a href="../intermediate/i32-change-data-capture-with-debezium.html" data-topic-link><span>I32</span> Change Data Capture with Debezium</a>
+<a href="../intermediate/i33-materialized-views.html" data-topic-link><span>I33</span> Materialized Views</a>
+<a href="../intermediate/i34-read-replicas-and-replication-lag.html" data-topic-link><span>I34</span> Read Replicas and Replication Lag</a>
+<a href="../intermediate/i35-multi-leader-replication-and-conflict-resolution.html" data-topic-link><span>I35</span> Multi-Leader Replication and Conflict Resolution</a>
+<a href="../intermediate/i36-sharding-strategies-range-hash-directory.html" data-topic-link><span>I36</span> Sharding Strategies: Range, Hash, Directory</a>
+<a href="../intermediate/i37-resharding-without-downtime.html" data-topic-link><span>I37</span> Resharding Without Downtime</a>
+<a href="../intermediate/i38-hot-keys-and-hot-partitions.html" data-topic-link><span>I38</span> Hot Keys and Hot Partitions</a>
+<a href="../intermediate/i39-polyglot-persistence.html" data-topic-link><span>I39</span> Polyglot Persistence</a>
+<a href="../intermediate/i40-time-series-databases.html" data-topic-link><span>I40</span> Time-Series Databases</a>
+<a href="../intermediate/i41-search-systems-inverted-index-and-elasticsearch.html" data-topic-link><span>I41</span> Search Systems: Inverted Index and Elasticsearch</a>
+<a href="../intermediate/i42-graph-databases-in-practice.html" data-topic-link><span>I42</span> Graph Databases in Practice</a>
+<a href="../intermediate/i43-data-lakes-vs-warehouses-vs-lakehouses.html" data-topic-link><span>I43</span> Data Lakes vs Warehouses vs Lakehouses</a>
+<a href="../intermediate/i44-isolation-levels-in-depth-mvcc.html" data-topic-link><span>I44</span> Isolation Levels in Depth: MVCC</a>
+<a href="../intermediate/i45-optimistic-vs-pessimistic-locking.html" data-topic-link><span>I45</span> Optimistic vs Pessimistic Locking</a>
+<a href="../intermediate/i46-schema-evolution-and-backward-compatibility.html" data-topic-link><span>I46</span> Schema Evolution and Backward Compatibility</a>
+<a href="../intermediate/i47-zero-downtime-migrations-expand-and-contract.html" data-topic-link><span>I47</span> Zero-Downtime Migrations: Expand and Contract</a>
+<a href="../intermediate/i48-soft-deletes-tombstones-and-retention.html" data-topic-link><span>I48</span> Soft Deletes, Tombstones, and Retention</a>
+</details>
+<details class="topic-category"><summary>Messaging and streaming <span>10</span></summary>
+<a href="../intermediate/i49-kafka-architecture.html" data-topic-link><span>I49</span> Kafka Architecture</a>
+<a href="../intermediate/i50-partitioning-and-ordering-in-kafka.html" data-topic-link><span>I50</span> Partitioning and Ordering in Kafka</a>
+<a href="../intermediate/i51-consumer-groups-and-rebalancing.html" data-topic-link><span>I51</span> Consumer Groups and Rebalancing</a>
+<a href="../intermediate/i52-rabbitmq-vs-kafka-vs-sqs.html" data-topic-link><span>I52</span> RabbitMQ vs Kafka vs SQS</a>
+<a href="../intermediate/i53-delivery-semantics-at-least-once-at-most-once-exactly-once.html" data-topic-link><span>I53</span> Delivery Semantics: At-Least-Once, At-Most-Once, Exactly-Once</a>
+<a href="../intermediate/i54-backpressure.html" data-topic-link><span>I54</span> Backpressure</a>
+<a href="../intermediate/i55-stream-processing-with-flink-and-kafka-streams.html" data-topic-link><span>I55</span> Stream Processing with Flink and Kafka Streams</a>
+<a href="../intermediate/i56-lambda-vs-kappa-architecture.html" data-topic-link><span>I56</span> Lambda vs Kappa Architecture</a>
+<a href="../intermediate/i57-schema-registries-and-event-contracts.html" data-topic-link><span>I57</span> Schema Registries and Event Contracts</a>
+<a href="../intermediate/i58-priority-queues-and-delayed-messages.html" data-topic-link><span>I58</span> Priority Queues and Delayed Messages</a>
+</details>
+<details class="topic-category"><summary>Caching and performance <span>10</span></summary>
+<a href="../intermediate/i59-distributed-caching-patterns.html" data-topic-link><span>I59</span> Distributed Caching Patterns</a>
+<a href="../intermediate/i60-cache-invalidation-strategies-at-scale.html" data-topic-link><span>I60</span> Cache Invalidation Strategies at Scale</a>
+<a href="../intermediate/i61-multi-layer-caching-cdn-app-database.html" data-topic-link><span>I61</span> Multi-Layer Caching: CDN, App, Database</a>
+<a href="../intermediate/i62-request-coalescing.html" data-topic-link><span>I62</span> Request Coalescing</a>
+<a href="../intermediate/i63-connection-management-and-keep-alive.html" data-topic-link><span>I63</span> Connection Management and Keep-Alive</a>
+<a href="../intermediate/i64-http-2-and-http-3-quic.html" data-topic-link><span>I64</span> HTTP/2 and HTTP/3 (QUIC)</a>
+<a href="../intermediate/i65-performance-profiling-and-bottleneck-hunting.html" data-topic-link><span>I65</span> Performance Profiling and Bottleneck Hunting</a>
+<a href="../intermediate/i66-load-testing-and-capacity-planning.html" data-topic-link><span>I66</span> Load Testing and Capacity Planning</a>
+<a href="../intermediate/i67-autoscaling-strategies.html" data-topic-link><span>I67</span> Autoscaling Strategies</a>
+<a href="../intermediate/i68-queue-based-load-leveling.html" data-topic-link><span>I68</span> Queue-Based Load Leveling</a>
+</details>
+<details class="topic-category"><summary>Reliability and operations <span>12</span></summary>
+<a href="../intermediate/i69-chaos-engineering.html" data-topic-link><span>I69</span> Chaos Engineering</a>
+<a href="../intermediate/i70-disaster-recovery-rpo-rto-and-strategies.html" data-topic-link><span>I70</span> Disaster Recovery: RPO, RTO, and Strategies</a>
+<a href="../intermediate/i71-multi-az-vs-multi-region-deployment.html" data-topic-link><span>I71</span> Multi-AZ vs Multi-Region Deployment</a>
+<a href="../intermediate/i72-graceful-degradation.html" data-topic-link><span>I72</span> Graceful Degradation</a>
+<a href="../intermediate/i73-canary-releases-and-progressive-delivery.html" data-topic-link><span>I73</span> Canary Releases and Progressive Delivery</a>
+<a href="../intermediate/i74-distributed-tracing-with-opentelemetry.html" data-topic-link><span>I74</span> Distributed Tracing with OpenTelemetry</a>
+<a href="../intermediate/i75-alerting-without-fatigue-slo-based-alerts.html" data-topic-link><span>I75</span> Alerting Without Fatigue: SLO-Based Alerts</a>
+<a href="../intermediate/i76-error-budgets.html" data-topic-link><span>I76</span> Error Budgets</a>
+<a href="../intermediate/i77-incident-management-and-blameless-postmortems.html" data-topic-link><span>I77</span> Incident Management and Blameless Postmortems</a>
+<a href="../intermediate/i78-gitops.html" data-topic-link><span>I78</span> GitOps</a>
+<a href="../intermediate/i79-kubernetes-deployment-patterns.html" data-topic-link><span>I79</span> Kubernetes Deployment Patterns</a>
+<a href="../intermediate/i80-config-and-secrets-management-at-scale.html" data-topic-link><span>I80</span> Config and Secrets Management at Scale</a>
+</details>
+<details class="topic-category"><summary>Security and API design <span>10</span></summary>
+<a href="../intermediate/i81-zero-trust-architecture.html" data-topic-link><span>I81</span> Zero Trust Architecture</a>
+<a href="../intermediate/i82-mtls-and-service-identity.html" data-topic-link><span>I82</span> mTLS and Service Identity</a>
+<a href="../intermediate/i83-api-security-oauth-scopes-and-token-introspection.html" data-topic-link><span>I83</span> API Security: OAuth Scopes and Token Introspection</a>
+<a href="../intermediate/i84-multi-tenancy-models.html" data-topic-link><span>I84</span> Multi-Tenancy Models</a>
+<a href="../intermediate/i85-rate-limiting-algorithms-token-bucket-leaky-bucket-sliding-window.html" data-topic-link><span>I85</span> Rate Limiting Algorithms: Token Bucket, Leaky Bucket, Sliding Window</a>
+<a href="../intermediate/i86-api-design-for-evolvability.html" data-topic-link><span>I86</span> API Design for Evolvability</a>
+<a href="../intermediate/i87-graphql-federation.html" data-topic-link><span>I87</span> GraphQL Federation</a>
+<a href="../intermediate/i88-designing-reliable-webhooks.html" data-topic-link><span>I88</span> Designing Reliable Webhooks</a>
+<a href="../intermediate/i89-idempotency-keys-in-payments.html" data-topic-link><span>I89</span> Idempotency Keys in Payments</a>
+<a href="../intermediate/i90-audit-logging-architecture.html" data-topic-link><span>I90</span> Audit Logging Architecture</a>
+</details>
+<details class="topic-category"><summary>Case studies <span>10</span></summary>
+<a href="../intermediate/i91-design-a-rate-limiter.html" data-topic-link><span>I91</span> Design a Rate Limiter</a>
+<a href="../intermediate/i92-design-a-notification-system.html" data-topic-link><span>I92</span> Design a Notification System</a>
+<a href="../intermediate/i93-design-a-news-feed.html" data-topic-link><span>I93</span> Design a News Feed</a>
+<a href="../intermediate/i94-design-a-chat-system.html" data-topic-link><span>I94</span> Design a Chat System</a>
+<a href="../intermediate/i95-design-a-distributed-cache.html" data-topic-link><span>I95</span> Design a Distributed Cache</a>
+<a href="../intermediate/i96-design-a-job-scheduler.html" data-topic-link><span>I96</span> Design a Job Scheduler</a>
+<a href="../intermediate/i97-design-a-file-storage-service-dropbox-style.html" data-topic-link><span>I97</span> Design a File Storage Service (Dropbox-style)</a>
+<a href="../intermediate/i98-design-search-autocomplete.html" data-topic-link><span>I98</span> Design Search Autocomplete</a>
+<a href="../intermediate/i99-design-a-video-streaming-service.html" data-topic-link><span>I99</span> Design a Video Streaming Service</a>
+<a href="../intermediate/i100-design-an-e-commerce-checkout-and-inventory-system.html" data-topic-link><span>I100</span> Design an E-Commerce Checkout and Inventory System</a>
+</details>
+</details>
+<details class="topic-tier"><summary>Advanced <span>100</span></summary>
+<details class="topic-category"><summary>Consensus and distributed theory <span>12</span></summary>
+<a href="../advanced/a01-paxos-explained.html" data-topic-link><span>A01</span> Paxos Explained</a>
+<a href="../advanced/a02-raft-in-depth.html" data-topic-link><span>A02</span> Raft in Depth</a>
+<a href="../advanced/a03-byzantine-fault-tolerance-and-pbft.html" data-topic-link><span>A03</span> Byzantine Fault Tolerance and PBFT</a>
+<a href="../advanced/a04-linearizability-vs-serializability.html" data-topic-link><span>A04</span> Linearizability vs Serializability</a>
+<a href="../advanced/a05-snapshot-isolation-and-write-skew.html" data-topic-link><span>A05</span> Snapshot Isolation and Write Skew</a>
+<a href="../advanced/a06-crdts.html" data-topic-link><span>A06</span> CRDTs</a>
+<a href="../advanced/a07-operational-transformation-vs-crdts-for-collaboration.html" data-topic-link><span>A07</span> Operational Transformation vs CRDTs for Collaboration</a>
+<a href="../advanced/a08-hybrid-logical-clocks-and-truetime.html" data-topic-link><span>A08</span> Hybrid Logical Clocks and TrueTime</a>
+<a href="../advanced/a09-spanner-style-globally-distributed-databases.html" data-topic-link><span>A09</span> Spanner-Style Globally Distributed Databases</a>
+<a href="../advanced/a10-calvin-and-deterministic-databases.html" data-topic-link><span>A10</span> Calvin and Deterministic Databases</a>
+<a href="../advanced/a11-percolator-and-distributed-transactions-at-scale.html" data-topic-link><span>A11</span> Percolator and Distributed Transactions at Scale</a>
+<a href="../advanced/a12-jepsen-testing-and-consistency-verification.html" data-topic-link><span>A12</span> Jepsen Testing and Consistency Verification</a>
+</details>
+<details class="topic-category"><summary>Storage engines and database internals <span>16</span></summary>
+<a href="../advanced/a13-lsm-trees-vs-b-trees.html" data-topic-link><span>A13</span> LSM Trees vs B-Trees</a>
+<a href="../advanced/a14-write-ahead-logging-and-crash-recovery.html" data-topic-link><span>A14</span> Write-Ahead Logging and Crash Recovery</a>
+<a href="../advanced/a15-compaction-strategies.html" data-topic-link><span>A15</span> Compaction Strategies</a>
+<a href="../advanced/a16-columnar-storage-and-vectorized-execution.html" data-topic-link><span>A16</span> Columnar Storage and Vectorized Execution</a>
+<a href="../advanced/a17-query-planning-and-optimization-internals.html" data-topic-link><span>A17</span> Query Planning and Optimization Internals</a>
+<a href="../advanced/a18-distributed-sql-cockroachdb-tidb-yugabytedb.html" data-topic-link><span>A18</span> Distributed SQL: CockroachDB, TiDB, YugabyteDB</a>
+<a href="../advanced/a19-dynamo-style-systems-cassandra-and-riak-design.html" data-topic-link><span>A19</span> Dynamo-Style Systems: Cassandra and Riak Design</a>
+<a href="../advanced/a20-merkle-trees-and-anti-entropy.html" data-topic-link><span>A20</span> Merkle Trees and Anti-Entropy</a>
+<a href="../advanced/a21-hinted-handoff-and-sloppy-quorums.html" data-topic-link><span>A21</span> Hinted Handoff and Sloppy Quorums</a>
+<a href="../advanced/a22-cross-region-replication-topologies.html" data-topic-link><span>A22</span> Cross-Region Replication Topologies</a>
+<a href="../advanced/a23-online-schema-changes-at-scale.html" data-topic-link><span>A23</span> Online Schema Changes at Scale</a>
+<a href="../advanced/a24-storage-tiering-hot-warm-cold-data.html" data-topic-link><span>A24</span> Storage Tiering: Hot, Warm, Cold Data</a>
+<a href="../advanced/a25-erasure-coding-vs-replication.html" data-topic-link><span>A25</span> Erasure Coding vs Replication</a>
+<a href="../advanced/a26-distributed-file-systems-gfs-hdfs-ceph.html" data-topic-link><span>A26</span> Distributed File Systems: GFS, HDFS, Ceph</a>
+<a href="../advanced/a27-object-store-internals-s3-like-design.html" data-topic-link><span>A27</span> Object Store Internals (S3-Like Design)</a>
+<a href="../advanced/a28-vector-databases-and-ann-indexes-hnsw-and-ivf.html" data-topic-link><span>A28</span> Vector Databases and ANN Indexes: HNSW and IVF</a>
+</details>
+<details class="topic-category"><summary>Architecture at scale <span>20</span></summary>
+<a href="../advanced/a29-cell-based-architecture.html" data-topic-link><span>A29</span> Cell-Based Architecture</a>
+<a href="../advanced/a30-shuffle-sharding.html" data-topic-link><span>A30</span> Shuffle Sharding</a>
+<a href="../advanced/a31-multi-region-active-active-design.html" data-topic-link><span>A31</span> Multi-Region Active-Active Design</a>
+<a href="../advanced/a32-global-traffic-management-anycast-and-geodns.html" data-topic-link><span>A32</span> Global Traffic Management: Anycast and GeoDNS</a>
+<a href="../advanced/a33-edge-computing-architectures.html" data-topic-link><span>A33</span> Edge Computing Architectures</a>
+<a href="../advanced/a34-data-mesh.html" data-topic-link><span>A34</span> Data Mesh</a>
+<a href="../advanced/a35-event-driven-architecture-at-enterprise-scale.html" data-topic-link><span>A35</span> Event-Driven Architecture at Enterprise Scale</a>
+<a href="../advanced/a36-avoiding-event-spaghetti-in-choreography.html" data-topic-link><span>A36</span> Avoiding Event Spaghetti in Choreography</a>
+<a href="../advanced/a37-platform-engineering-and-internal-developer-platforms.html" data-topic-link><span>A37</span> Platform Engineering and Internal Developer Platforms</a>
+<a href="../advanced/a38-monorepo-vs-polyrepo-architectural-implications.html" data-topic-link><span>A38</span> Monorepo vs Polyrepo: Architectural Implications</a>
+<a href="../advanced/a39-modular-monolith-migration-strategies.html" data-topic-link><span>A39</span> Modular Monolith Migration Strategies</a>
+<a href="../advanced/a40-evolutionary-architecture-and-fitness-functions.html" data-topic-link><span>A40</span> Evolutionary Architecture and Fitness Functions</a>
+<a href="../advanced/a41-architecture-decision-records-and-governance.html" data-topic-link><span>A41</span> Architecture Decision Records and Governance</a>
+<a href="../advanced/a42-conway-s-law-and-team-topologies.html" data-topic-link><span>A42</span> Conway&#x27;s Law and Team Topologies</a>
+<a href="../advanced/a43-multi-tenancy-at-scale-noisy-neighbors-and-isolation.html" data-topic-link><span>A43</span> Multi-Tenancy at Scale: Noisy Neighbors and Isolation</a>
+<a href="../advanced/a44-control-plane-vs-data-plane-in-saas.html" data-topic-link><span>A44</span> Control Plane vs Data Plane in SaaS</a>
+<a href="../advanced/a45-clean-and-onion-architecture-in-large-systems.html" data-topic-link><span>A45</span> Clean and Onion Architecture in Large Systems</a>
+<a href="../advanced/a46-micro-frontends-and-bff-at-scale.html" data-topic-link><span>A46</span> Micro-Frontends and BFF at Scale</a>
+<a href="../advanced/a47-capacity-planning-and-cost-modeling-finops.html" data-topic-link><span>A47</span> Capacity Planning and Cost Modeling (FinOps)</a>
+<a href="../advanced/a48-architecture-for-compliance-gdpr-and-data-residency.html" data-topic-link><span>A48</span> Architecture for Compliance: GDPR and Data Residency</a>
+</details>
+<details class="topic-category"><summary>Resilience and performance <span>20</span></summary>
+<a href="../advanced/a49-metastable-failures.html" data-topic-link><span>A49</span> Metastable Failures</a>
+<a href="../advanced/a50-retry-storms-and-load-shedding.html" data-topic-link><span>A50</span> Retry Storms and Load Shedding</a>
+<a href="../advanced/a51-adaptive-concurrency-limits.html" data-topic-link><span>A51</span> Adaptive Concurrency Limits</a>
+<a href="../advanced/a52-tail-latency-and-hedged-requests.html" data-topic-link><span>A52</span> Tail Latency and Hedged Requests</a>
+<a href="../advanced/a53-cascading-failures-case-studies.html" data-topic-link><span>A53</span> Cascading Failures: Case Studies</a>
+<a href="../advanced/a54-backpressure-across-service-boundaries.html" data-topic-link><span>A54</span> Backpressure Across Service Boundaries</a>
+<a href="../advanced/a55-static-stability.html" data-topic-link><span>A55</span> Static Stability</a>
+<a href="../advanced/a56-control-loops-and-autoscaler-instability.html" data-topic-link><span>A56</span> Control Loops and Autoscaler Instability</a>
+<a href="../advanced/a57-deterministic-simulation-testing.html" data-topic-link><span>A57</span> Deterministic Simulation Testing</a>
+<a href="../advanced/a58-formal-methods-for-architects-tla.html" data-topic-link><span>A58</span> Formal Methods for Architects: TLA+</a>
+<a href="../advanced/a59-fault-injection-at-scale.html" data-topic-link><span>A59</span> Fault Injection at Scale</a>
+<a href="../advanced/a60-observability-at-scale-cardinality-sampling-cost.html" data-topic-link><span>A60</span> Observability at Scale: Cardinality, Sampling, Cost</a>
+<a href="../advanced/a61-continuous-profiling-and-ebpf.html" data-topic-link><span>A61</span> Continuous Profiling and eBPF</a>
+<a href="../advanced/a62-concurrency-models-actors-csp-reactive.html" data-topic-link><span>A62</span> Concurrency Models: Actors, CSP, Reactive</a>
+<a href="../advanced/a63-zero-copy-and-kernel-bypass-networking.html" data-topic-link><span>A63</span> Zero-Copy and Kernel-Bypass Networking</a>
+<a href="../advanced/a64-consistent-hashing-variants-jump-rendezvous-maglev.html" data-topic-link><span>A64</span> Consistent Hashing Variants: Jump, Rendezvous, Maglev</a>
+<a href="../advanced/a65-high-performance-load-balancing-maglev-and-envoy.html" data-topic-link><span>A65</span> High-Performance Load Balancing: Maglev and Envoy</a>
+<a href="../advanced/a66-tcp-congestion-control-and-bbr-for-architects.html" data-topic-link><span>A66</span> TCP Congestion Control and BBR for Architects</a>
+<a href="../advanced/a67-designing-for-ultra-low-latency-trading-systems.html" data-topic-link><span>A67</span> Designing for Ultra-Low Latency: Trading Systems</a>
+<a href="../advanced/a68-memory-management-and-gc-tuning-at-scale.html" data-topic-link><span>A68</span> Memory Management and GC Tuning at Scale</a>
+</details>
+<details class="topic-category"><summary>Data, streaming, and AI systems <span>12</span></summary>
+<a href="../advanced/a69-exactly-once-semantics-in-kafka-transactions.html" data-topic-link><span>A69</span> Exactly-Once Semantics in Kafka Transactions</a>
+<a href="../advanced/a70-stream-processing-state-and-checkpointing.html" data-topic-link><span>A70</span> Stream Processing State and Checkpointing</a>
+<a href="../advanced/a71-watermarks-and-event-time-processing.html" data-topic-link><span>A71</span> Watermarks and Event-Time Processing</a>
+<a href="../advanced/a72-real-time-olap-druid-pinot-clickhouse.html" data-topic-link><span>A72</span> Real-Time OLAP: Druid, Pinot, ClickHouse</a>
+<a href="../advanced/a73-feature-stores-and-ml-data-pipelines.html" data-topic-link><span>A73</span> Feature Stores and ML Data Pipelines</a>
+<a href="../advanced/a74-designing-ml-serving-infrastructure.html" data-topic-link><span>A74</span> Designing ML Serving Infrastructure</a>
+<a href="../advanced/a75-llm-application-architecture-rag-caching-guardrails.html" data-topic-link><span>A75</span> LLM Application Architecture: RAG, Caching, Guardrails</a>
+<a href="../advanced/a76-agentic-system-architectures.html" data-topic-link><span>A76</span> Agentic System Architectures</a>
+<a href="../advanced/a77-vector-search-at-scale.html" data-topic-link><span>A77</span> Vector Search at Scale</a>
+<a href="../advanced/a78-data-lineage-and-governance-architecture.html" data-topic-link><span>A78</span> Data Lineage and Governance Architecture</a>
+<a href="../advanced/a79-change-data-capture-pipelines-at-scale.html" data-topic-link><span>A79</span> Change Data Capture Pipelines at Scale</a>
+<a href="../advanced/a80-lakehouse-table-formats-iceberg-delta-hudi.html" data-topic-link><span>A80</span> Lakehouse Table Formats: Iceberg, Delta, Hudi</a>
+</details>
+<details class="topic-category"><summary>Security and trust <span>8</span></summary>
+<a href="../advanced/a81-zero-trust-at-scale.html" data-topic-link><span>A81</span> Zero Trust at Scale</a>
+<a href="../advanced/a82-confidential-computing-and-enclaves.html" data-topic-link><span>A82</span> Confidential Computing and Enclaves</a>
+<a href="../advanced/a83-key-management-and-envelope-encryption.html" data-topic-link><span>A83</span> Key Management and Envelope Encryption</a>
+<a href="../advanced/a84-supply-chain-security-sbom-and-slsa.html" data-topic-link><span>A84</span> Supply Chain Security: SBOM and SLSA</a>
+<a href="../advanced/a85-designing-authorization-systems-zanzibar-and-rebac.html" data-topic-link><span>A85</span> Designing Authorization Systems: Zanzibar and ReBAC</a>
+<a href="../advanced/a86-fraud-detection-architecture.html" data-topic-link><span>A86</span> Fraud Detection Architecture</a>
+<a href="../advanced/a87-secure-multi-tenant-isolation-gvisor-and-firecracker.html" data-topic-link><span>A87</span> Secure Multi-Tenant Isolation: gVisor and Firecracker</a>
+<a href="../advanced/a88-immutable-ledger-and-audit-architectures.html" data-topic-link><span>A88</span> Immutable Ledger and Audit Architectures</a>
+</details>
+<details class="topic-category"><summary>Large-scale case studies <span>12</span></summary>
+<a href="../advanced/a89-design-a-spanner-like-database.html" data-topic-link><span>A89</span> Design a Spanner-Like Database</a>
+<a href="../advanced/a90-design-a-global-payment-system.html" data-topic-link><span>A90</span> Design a Global Payment System</a>
+<a href="../advanced/a91-design-uber-scale-dispatch-and-geospatial-systems.html" data-topic-link><span>A91</span> Design Uber-Scale Dispatch and Geospatial Systems</a>
+<a href="../advanced/a92-design-a-distributed-message-queue.html" data-topic-link><span>A92</span> Design a Distributed Message Queue</a>
+<a href="../advanced/a93-design-a-metrics-and-monitoring-platform.html" data-topic-link><span>A93</span> Design a Metrics and Monitoring Platform</a>
+<a href="../advanced/a94-design-a-distributed-tracing-backend.html" data-topic-link><span>A94</span> Design a Distributed Tracing Backend</a>
+<a href="../advanced/a95-design-a-stock-exchange.html" data-topic-link><span>A95</span> Design a Stock Exchange</a>
+<a href="../advanced/a96-design-a-real-time-collaborative-editor.html" data-topic-link><span>A96</span> Design a Real-Time Collaborative Editor</a>
+<a href="../advanced/a97-design-a-global-video-streaming-cdn.html" data-topic-link><span>A97</span> Design a Global Video Streaming CDN</a>
+<a href="../advanced/a98-design-a-web-crawler-at-scale.html" data-topic-link><span>A98</span> Design a Web Crawler at Scale</a>
+<a href="../advanced/a99-design-a-cluster-scheduler-borg-and-kubernetes.html" data-topic-link><span>A99</span> Design a Cluster Scheduler: Borg and Kubernetes</a>
+<a href="../advanced/a100-design-a-multi-tenant-serverless-platform.html" data-topic-link><span>A100</span> Design a Multi-Tenant Serverless Platform</a>
+</details>
+</details>
+</div>
+</nav>
+      <article class="note topic-article">
+<p>Availability is the fraction of time a service does useful work for a valid request. The "nines" are a shorthand for that fraction: 99.9 percent is three nines, 99.99 percent is four. People quote them in meetings as if they were a personality trait of the architecture. They are a budget of allowed failure, usually over a month or a year, and they only mean something if you define the event you are counting.</p>
+<p>Three nines is about 8.8 hours of unavailability per year, or about 43 minutes per month. Four nines is about 52 minutes per year, or about 4.3 minutes per month. Five nines is about 5 minutes per year. Those numbers assume you count every minute. If you exclude planned maintenance, your "three nines" is a different product from a competitor who includes it. If you count a degraded checkout as up because a health check passed, you are lying in a precise way.</p>
+<p>The nines are not free. Each extra nine is usually an order-of-magnitude jump in engineering and in spend: another zone, another replica, a tighter deploy, a paging roster that never drops a weekend. You buy them against a customer contract, a revenue number, or a safety requirement. You do not buy them because a slide had five digits.</p>
+<h2 id="concept">Concept</h2>
+<h3 id="define-the-event-before-you-count">Define the event before you count</h3>
+<p>An SLI for availability is good events over valid events. A valid event is a request that should have worked: a client called an operation you offer, from a region you serve, not a probe you exclude, not a client that failed TLS because their clock is wrong. A good event is a success within the latency budget. A 200 that took 30 seconds is not available if the SLO said 300 ms. A 404 for a path that does not exist is not unavailability. A 503 during a deploy is.</p>
+<p>Pick the operations that are the product. For an API, that might be checkout POST and session GET, not every internal metric scrape. For a website, that might be "can a user load the home page and complete login." Measuring all HTTP status codes on a load balancer mixes health checks, bots, and the real user. The SRE workbook from Google is explicit about this: the SLI is a careful ratio, not a CPU graph.</p>
+<p>Time-based availability (minutes up over minutes in the window) and request-based availability (good requests over valid requests) disagree. A five-minute total outage at noon on Monday can be a small fraction of monthly requests if night-time traffic is huge, or a large fraction of revenue if noon is the peak. Request-based SLIs track user pain better for request/response systems. Time-based SLIs still matter for systems with sparse traffic (an internal admin tool, a batch window). Say which one you use.</p>
+<h3 id="translate-nines-into-minutes-then-into-design">Translate nines into minutes, then into design</h3>
+<p>Write the downtime budget in minutes per month next to the nines. Then ask where those minutes will go. A single-zone VM reboot can consume the entire four-nines monthly budget. A deploy with a bad canary can consume it. A DNS TTL of five minutes can consume it. A human-only failover that takes twenty minutes cannot live in a four-nines SLO unless failovers are extremely rare and you have budget left.</p>
+<p>High availability is redundancy plus failover that is faster than the budget. Two instances in one rack share power and a switch. Two instances in two availability zones in one region survive a zone. Two regions survive a region, and cost you a data model for that failure. Each jump is a different architecture. Copying "multi-AZ" onto a database that cannot fail over without a 15-minute recovery does not buy four nines. It buys a diagram.</p>
+<p>Dependencies multiply. If checkout needs your app, a database, a payment provider, and DNS, the availability of checkout is not better than the combination of those, unless you have a fallback that still counts as good. Independent 99.9 percent dependencies in series are not 99.9 percent. They are worse. Either reduce the number of hard dependencies on the critical path or make some of them soft: a cached catalog, a queue for a non-blocking email, a degraded mode that still charges.</p>
+<h3 id="slos-slas-and-error-budgets">SLOs, SLAs, and error budgets</h3>
+<p>An SLO is the internal target you steer with. An SLA is a legal promise, usually weaker, with credits. Do not set them equal. The SLO should be tighter so you spend the error budget on engineering before you spend the SLA on refunds.</p>
+<p>An error budget is 100 percent minus the SLO. At three nines, you have 0.1 percent of events (or minutes) to spend on deploys, experiments, and real failures. When the budget is gone, you freeze risky change and fix reliability. When the budget is full, you can ship faster. That is the operational point of nines. Without a budget, nines become a slogan that loses to every feature request.</p>
+<p>Planned maintenance belongs in the policy. Some products count it against the SLO (users were down). Some exclude a advertised window. Enterprise contracts often name windows. Consumer products rarely get to take the site down on Sunday night without counting it. Be consistent with what the user felt.</p>
+<h3 id="what-extra-nines-actually-cost">What extra nines actually cost</h3>
+<p>Two nines (99 percent) is more than three days down per year. A hobby project can live there. Three nines is serious single-region engineering: health checks that mean something, rolling deploys, a pager, backups you have restored, multi-instance compute. Four nines is multi-AZ for every hard dependency, automated failover you have tested, ruthless dependency reduction, and a culture that treats deploys as a source of unavailability. Five nines is the domain of specialist systems, huge fleets, or small, simple, frozen surfaces. It is not a web app with a weekly schema change and a third-party auth provider on the login path.</p>
+<p>Cost is not only cloud bill. It is engineering time, slower features, and toil. A four-nines checkout with a one-person on-call will burn the person before it hits the number. Staff the roster or lower the SLO.</p>
+<h2 id="trade-offs">Trade-offs</h2>
+<div class="table-wrap"><table><thead><tr><th>Approach</th><th>When it wins</th><th>Cost / risk</th></tr></thead><tbody><tr><td>Single instance, two nines</td><td>Internal tools, prototypes, cost-first</td><td>One VM is the outage</td></tr><tr><td>Multi-AZ, three nines</td><td>Standard SaaS; users notice hours, not minutes</td><td>Real failover tests; data replication</td></tr><tr><td>Multi-AZ plus strict error budgets, four nines</td><td>Paid contracts, revenue-critical paths</td><td>Change freeze pressure; dependency control</td></tr><tr><td>Multi-region active-active, five nines talk</td><td>Global products that already have the data model</td><td>Conflict resolution, cost, complexity that can lower availability</td></tr></tbody></table></div>
+<p>Match the nines to the path, not to the company logo. Login and checkout might be four nines. An export job might be two. Publishing one number for the whole estate forces you to overbuild the export job or underbuild checkout. Product names the user-visible events. Engineering names the topology that can hit the budget.</p>
+<p>A dependency you do not control (a payment network, a mobile push vendor) caps the nines you can honestly sell unless you have a fallback that still satisfies the contract. Write the cap in the SLO discussion so sales cannot invent a fifth nine.</p>
+<h2 id="diagram">Diagram</h2>
+<figure class="diagram-source"><figcaption>Architecture diagram source</figcaption><pre><code class="language-mermaid">flowchart TB
+  Req[Valid user request] --&gt; Edge[Edge and DNS]
+  Edge --&gt; App[&quot;App replicas in two AZs&quot;]
+  App --&gt; DB[&quot;Database with cross-AZ replica&quot;]
+  App --&gt; Pay[Payment provider]
+  App --&gt; Soft[Non-critical notifier]
+  Edge --&gt; Good{&quot;Response good and fast?&quot;}
+  Good --&gt;|yes| SLI[Count good event]
+  Good --&gt;|no| Bad[Count against error budget]</code></pre></figure>
+<h2 id="failure-modes">Failure modes</h2>
+<h3 id="counting-the-wrong-thing">Counting the wrong thing</h3>
+<p><strong>Detection.</strong> The availability graph is green during an outage people are tweeting about. Health checks hit a local <code>/health</code> that does not touch the database. You exclude too much: maintenance, "partial" degradation, a region you still serve DNS for. Or you include too much: bot 404s, clients with old TLS, load tests. Executives believe the graph. Customers do not.</p>
+<p><strong>Mitigation.</strong> Define valid and good in writing. Measure at the edge on the operations that are the product, including latency. Exclude probes explicitly. Include degraded modes only if the user still completed the job. Show the SLI next to revenue or ticket volume until they agree. If they do not, the SLI is wrong.</p>
+<h3 id="nines-without-a-failover-that-fits-the-budget">Nines without a failover that fits the budget</h3>
+<p><strong>Detection.</strong> Architecture review says four nines and multi-AZ. The database failover is manual and takes 20 minutes. DNS TTL is 15 minutes. Deploys stop the world for 10 minutes. The last incident consumed the monthly budget twice. Redundancy exists on a diagram. Recovery does not exist in a drill.</p>
+<p><strong>Mitigation.</strong> Budget the minutes. Time the real failover, the real deploy, the real DNS change, in an exercise. If the sum of plausible events exceeds the budget, lower the SLO or automate and drain until the recovery fits. Multi-AZ compute in front of a single-AZ database is one nine, not four.</p>
+<h3 id="dependency-math-ignored">Dependency math ignored</h3>
+<p><strong>Detection.</strong> Your app is well replicated. A single Redis, a single vendor, or a control-plane region sits on every request. When that dependency blips, availability matches the dependency, not your nines. Postmortems keep naming different vendors. The SLO never mentioned them.</p>
+<p><strong>Mitigation.</strong> List hard dependencies on the critical path and assign each a fallback or an SLO contribution. Cache reads through a dependency failure. Queue non-critical writes. Time out and degrade. If a payment provider is unavoidable, split the SLO: "we accept the provider's availability on capture, and we are three nines on everything we own." Honest beats a combined number you cannot hit.</p>
+<h3 id="error-budget-never-used-as-a-control">Error budget never used as a control</h3>
+<p><strong>Detection.</strong> The SLO exists in a wiki. Feature launches continue after a bad month. Toil is ignored until someone quits. Alternatively, every tiny blip freezes the company because the SLO was set at five nines with no budget left for deploys. Either way the nines are not steering change.</p>
+<p><strong>Mitigation.</strong> Review the error budget on a fixed cadence with product. When it is burned, prioritize reliability work and slow the release rate. When it is healthy, do not invent freeze theater. Set the SLO at a number you can measure and can staff. A slightly looser SLO that changes behavior beats a heroic one that everyone ignores.</p>
+<h2 id="real-world-example">Real-world example</h2>
+<p>AWS publishes service level agreements that show how a vendor uses nines as a credit policy, not as a mystical property of a data center. Amazon EC2's public SLA has offered a 99.99 percent Monthly Uptime Percentage for instances deployed across multiple Availability Zones, with service credits when the month falls below that, and weaker terms when you run in a single zone. Amazon S3's public SLA for the Standard storage class has used a 99.9 percent Monthly Uptime Percentage for availability, while the durability design target of eleven nines is a different number on a different axis. Those documents change; read the current SLA before you quote them in a contract. The architectural lesson does not change: the nines are attached to a topology (multi-AZ versus single-AZ) and to a defined uptime calculation, and they are backed by credits, not by a promise of zero failure.</p>
+<p>Google's SRE books used the same arithmetic to explain why Google Search could talk about high nines while a small product should not copy the number. They separate SLO from SLA, insist on an SLI that matches user experience, and treat the error budget as the bridge between shipping and reliability. That practice is available to a ten-person team. You do not need Google's fleet. You need a ratio, a window, a budget, and the will to freeze a launch when the budget is gone.</p>
+<p>When you set nines for your own API, copy the structure of those documents. Name the Monthly Uptime Percentage or the request success ratio. Name the topology you will actually run. Name the credits or the internal consequences. If you cannot run two AZs and a tested failover, do not put four nines on a sales slide. Put three, staff the pager, and spend the next year earning the fourth.</p>
+<h2 id="what-to-remember">What to remember</h2>
+<ul><li>Nines are an allowed-failure budget for a defined good event, not a badge; convert them to minutes per month.</li><li>Measure request-based SLIs at the edge on product operations, including latency; health checks are not availability.</li><li>Each extra nine demands a faster, tested failover and fewer hard dependencies on the path.</li><li>Steer with an error budget: spend it on change when you have it, spend it on reliability when you do not.</li></ul>
+<nav class="article-pager" aria-label="Adjacent topics"><a href="../basic/b07-vertical-vs-horizontal-scaling.html">← <span>Vertical vs Horizontal Scaling</span></a><a class="next" href="../basic/b09-reliability-vs-resilience-vs-fault-tolerance.html"><span>Reliability vs Resilience vs Fault Tolerance</span> →</a></nav>
+      </article>
+    </div>
+  </main>
+
+  <section class="connect" id="contact">
+    <div class="wrap wrap-wide">
+      <div class="section-header"><h2 class="section-title">Let's Connect</h2></div>
+      <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+
+      <div class="social-links">
+        <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a class="social-link" href="https://linkedin.com/in/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-link" href="https://twitter.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:soumya@example.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script src="../../js/reader.js"></script>
+</body>
+</html>

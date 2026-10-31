@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Error Budgets — Knowledge Portfolio</title>
+  <meta name="description" content="Error Budgets, a intermediate architecture note.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/architecture/intermediate/i76-error-budgets.html">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body data-topic="architecture">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../../index.html">
+        <img src="../../images/portrait.jpg" alt="" width="36" height="36">
+        <span class="brand-name">Knowledge Portfolio</span>
+      </a>
+      <nav class="header-nav" aria-label="Site">
+        <a class="header-link" href="../../index.html">Home</a>
+        <a class="header-link" href="../../about.html">About me</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">I76 · Intermediate · Reliability and operations</p>
+    <div class="title-row">
+      <h1>Error Budgets</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Topics</button>
+    </div>
+    <div class="reader library-reader">
+<nav id="toc" class="toc library-nav" aria-labelledby="toc-title">
+<p id="toc-title" class="toc-title">Architecture topics</p>
+<label class="topic-filter-label" for="topic-filter">Find a topic</label>
+<input id="topic-filter" class="topic-filter" type="search" placeholder="Filter 300 topics" autocomplete="off">
+<a class="library-overview" href="../index.html">Architecture overview</a>
+<div id="topic-tree">
+<details class="topic-tier"><summary>Basic <span>100</span></summary>
+<details class="topic-category"><summary>Foundations <span>12</span></summary>
+<a href="../basic/b01-what-is-system-design-a-roadmap-for-engineers.html" data-topic-link><span>B01</span> What Is System Design? A Roadmap for Engineers</a>
+<a href="../basic/b02-functional-vs-non-functional-requirements.html" data-topic-link><span>B02</span> Functional vs Non-Functional Requirements</a>
+<a href="../basic/b03-client-server-architecture-explained.html" data-topic-link><span>B03</span> Client-Server Architecture Explained</a>
+<a href="../basic/b04-monolithic-architecture-when-it-is-still-the-right-choice.html" data-topic-link><span>B04</span> Monolithic Architecture: When It Is Still the Right Choice</a>
+<a href="../basic/b05-layered-n-tier-architecture.html" data-topic-link><span>B05</span> Layered (N-Tier) Architecture</a>
+<a href="../basic/b06-latency-vs-throughput-vs-bandwidth.html" data-topic-link><span>B06</span> Latency vs Throughput vs Bandwidth</a>
+<a href="../basic/b07-vertical-vs-horizontal-scaling.html" data-topic-link><span>B07</span> Vertical vs Horizontal Scaling</a>
+<a href="../basic/b08-availability-and-the-nines.html" data-topic-link><span>B08</span> Availability and the &quot;Nines&quot;</a>
+<a href="../basic/b09-reliability-vs-resilience-vs-fault-tolerance.html" data-topic-link><span>B09</span> Reliability vs Resilience vs Fault Tolerance</a>
+<a href="../basic/b10-back-of-the-envelope-estimation.html" data-topic-link><span>B10</span> Back-of-the-Envelope Estimation</a>
+<a href="../basic/b11-cap-theorem-in-plain-english.html" data-topic-link><span>B11</span> CAP Theorem in Plain English</a>
+<a href="../basic/b12-strong-vs-eventual-consistency.html" data-topic-link><span>B12</span> Strong vs Eventual Consistency</a>
+</details>
+<details class="topic-category"><summary>Networking and APIs <span>16</span></summary>
+<a href="../basic/b13-how-dns-works.html" data-topic-link><span>B13</span> How DNS Works</a>
+<a href="../basic/b14-the-http-https-request-lifecycle.html" data-topic-link><span>B14</span> The HTTP/HTTPS Request Lifecycle</a>
+<a href="../basic/b15-tcp-vs-udp.html" data-topic-link><span>B15</span> TCP vs UDP</a>
+<a href="../basic/b16-rest-api-design-basics.html" data-topic-link><span>B16</span> REST API Design Basics</a>
+<a href="../basic/b17-api-versioning-strategies.html" data-topic-link><span>B17</span> API Versioning Strategies</a>
+<a href="../basic/b18-pagination-offset-vs-cursor.html" data-topic-link><span>B18</span> Pagination: Offset vs Cursor</a>
+<a href="../basic/b19-idempotency-in-apis.html" data-topic-link><span>B19</span> Idempotency in APIs</a>
+<a href="../basic/b20-rate-limiting-basics.html" data-topic-link><span>B20</span> Rate Limiting Basics</a>
+<a href="../basic/b21-authentication-vs-authorization.html" data-topic-link><span>B21</span> Authentication vs Authorization</a>
+<a href="../basic/b22-sessions-vs-jwt.html" data-topic-link><span>B22</span> Sessions vs JWT</a>
+<a href="../basic/b23-oauth-2-0-and-openid-connect-basics.html" data-topic-link><span>B23</span> OAuth 2.0 and OpenID Connect Basics</a>
+<a href="../basic/b24-cors-explained.html" data-topic-link><span>B24</span> CORS Explained</a>
+<a href="../basic/b25-polling-long-polling-sse-and-websockets.html" data-topic-link><span>B25</span> Polling, Long Polling, SSE, and WebSockets</a>
+<a href="../basic/b26-rest-vs-graphql-vs-grpc.html" data-topic-link><span>B26</span> REST vs GraphQL vs gRPC</a>
+<a href="../basic/b27-webhooks-vs-polling.html" data-topic-link><span>B27</span> Webhooks vs Polling</a>
+<a href="../basic/b28-api-error-handling-and-status-codes.html" data-topic-link><span>B28</span> API Error Handling and Status Codes</a>
+</details>
+<details class="topic-category"><summary>Traffic management <span>10</span></summary>
+<a href="../basic/b29-load-balancer-basics-l4-vs-l7.html" data-topic-link><span>B29</span> Load Balancer Basics: L4 vs L7</a>
+<a href="../basic/b30-load-balancing-algorithms.html" data-topic-link><span>B30</span> Load Balancing Algorithms</a>
+<a href="../basic/b31-reverse-proxy-vs-forward-proxy.html" data-topic-link><span>B31</span> Reverse Proxy vs Forward Proxy</a>
+<a href="../basic/b32-api-gateway-basics.html" data-topic-link><span>B32</span> API Gateway Basics</a>
+<a href="../basic/b33-cdn-basics.html" data-topic-link><span>B33</span> CDN Basics</a>
+<a href="../basic/b34-health-checks-and-heartbeats.html" data-topic-link><span>B34</span> Health Checks and Heartbeats</a>
+<a href="../basic/b35-sticky-sessions-and-session-affinity.html" data-topic-link><span>B35</span> Sticky Sessions and Session Affinity</a>
+<a href="../basic/b36-service-discovery-basics.html" data-topic-link><span>B36</span> Service Discovery Basics</a>
+<a href="../basic/b37-timeouts-why-every-call-needs-one.html" data-topic-link><span>B37</span> Timeouts: Why Every Call Needs One</a>
+<a href="../basic/b38-retries-and-exponential-backoff.html" data-topic-link><span>B38</span> Retries and Exponential Backoff</a>
+</details>
+<details class="topic-category"><summary>Caching <span>8</span></summary>
+<a href="../basic/b39-caching-101-why-and-where.html" data-topic-link><span>B39</span> Caching 101: Why and Where</a>
+<a href="../basic/b40-cache-aside-pattern.html" data-topic-link><span>B40</span> Cache-Aside Pattern</a>
+<a href="../basic/b41-write-through-vs-write-back-vs-write-around.html" data-topic-link><span>B41</span> Write-Through vs Write-Back vs Write-Around</a>
+<a href="../basic/b42-cache-eviction-policies-lru-lfu-fifo.html" data-topic-link><span>B42</span> Cache Eviction Policies: LRU, LFU, FIFO</a>
+<a href="../basic/b43-ttl-and-cache-invalidation.html" data-topic-link><span>B43</span> TTL and Cache Invalidation</a>
+<a href="../basic/b44-browser-and-http-caching-headers.html" data-topic-link><span>B44</span> Browser and HTTP Caching Headers</a>
+<a href="../basic/b45-redis-vs-memcached.html" data-topic-link><span>B45</span> Redis vs Memcached</a>
+<a href="../basic/b46-cache-stampede-thundering-herd-basics.html" data-topic-link><span>B46</span> Cache Stampede (Thundering Herd) Basics</a>
+</details>
+<details class="topic-category"><summary>Databases <span>14</span></summary>
+<a href="../basic/b47-sql-vs-nosql.html" data-topic-link><span>B47</span> SQL vs NoSQL</a>
+<a href="../basic/b48-acid-properties.html" data-topic-link><span>B48</span> ACID Properties</a>
+<a href="../basic/b49-database-indexing-basics.html" data-topic-link><span>B49</span> Database Indexing Basics</a>
+<a href="../basic/b50-normalization-vs-denormalization.html" data-topic-link><span>B50</span> Normalization vs Denormalization</a>
+<a href="../basic/b51-keys-and-schema-design-basics.html" data-topic-link><span>B51</span> Keys and Schema Design Basics</a>
+<a href="../basic/b52-transactions-and-isolation-levels-an-introduction.html" data-topic-link><span>B52</span> Transactions and Isolation Levels: An Introduction</a>
+<a href="../basic/b53-key-value-document-column-and-graph-stores.html" data-topic-link><span>B53</span> Key-Value, Document, Column, and Graph Stores</a>
+<a href="../basic/b54-database-replication-basics.html" data-topic-link><span>B54</span> Database Replication Basics</a>
+<a href="../basic/b55-leader-follower-replication.html" data-topic-link><span>B55</span> Leader-Follower Replication</a>
+<a href="../basic/b56-database-sharding-basics.html" data-topic-link><span>B56</span> Database Sharding Basics</a>
+<a href="../basic/b57-choosing-a-shard-key.html" data-topic-link><span>B57</span> Choosing a Shard Key</a>
+<a href="../basic/b58-connection-pooling.html" data-topic-link><span>B58</span> Connection Pooling</a>
+<a href="../basic/b59-database-migrations-done-safely.html" data-topic-link><span>B59</span> Database Migrations Done Safely</a>
+<a href="../basic/b60-backup-and-restore-fundamentals.html" data-topic-link><span>B60</span> Backup and Restore Fundamentals</a>
+</details>
+<details class="topic-category"><summary>Messaging and async <span>8</span></summary>
+<a href="../basic/b61-synchronous-vs-asynchronous-communication.html" data-topic-link><span>B61</span> Synchronous vs Asynchronous Communication</a>
+<a href="../basic/b62-message-queues-explained.html" data-topic-link><span>B62</span> Message Queues Explained</a>
+<a href="../basic/b63-pub-sub-pattern.html" data-topic-link><span>B63</span> Pub/Sub Pattern</a>
+<a href="../basic/b64-producer-consumer-pattern.html" data-topic-link><span>B64</span> Producer-Consumer Pattern</a>
+<a href="../basic/b65-dead-letter-queues.html" data-topic-link><span>B65</span> Dead Letter Queues</a>
+<a href="../basic/b66-event-driven-architecture-an-introduction.html" data-topic-link><span>B66</span> Event-Driven Architecture: An Introduction</a>
+<a href="../basic/b67-background-jobs-and-workers.html" data-topic-link><span>B67</span> Background Jobs and Workers</a>
+<a href="../basic/b68-batch-vs-stream-processing.html" data-topic-link><span>B68</span> Batch vs Stream Processing</a>
+</details>
+<details class="topic-category"><summary>Architecture styles and patterns <span>12</span></summary>
+<a href="../basic/b69-microservices-vs-monolith.html" data-topic-link><span>B69</span> Microservices vs Monolith</a>
+<a href="../basic/b70-service-oriented-architecture-soa.html" data-topic-link><span>B70</span> Service-Oriented Architecture (SOA)</a>
+<a href="../basic/b71-client-side-vs-server-side-rendering.html" data-topic-link><span>B71</span> Client-Side vs Server-Side Rendering</a>
+<a href="../basic/b72-serverless-basics.html" data-topic-link><span>B72</span> Serverless Basics</a>
+<a href="../basic/b73-gang-of-four-patterns-every-architect-should-know.html" data-topic-link><span>B73</span> Gang of Four Patterns Every Architect Should Know</a>
+<a href="../basic/b74-dependency-injection-and-inversion-of-control.html" data-topic-link><span>B74</span> Dependency Injection and Inversion of Control</a>
+<a href="../basic/b75-solid-principles-at-the-architecture-level.html" data-topic-link><span>B75</span> SOLID Principles at the Architecture Level</a>
+<a href="../basic/b76-separation-of-concerns-and-modularity.html" data-topic-link><span>B76</span> Separation of Concerns and Modularity</a>
+<a href="../basic/b77-hexagonal-architecture-ports-and-adapters-an-introduction.html" data-topic-link><span>B77</span> Hexagonal Architecture (Ports and Adapters): An Introduction</a>
+<a href="../basic/b78-mvc-mvp-and-mvvm.html" data-topic-link><span>B78</span> MVC, MVP, and MVVM</a>
+<a href="../basic/b79-the-twelve-factor-app.html" data-topic-link><span>B79</span> The Twelve-Factor App</a>
+<a href="../basic/b80-stateless-vs-stateful-services.html" data-topic-link><span>B80</span> Stateless vs Stateful Services</a>
+</details>
+<details class="topic-category"><summary>Storage and data formats <span>4</span></summary>
+<a href="../basic/b81-block-file-and-object-storage.html" data-topic-link><span>B81</span> Block, File, and Object Storage</a>
+<a href="../basic/b82-blob-storage-and-pre-signed-urls.html" data-topic-link><span>B82</span> Blob Storage and Pre-Signed URLs</a>
+<a href="../basic/b83-serialization-json-protobuf-avro.html" data-topic-link><span>B83</span> Serialization: JSON, Protobuf, Avro</a>
+<a href="../basic/b84-compression-basics.html" data-topic-link><span>B84</span> Compression Basics</a>
+</details>
+<details class="topic-category"><summary>Security <span>4</span></summary>
+<a href="../basic/b85-tls-handshake-explained.html" data-topic-link><span>B85</span> TLS Handshake Explained</a>
+<a href="../basic/b86-owasp-top-10-for-architects.html" data-topic-link><span>B86</span> OWASP Top 10 for Architects</a>
+<a href="../basic/b87-secrets-management-basics.html" data-topic-link><span>B87</span> Secrets Management Basics</a>
+<a href="../basic/b88-encryption-at-rest-vs-in-transit.html" data-topic-link><span>B88</span> Encryption at Rest vs in Transit</a>
+</details>
+<details class="topic-category"><summary>Operations and delivery <span>11</span></summary>
+<a href="../basic/b89-logging-best-practices.html" data-topic-link><span>B89</span> Logging Best Practices</a>
+<a href="../basic/b90-metrics-traces-and-logs-the-three-pillars.html" data-topic-link><span>B90</span> Metrics, Traces, and Logs: The Three Pillars</a>
+<a href="../basic/b91-monitoring-vs-observability.html" data-topic-link><span>B91</span> Monitoring vs Observability</a>
+<a href="../basic/b92-sli-slo-and-sla.html" data-topic-link><span>B92</span> SLI, SLO, and SLA</a>
+<a href="../basic/b93-ci-cd-pipeline-basics.html" data-topic-link><span>B93</span> CI/CD Pipeline Basics</a>
+<a href="../basic/b94-containers-and-docker-for-architects.html" data-topic-link><span>B94</span> Containers and Docker for Architects</a>
+<a href="../basic/b95-kubernetes-basics-for-architects.html" data-topic-link><span>B95</span> Kubernetes Basics for Architects</a>
+<a href="../basic/b96-infrastructure-as-code-basics.html" data-topic-link><span>B96</span> Infrastructure as Code Basics</a>
+<a href="../basic/b97-blue-green-and-rolling-deployments.html" data-topic-link><span>B97</span> Blue-Green and Rolling Deployments</a>
+<a href="../basic/b98-feature-flags.html" data-topic-link><span>B98</span> Feature Flags</a>
+<a href="../basic/b99-cloud-basics-regions-availability-zones-and-failure-domains.html" data-topic-link><span>B99</span> Cloud Basics: Regions, Availability Zones, and Failure Domains</a>
+</details>
+<details class="topic-category"><summary>Case studies <span>1</span></summary>
+<a href="../basic/b100-case-study-designing-a-url-shortener.html" data-topic-link><span>B100</span> Case Study: Designing a URL Shortener</a>
+</details>
+</details>
+<details class="topic-tier" open><summary>Intermediate <span>100</span></summary>
+<details class="topic-category"><summary>Distributed systems fundamentals <span>12</span></summary>
+<a href="../intermediate/i01-consistent-hashing.html" data-topic-link><span>I01</span> Consistent Hashing</a>
+<a href="../intermediate/i02-quorum-reads-and-writes.html" data-topic-link><span>I02</span> Quorum Reads and Writes</a>
+<a href="../intermediate/i03-leader-election.html" data-topic-link><span>I03</span> Leader Election</a>
+<a href="../intermediate/i04-gossip-protocols.html" data-topic-link><span>I04</span> Gossip Protocols</a>
+<a href="../intermediate/i05-vector-clocks-and-logical-time.html" data-topic-link><span>I05</span> Vector Clocks and Logical Time</a>
+<a href="../intermediate/i06-distributed-locks-redis-vs-zookeeper.html" data-topic-link><span>I06</span> Distributed Locks: Redis vs ZooKeeper</a>
+<a href="../intermediate/i07-two-phase-commit-vs-saga.html" data-topic-link><span>I07</span> Two-Phase Commit vs Saga</a>
+<a href="../intermediate/i08-saga-pattern-orchestration-vs-choreography.html" data-topic-link><span>I08</span> Saga Pattern: Orchestration vs Choreography</a>
+<a href="../intermediate/i09-idempotent-consumers-and-the-exactly-once-myth.html" data-topic-link><span>I09</span> Idempotent Consumers and the Exactly-Once Myth</a>
+<a href="../intermediate/i10-bloom-filters.html" data-topic-link><span>I10</span> Bloom Filters</a>
+<a href="../intermediate/i11-failure-detection-in-distributed-systems.html" data-topic-link><span>I11</span> Failure Detection in Distributed Systems</a>
+<a href="../intermediate/i12-pacelc-theorem-beyond-cap.html" data-topic-link><span>I12</span> PACELC Theorem: Beyond CAP</a>
+</details>
+<details class="topic-category"><summary>Microservices patterns <span>16</span></summary>
+<a href="../intermediate/i13-database-per-service.html" data-topic-link><span>I13</span> Database per Service</a>
+<a href="../intermediate/i14-api-gateway-vs-backend-for-frontend-bff.html" data-topic-link><span>I14</span> API Gateway vs Backend for Frontend (BFF)</a>
+<a href="../intermediate/i15-service-mesh-istio-and-linkerd.html" data-topic-link><span>I15</span> Service Mesh: Istio and Linkerd</a>
+<a href="../intermediate/i16-sidecar-pattern.html" data-topic-link><span>I16</span> Sidecar Pattern</a>
+<a href="../intermediate/i17-circuit-breaker.html" data-topic-link><span>I17</span> Circuit Breaker</a>
+<a href="../intermediate/i18-bulkhead-pattern.html" data-topic-link><span>I18</span> Bulkhead Pattern</a>
+<a href="../intermediate/i19-the-resilience-stack-retry-timeout-fallback.html" data-topic-link><span>I19</span> The Resilience Stack: Retry, Timeout, Fallback</a>
+<a href="../intermediate/i20-strangler-fig-pattern.html" data-topic-link><span>I20</span> Strangler Fig Pattern</a>
+<a href="../intermediate/i21-anti-corruption-layer.html" data-topic-link><span>I21</span> Anti-Corruption Layer</a>
+<a href="../intermediate/i22-domain-driven-design-bounded-contexts.html" data-topic-link><span>I22</span> Domain-Driven Design: Bounded Contexts</a>
+<a href="../intermediate/i23-aggregates-and-entities-in-ddd.html" data-topic-link><span>I23</span> Aggregates and Entities in DDD</a>
+<a href="../intermediate/i24-event-storming-workshops.html" data-topic-link><span>I24</span> Event Storming Workshops</a>
+<a href="../intermediate/i25-microservice-decomposition-strategies.html" data-topic-link><span>I25</span> Microservice Decomposition Strategies</a>
+<a href="../intermediate/i26-sync-vs-async-inter-service-communication-trade-offs.html" data-topic-link><span>I26</span> Sync vs Async Inter-Service Communication Trade-Offs</a>
+<a href="../intermediate/i27-the-distributed-monolith-anti-pattern.html" data-topic-link><span>I27</span> The Distributed Monolith Anti-Pattern</a>
+<a href="../intermediate/i28-shared-libraries-vs-shared-services.html" data-topic-link><span>I28</span> Shared Libraries vs Shared Services</a>
+</details>
+<details class="topic-category"><summary>Data patterns <span>20</span></summary>
+<a href="../intermediate/i29-cqrs.html" data-topic-link><span>I29</span> CQRS</a>
+<a href="../intermediate/i30-event-sourcing.html" data-topic-link><span>I30</span> Event Sourcing</a>
+<a href="../intermediate/i31-transactional-outbox-pattern.html" data-topic-link><span>I31</span> Transactional Outbox Pattern</a>
+<a href="../intermediate/i32-change-data-capture-with-debezium.html" data-topic-link><span>I32</span> Change Data Capture with Debezium</a>
+<a href="../intermediate/i33-materialized-views.html" data-topic-link><span>I33</span> Materialized Views</a>
+<a href="../intermediate/i34-read-replicas-and-replication-lag.html" data-topic-link><span>I34</span> Read Replicas and Replication Lag</a>
+<a href="../intermediate/i35-multi-leader-replication-and-conflict-resolution.html" data-topic-link><span>I35</span> Multi-Leader Replication and Conflict Resolution</a>
+<a href="../intermediate/i36-sharding-strategies-range-hash-directory.html" data-topic-link><span>I36</span> Sharding Strategies: Range, Hash, Directory</a>
+<a href="../intermediate/i37-resharding-without-downtime.html" data-topic-link><span>I37</span> Resharding Without Downtime</a>
+<a href="../intermediate/i38-hot-keys-and-hot-partitions.html" data-topic-link><span>I38</span> Hot Keys and Hot Partitions</a>
+<a href="../intermediate/i39-polyglot-persistence.html" data-topic-link><span>I39</span> Polyglot Persistence</a>
+<a href="../intermediate/i40-time-series-databases.html" data-topic-link><span>I40</span> Time-Series Databases</a>
+<a href="../intermediate/i41-search-systems-inverted-index-and-elasticsearch.html" data-topic-link><span>I41</span> Search Systems: Inverted Index and Elasticsearch</a>
+<a href="../intermediate/i42-graph-databases-in-practice.html" data-topic-link><span>I42</span> Graph Databases in Practice</a>
+<a href="../intermediate/i43-data-lakes-vs-warehouses-vs-lakehouses.html" data-topic-link><span>I43</span> Data Lakes vs Warehouses vs Lakehouses</a>
+<a href="../intermediate/i44-isolation-levels-in-depth-mvcc.html" data-topic-link><span>I44</span> Isolation Levels in Depth: MVCC</a>
+<a href="../intermediate/i45-optimistic-vs-pessimistic-locking.html" data-topic-link><span>I45</span> Optimistic vs Pessimistic Locking</a>
+<a href="../intermediate/i46-schema-evolution-and-backward-compatibility.html" data-topic-link><span>I46</span> Schema Evolution and Backward Compatibility</a>
+<a href="../intermediate/i47-zero-downtime-migrations-expand-and-contract.html" data-topic-link><span>I47</span> Zero-Downtime Migrations: Expand and Contract</a>
+<a href="../intermediate/i48-soft-deletes-tombstones-and-retention.html" data-topic-link><span>I48</span> Soft Deletes, Tombstones, and Retention</a>
+</details>
+<details class="topic-category"><summary>Messaging and streaming <span>10</span></summary>
+<a href="../intermediate/i49-kafka-architecture.html" data-topic-link><span>I49</span> Kafka Architecture</a>
+<a href="../intermediate/i50-partitioning-and-ordering-in-kafka.html" data-topic-link><span>I50</span> Partitioning and Ordering in Kafka</a>
+<a href="../intermediate/i51-consumer-groups-and-rebalancing.html" data-topic-link><span>I51</span> Consumer Groups and Rebalancing</a>
+<a href="../intermediate/i52-rabbitmq-vs-kafka-vs-sqs.html" data-topic-link><span>I52</span> RabbitMQ vs Kafka vs SQS</a>
+<a href="../intermediate/i53-delivery-semantics-at-least-once-at-most-once-exactly-once.html" data-topic-link><span>I53</span> Delivery Semantics: At-Least-Once, At-Most-Once, Exactly-Once</a>
+<a href="../intermediate/i54-backpressure.html" data-topic-link><span>I54</span> Backpressure</a>
+<a href="../intermediate/i55-stream-processing-with-flink-and-kafka-streams.html" data-topic-link><span>I55</span> Stream Processing with Flink and Kafka Streams</a>
+<a href="../intermediate/i56-lambda-vs-kappa-architecture.html" data-topic-link><span>I56</span> Lambda vs Kappa Architecture</a>
+<a href="../intermediate/i57-schema-registries-and-event-contracts.html" data-topic-link><span>I57</span> Schema Registries and Event Contracts</a>
+<a href="../intermediate/i58-priority-queues-and-delayed-messages.html" data-topic-link><span>I58</span> Priority Queues and Delayed Messages</a>
+</details>
+<details class="topic-category"><summary>Caching and performance <span>10</span></summary>
+<a href="../intermediate/i59-distributed-caching-patterns.html" data-topic-link><span>I59</span> Distributed Caching Patterns</a>
+<a href="../intermediate/i60-cache-invalidation-strategies-at-scale.html" data-topic-link><span>I60</span> Cache Invalidation Strategies at Scale</a>
+<a href="../intermediate/i61-multi-layer-caching-cdn-app-database.html" data-topic-link><span>I61</span> Multi-Layer Caching: CDN, App, Database</a>
+<a href="../intermediate/i62-request-coalescing.html" data-topic-link><span>I62</span> Request Coalescing</a>
+<a href="../intermediate/i63-connection-management-and-keep-alive.html" data-topic-link><span>I63</span> Connection Management and Keep-Alive</a>
+<a href="../intermediate/i64-http-2-and-http-3-quic.html" data-topic-link><span>I64</span> HTTP/2 and HTTP/3 (QUIC)</a>
+<a href="../intermediate/i65-performance-profiling-and-bottleneck-hunting.html" data-topic-link><span>I65</span> Performance Profiling and Bottleneck Hunting</a>
+<a href="../intermediate/i66-load-testing-and-capacity-planning.html" data-topic-link><span>I66</span> Load Testing and Capacity Planning</a>
+<a href="../intermediate/i67-autoscaling-strategies.html" data-topic-link><span>I67</span> Autoscaling Strategies</a>
+<a href="../intermediate/i68-queue-based-load-leveling.html" data-topic-link><span>I68</span> Queue-Based Load Leveling</a>
+</details>
+<details class="topic-category" open><summary>Reliability and operations <span>12</span></summary>
+<a href="../intermediate/i69-chaos-engineering.html" data-topic-link><span>I69</span> Chaos Engineering</a>
+<a href="../intermediate/i70-disaster-recovery-rpo-rto-and-strategies.html" data-topic-link><span>I70</span> Disaster Recovery: RPO, RTO, and Strategies</a>
+<a href="../intermediate/i71-multi-az-vs-multi-region-deployment.html" data-topic-link><span>I71</span> Multi-AZ vs Multi-Region Deployment</a>
+<a href="../intermediate/i72-graceful-degradation.html" data-topic-link><span>I72</span> Graceful Degradation</a>
+<a href="../intermediate/i73-canary-releases-and-progressive-delivery.html" data-topic-link><span>I73</span> Canary Releases and Progressive Delivery</a>
+<a href="../intermediate/i74-distributed-tracing-with-opentelemetry.html" data-topic-link><span>I74</span> Distributed Tracing with OpenTelemetry</a>
+<a href="../intermediate/i75-alerting-without-fatigue-slo-based-alerts.html" data-topic-link><span>I75</span> Alerting Without Fatigue: SLO-Based Alerts</a>
+<a href="../intermediate/i76-error-budgets.html" data-topic-link aria-current="page"><span>I76</span> Error Budgets</a>
+<a href="../intermediate/i77-incident-management-and-blameless-postmortems.html" data-topic-link><span>I77</span> Incident Management and Blameless Postmortems</a>
+<a href="../intermediate/i78-gitops.html" data-topic-link><span>I78</span> GitOps</a>
+<a href="../intermediate/i79-kubernetes-deployment-patterns.html" data-topic-link><span>I79</span> Kubernetes Deployment Patterns</a>
+<a href="../intermediate/i80-config-and-secrets-management-at-scale.html" data-topic-link><span>I80</span> Config and Secrets Management at Scale</a>
+</details>
+<details class="topic-category"><summary>Security and API design <span>10</span></summary>
+<a href="../intermediate/i81-zero-trust-architecture.html" data-topic-link><span>I81</span> Zero Trust Architecture</a>
+<a href="../intermediate/i82-mtls-and-service-identity.html" data-topic-link><span>I82</span> mTLS and Service Identity</a>
+<a href="../intermediate/i83-api-security-oauth-scopes-and-token-introspection.html" data-topic-link><span>I83</span> API Security: OAuth Scopes and Token Introspection</a>
+<a href="../intermediate/i84-multi-tenancy-models.html" data-topic-link><span>I84</span> Multi-Tenancy Models</a>
+<a href="../intermediate/i85-rate-limiting-algorithms-token-bucket-leaky-bucket-sliding-window.html" data-topic-link><span>I85</span> Rate Limiting Algorithms: Token Bucket, Leaky Bucket, Sliding Window</a>
+<a href="../intermediate/i86-api-design-for-evolvability.html" data-topic-link><span>I86</span> API Design for Evolvability</a>
+<a href="../intermediate/i87-graphql-federation.html" data-topic-link><span>I87</span> GraphQL Federation</a>
+<a href="../intermediate/i88-designing-reliable-webhooks.html" data-topic-link><span>I88</span> Designing Reliable Webhooks</a>
+<a href="../intermediate/i89-idempotency-keys-in-payments.html" data-topic-link><span>I89</span> Idempotency Keys in Payments</a>
+<a href="../intermediate/i90-audit-logging-architecture.html" data-topic-link><span>I90</span> Audit Logging Architecture</a>
+</details>
+<details class="topic-category"><summary>Case studies <span>10</span></summary>
+<a href="../intermediate/i91-design-a-rate-limiter.html" data-topic-link><span>I91</span> Design a Rate Limiter</a>
+<a href="../intermediate/i92-design-a-notification-system.html" data-topic-link><span>I92</span> Design a Notification System</a>
+<a href="../intermediate/i93-design-a-news-feed.html" data-topic-link><span>I93</span> Design a News Feed</a>
+<a href="../intermediate/i94-design-a-chat-system.html" data-topic-link><span>I94</span> Design a Chat System</a>
+<a href="../intermediate/i95-design-a-distributed-cache.html" data-topic-link><span>I95</span> Design a Distributed Cache</a>
+<a href="../intermediate/i96-design-a-job-scheduler.html" data-topic-link><span>I96</span> Design a Job Scheduler</a>
+<a href="../intermediate/i97-design-a-file-storage-service-dropbox-style.html" data-topic-link><span>I97</span> Design a File Storage Service (Dropbox-style)</a>
+<a href="../intermediate/i98-design-search-autocomplete.html" data-topic-link><span>I98</span> Design Search Autocomplete</a>
+<a href="../intermediate/i99-design-a-video-streaming-service.html" data-topic-link><span>I99</span> Design a Video Streaming Service</a>
+<a href="../intermediate/i100-design-an-e-commerce-checkout-and-inventory-system.html" data-topic-link><span>I100</span> Design an E-Commerce Checkout and Inventory System</a>
+</details>
+</details>
+<details class="topic-tier"><summary>Advanced <span>100</span></summary>
+<details class="topic-category"><summary>Consensus and distributed theory <span>12</span></summary>
+<a href="../advanced/a01-paxos-explained.html" data-topic-link><span>A01</span> Paxos Explained</a>
+<a href="../advanced/a02-raft-in-depth.html" data-topic-link><span>A02</span> Raft in Depth</a>
+<a href="../advanced/a03-byzantine-fault-tolerance-and-pbft.html" data-topic-link><span>A03</span> Byzantine Fault Tolerance and PBFT</a>
+<a href="../advanced/a04-linearizability-vs-serializability.html" data-topic-link><span>A04</span> Linearizability vs Serializability</a>
+<a href="../advanced/a05-snapshot-isolation-and-write-skew.html" data-topic-link><span>A05</span> Snapshot Isolation and Write Skew</a>
+<a href="../advanced/a06-crdts.html" data-topic-link><span>A06</span> CRDTs</a>
+<a href="../advanced/a07-operational-transformation-vs-crdts-for-collaboration.html" data-topic-link><span>A07</span> Operational Transformation vs CRDTs for Collaboration</a>
+<a href="../advanced/a08-hybrid-logical-clocks-and-truetime.html" data-topic-link><span>A08</span> Hybrid Logical Clocks and TrueTime</a>
+<a href="../advanced/a09-spanner-style-globally-distributed-databases.html" data-topic-link><span>A09</span> Spanner-Style Globally Distributed Databases</a>
+<a href="../advanced/a10-calvin-and-deterministic-databases.html" data-topic-link><span>A10</span> Calvin and Deterministic Databases</a>
+<a href="../advanced/a11-percolator-and-distributed-transactions-at-scale.html" data-topic-link><span>A11</span> Percolator and Distributed Transactions at Scale</a>
+<a href="../advanced/a12-jepsen-testing-and-consistency-verification.html" data-topic-link><span>A12</span> Jepsen Testing and Consistency Verification</a>
+</details>
+<details class="topic-category"><summary>Storage engines and database internals <span>16</span></summary>
+<a href="../advanced/a13-lsm-trees-vs-b-trees.html" data-topic-link><span>A13</span> LSM Trees vs B-Trees</a>
+<a href="../advanced/a14-write-ahead-logging-and-crash-recovery.html" data-topic-link><span>A14</span> Write-Ahead Logging and Crash Recovery</a>
+<a href="../advanced/a15-compaction-strategies.html" data-topic-link><span>A15</span> Compaction Strategies</a>
+<a href="../advanced/a16-columnar-storage-and-vectorized-execution.html" data-topic-link><span>A16</span> Columnar Storage and Vectorized Execution</a>
+<a href="../advanced/a17-query-planning-and-optimization-internals.html" data-topic-link><span>A17</span> Query Planning and Optimization Internals</a>
+<a href="../advanced/a18-distributed-sql-cockroachdb-tidb-yugabytedb.html" data-topic-link><span>A18</span> Distributed SQL: CockroachDB, TiDB, YugabyteDB</a>
+<a href="../advanced/a19-dynamo-style-systems-cassandra-and-riak-design.html" data-topic-link><span>A19</span> Dynamo-Style Systems: Cassandra and Riak Design</a>
+<a href="../advanced/a20-merkle-trees-and-anti-entropy.html" data-topic-link><span>A20</span> Merkle Trees and Anti-Entropy</a>
+<a href="../advanced/a21-hinted-handoff-and-sloppy-quorums.html" data-topic-link><span>A21</span> Hinted Handoff and Sloppy Quorums</a>
+<a href="../advanced/a22-cross-region-replication-topologies.html" data-topic-link><span>A22</span> Cross-Region Replication Topologies</a>
+<a href="../advanced/a23-online-schema-changes-at-scale.html" data-topic-link><span>A23</span> Online Schema Changes at Scale</a>
+<a href="../advanced/a24-storage-tiering-hot-warm-cold-data.html" data-topic-link><span>A24</span> Storage Tiering: Hot, Warm, Cold Data</a>
+<a href="../advanced/a25-erasure-coding-vs-replication.html" data-topic-link><span>A25</span> Erasure Coding vs Replication</a>
+<a href="../advanced/a26-distributed-file-systems-gfs-hdfs-ceph.html" data-topic-link><span>A26</span> Distributed File Systems: GFS, HDFS, Ceph</a>
+<a href="../advanced/a27-object-store-internals-s3-like-design.html" data-topic-link><span>A27</span> Object Store Internals (S3-Like Design)</a>
+<a href="../advanced/a28-vector-databases-and-ann-indexes-hnsw-and-ivf.html" data-topic-link><span>A28</span> Vector Databases and ANN Indexes: HNSW and IVF</a>
+</details>
+<details class="topic-category"><summary>Architecture at scale <span>20</span></summary>
+<a href="../advanced/a29-cell-based-architecture.html" data-topic-link><span>A29</span> Cell-Based Architecture</a>
+<a href="../advanced/a30-shuffle-sharding.html" data-topic-link><span>A30</span> Shuffle Sharding</a>
+<a href="../advanced/a31-multi-region-active-active-design.html" data-topic-link><span>A31</span> Multi-Region Active-Active Design</a>
+<a href="../advanced/a32-global-traffic-management-anycast-and-geodns.html" data-topic-link><span>A32</span> Global Traffic Management: Anycast and GeoDNS</a>
+<a href="../advanced/a33-edge-computing-architectures.html" data-topic-link><span>A33</span> Edge Computing Architectures</a>
+<a href="../advanced/a34-data-mesh.html" data-topic-link><span>A34</span> Data Mesh</a>
+<a href="../advanced/a35-event-driven-architecture-at-enterprise-scale.html" data-topic-link><span>A35</span> Event-Driven Architecture at Enterprise Scale</a>
+<a href="../advanced/a36-avoiding-event-spaghetti-in-choreography.html" data-topic-link><span>A36</span> Avoiding Event Spaghetti in Choreography</a>
+<a href="../advanced/a37-platform-engineering-and-internal-developer-platforms.html" data-topic-link><span>A37</span> Platform Engineering and Internal Developer Platforms</a>
+<a href="../advanced/a38-monorepo-vs-polyrepo-architectural-implications.html" data-topic-link><span>A38</span> Monorepo vs Polyrepo: Architectural Implications</a>
+<a href="../advanced/a39-modular-monolith-migration-strategies.html" data-topic-link><span>A39</span> Modular Monolith Migration Strategies</a>
+<a href="../advanced/a40-evolutionary-architecture-and-fitness-functions.html" data-topic-link><span>A40</span> Evolutionary Architecture and Fitness Functions</a>
+<a href="../advanced/a41-architecture-decision-records-and-governance.html" data-topic-link><span>A41</span> Architecture Decision Records and Governance</a>
+<a href="../advanced/a42-conway-s-law-and-team-topologies.html" data-topic-link><span>A42</span> Conway&#x27;s Law and Team Topologies</a>
+<a href="../advanced/a43-multi-tenancy-at-scale-noisy-neighbors-and-isolation.html" data-topic-link><span>A43</span> Multi-Tenancy at Scale: Noisy Neighbors and Isolation</a>
+<a href="../advanced/a44-control-plane-vs-data-plane-in-saas.html" data-topic-link><span>A44</span> Control Plane vs Data Plane in SaaS</a>
+<a href="../advanced/a45-clean-and-onion-architecture-in-large-systems.html" data-topic-link><span>A45</span> Clean and Onion Architecture in Large Systems</a>
+<a href="../advanced/a46-micro-frontends-and-bff-at-scale.html" data-topic-link><span>A46</span> Micro-Frontends and BFF at Scale</a>
+<a href="../advanced/a47-capacity-planning-and-cost-modeling-finops.html" data-topic-link><span>A47</span> Capacity Planning and Cost Modeling (FinOps)</a>
+<a href="../advanced/a48-architecture-for-compliance-gdpr-and-data-residency.html" data-topic-link><span>A48</span> Architecture for Compliance: GDPR and Data Residency</a>
+</details>
+<details class="topic-category"><summary>Resilience and performance <span>20</span></summary>
+<a href="../advanced/a49-metastable-failures.html" data-topic-link><span>A49</span> Metastable Failures</a>
+<a href="../advanced/a50-retry-storms-and-load-shedding.html" data-topic-link><span>A50</span> Retry Storms and Load Shedding</a>
+<a href="../advanced/a51-adaptive-concurrency-limits.html" data-topic-link><span>A51</span> Adaptive Concurrency Limits</a>
+<a href="../advanced/a52-tail-latency-and-hedged-requests.html" data-topic-link><span>A52</span> Tail Latency and Hedged Requests</a>
+<a href="../advanced/a53-cascading-failures-case-studies.html" data-topic-link><span>A53</span> Cascading Failures: Case Studies</a>
+<a href="../advanced/a54-backpressure-across-service-boundaries.html" data-topic-link><span>A54</span> Backpressure Across Service Boundaries</a>
+<a href="../advanced/a55-static-stability.html" data-topic-link><span>A55</span> Static Stability</a>
+<a href="../advanced/a56-control-loops-and-autoscaler-instability.html" data-topic-link><span>A56</span> Control Loops and Autoscaler Instability</a>
+<a href="../advanced/a57-deterministic-simulation-testing.html" data-topic-link><span>A57</span> Deterministic Simulation Testing</a>
+<a href="../advanced/a58-formal-methods-for-architects-tla.html" data-topic-link><span>A58</span> Formal Methods for Architects: TLA+</a>
+<a href="../advanced/a59-fault-injection-at-scale.html" data-topic-link><span>A59</span> Fault Injection at Scale</a>
+<a href="../advanced/a60-observability-at-scale-cardinality-sampling-cost.html" data-topic-link><span>A60</span> Observability at Scale: Cardinality, Sampling, Cost</a>
+<a href="../advanced/a61-continuous-profiling-and-ebpf.html" data-topic-link><span>A61</span> Continuous Profiling and eBPF</a>
+<a href="../advanced/a62-concurrency-models-actors-csp-reactive.html" data-topic-link><span>A62</span> Concurrency Models: Actors, CSP, Reactive</a>
+<a href="../advanced/a63-zero-copy-and-kernel-bypass-networking.html" data-topic-link><span>A63</span> Zero-Copy and Kernel-Bypass Networking</a>
+<a href="../advanced/a64-consistent-hashing-variants-jump-rendezvous-maglev.html" data-topic-link><span>A64</span> Consistent Hashing Variants: Jump, Rendezvous, Maglev</a>
+<a href="../advanced/a65-high-performance-load-balancing-maglev-and-envoy.html" data-topic-link><span>A65</span> High-Performance Load Balancing: Maglev and Envoy</a>
+<a href="../advanced/a66-tcp-congestion-control-and-bbr-for-architects.html" data-topic-link><span>A66</span> TCP Congestion Control and BBR for Architects</a>
+<a href="../advanced/a67-designing-for-ultra-low-latency-trading-systems.html" data-topic-link><span>A67</span> Designing for Ultra-Low Latency: Trading Systems</a>
+<a href="../advanced/a68-memory-management-and-gc-tuning-at-scale.html" data-topic-link><span>A68</span> Memory Management and GC Tuning at Scale</a>
+</details>
+<details class="topic-category"><summary>Data, streaming, and AI systems <span>12</span></summary>
+<a href="../advanced/a69-exactly-once-semantics-in-kafka-transactions.html" data-topic-link><span>A69</span> Exactly-Once Semantics in Kafka Transactions</a>
+<a href="../advanced/a70-stream-processing-state-and-checkpointing.html" data-topic-link><span>A70</span> Stream Processing State and Checkpointing</a>
+<a href="../advanced/a71-watermarks-and-event-time-processing.html" data-topic-link><span>A71</span> Watermarks and Event-Time Processing</a>
+<a href="../advanced/a72-real-time-olap-druid-pinot-clickhouse.html" data-topic-link><span>A72</span> Real-Time OLAP: Druid, Pinot, ClickHouse</a>
+<a href="../advanced/a73-feature-stores-and-ml-data-pipelines.html" data-topic-link><span>A73</span> Feature Stores and ML Data Pipelines</a>
+<a href="../advanced/a74-designing-ml-serving-infrastructure.html" data-topic-link><span>A74</span> Designing ML Serving Infrastructure</a>
+<a href="../advanced/a75-llm-application-architecture-rag-caching-guardrails.html" data-topic-link><span>A75</span> LLM Application Architecture: RAG, Caching, Guardrails</a>
+<a href="../advanced/a76-agentic-system-architectures.html" data-topic-link><span>A76</span> Agentic System Architectures</a>
+<a href="../advanced/a77-vector-search-at-scale.html" data-topic-link><span>A77</span> Vector Search at Scale</a>
+<a href="../advanced/a78-data-lineage-and-governance-architecture.html" data-topic-link><span>A78</span> Data Lineage and Governance Architecture</a>
+<a href="../advanced/a79-change-data-capture-pipelines-at-scale.html" data-topic-link><span>A79</span> Change Data Capture Pipelines at Scale</a>
+<a href="../advanced/a80-lakehouse-table-formats-iceberg-delta-hudi.html" data-topic-link><span>A80</span> Lakehouse Table Formats: Iceberg, Delta, Hudi</a>
+</details>
+<details class="topic-category"><summary>Security and trust <span>8</span></summary>
+<a href="../advanced/a81-zero-trust-at-scale.html" data-topic-link><span>A81</span> Zero Trust at Scale</a>
+<a href="../advanced/a82-confidential-computing-and-enclaves.html" data-topic-link><span>A82</span> Confidential Computing and Enclaves</a>
+<a href="../advanced/a83-key-management-and-envelope-encryption.html" data-topic-link><span>A83</span> Key Management and Envelope Encryption</a>
+<a href="../advanced/a84-supply-chain-security-sbom-and-slsa.html" data-topic-link><span>A84</span> Supply Chain Security: SBOM and SLSA</a>
+<a href="../advanced/a85-designing-authorization-systems-zanzibar-and-rebac.html" data-topic-link><span>A85</span> Designing Authorization Systems: Zanzibar and ReBAC</a>
+<a href="../advanced/a86-fraud-detection-architecture.html" data-topic-link><span>A86</span> Fraud Detection Architecture</a>
+<a href="../advanced/a87-secure-multi-tenant-isolation-gvisor-and-firecracker.html" data-topic-link><span>A87</span> Secure Multi-Tenant Isolation: gVisor and Firecracker</a>
+<a href="../advanced/a88-immutable-ledger-and-audit-architectures.html" data-topic-link><span>A88</span> Immutable Ledger and Audit Architectures</a>
+</details>
+<details class="topic-category"><summary>Large-scale case studies <span>12</span></summary>
+<a href="../advanced/a89-design-a-spanner-like-database.html" data-topic-link><span>A89</span> Design a Spanner-Like Database</a>
+<a href="../advanced/a90-design-a-global-payment-system.html" data-topic-link><span>A90</span> Design a Global Payment System</a>
+<a href="../advanced/a91-design-uber-scale-dispatch-and-geospatial-systems.html" data-topic-link><span>A91</span> Design Uber-Scale Dispatch and Geospatial Systems</a>
+<a href="../advanced/a92-design-a-distributed-message-queue.html" data-topic-link><span>A92</span> Design a Distributed Message Queue</a>
+<a href="../advanced/a93-design-a-metrics-and-monitoring-platform.html" data-topic-link><span>A93</span> Design a Metrics and Monitoring Platform</a>
+<a href="../advanced/a94-design-a-distributed-tracing-backend.html" data-topic-link><span>A94</span> Design a Distributed Tracing Backend</a>
+<a href="../advanced/a95-design-a-stock-exchange.html" data-topic-link><span>A95</span> Design a Stock Exchange</a>
+<a href="../advanced/a96-design-a-real-time-collaborative-editor.html" data-topic-link><span>A96</span> Design a Real-Time Collaborative Editor</a>
+<a href="../advanced/a97-design-a-global-video-streaming-cdn.html" data-topic-link><span>A97</span> Design a Global Video Streaming CDN</a>
+<a href="../advanced/a98-design-a-web-crawler-at-scale.html" data-topic-link><span>A98</span> Design a Web Crawler at Scale</a>
+<a href="../advanced/a99-design-a-cluster-scheduler-borg-and-kubernetes.html" data-topic-link><span>A99</span> Design a Cluster Scheduler: Borg and Kubernetes</a>
+<a href="../advanced/a100-design-a-multi-tenant-serverless-platform.html" data-topic-link><span>A100</span> Design a Multi-Tenant Serverless Platform</a>
+</details>
+</details>
+</div>
+</nav>
+      <article class="note topic-article">
+<h2 id="concept">Concept</h2>
+<p>An error budget is the unreliability you already promised. If the SLO is 99.9% successful user events over 28 days, the budget is 0.1% of those events. That quantity is not a motivational poster. It is the only honest way to decide whether the next week is for shipping or for hardening. Without a budget, product and SRE argue from anecdotes. With a budget, they argue from a number both sides agreed to when they were not in an incident.</p>
+<h3 id="the-budget-is-leftover-unreliability-not-a-bonus">The budget is leftover unreliability, not a bonus</h3>
+<p>Teams treat the budget as extra headroom they should not "waste." That inverts the design. The SLO is the reliability users pay for. The budget is the remainder you are allowed to spend on change: deploys, experiments, migrations, planned maintenance, and the inevitable unplanned failure. A team that finishes the month at 99.99% against a 99.9% SLO did not "win." They refused risk that the product had already bought. Sometimes that is correct (a launch week, a regulatory period). As a standing practice it means you are slower than the SLO permits, and someone else will eventually ship the feature from a stack that pages less.</p>
+<p>Spending the budget on purpose is a production skill. A canary that burns 5% of the month's budget to learn that a build is bad is a cheap lesson. A silent 2× leak that burns 80% of the budget on a misconfigured retry is a stolen lesson. The budget does not care about intent. The policy does.</p>
+<p>The window matters. A 28-day rolling window is the usual production choice: long enough that a bad day does not freeze the fleet forever, short enough that a good quarter cannot hide a bad month. A calendar month is easier to report and has a cliff on the first. I prefer rolling. I will accept calendar if finance already lives on it, and I will then watch the cliff.</p>
+<h3 id="writing-an-error-budget-policy">Writing an error budget policy</h3>
+<p>A policy is a short document the org will actually follow when the graph is red. It names the SLO, the window, who owns the number, what happens at 50% consumed, what happens at 100% consumed, who can override, and how an override is recorded. If those sentences do not exist, you have a dashboard, not a budget.</p>
+<p>A policy I will sign looks like this. Above 50% remaining: normal deploys, normal feature work, canaries as usual. Below 50%: new features need an explicit reliability review; flaky tests and noisy neighbors get priority; the next incident's action items jump the queue. At 0%: feature launches that can affect the SLI halt; work that reduces burn (rollback of a risky flag, load shedding, dependency hardening, test fixes that prevent bad deploys) continues; the halt lasts until the rolling window recovers or a named director overrides in writing. Planned maintenance that would consume budget is scheduled against remaining budget, not against hope.</p>
+<p>The halt is the part people try to weasel. "This launch is small." "It is only config." "The SLO is too tight." Config is how a large fraction of outages ship. A tight SLO is a separate conversation, held at the monthly review, not in the launch meeting. If the SLO is wrong, change the SLO in the policy with the same people who consume the budget. Do not silently ignore the halt. A halt that is always overridden is not a policy. It is a dashboard with extra steps.</p>
+<h3 id="measuring-consumption-in-a-way-that-cannot-be-gamed">Measuring consumption in a way that cannot be gamed</h3>
+<p>The budget is 1 minus the SLI over the window, times the event count, or equivalently the count of failed events allowed. Measure it from the same SLI the alerts use. Do not measure it from a prettier graph in a slide. Goodhart's law shows up immediately: if you exclude "known issues," the budget will be all exclusions. If you exclude third-party failures, you will discover that users do not exclude third-party failures. If you change the SLI definition whenever you are close to empty, you do not have a budget.</p>
+<p>Legitimate exclusions exist. A scheduled, communicated maintenance window that the SLO document already named can be excluded. A load test against production that was approved and tagged can be excluded. A region you have not promised can be excluded from a global SLO — and then you need a regional SLO for the region you did promise. Exclusions are listed in the policy in advance. They are not invented in the incident review.</p>
+<p>Event count in the denominator is the other game. A synthetic flood of cheap health checks inflates the denominator and makes a real-user outage look small. Health checks do not belong in a user SLO. Internal admin routes do not belong in a user SLO. If you need to know whether the process is up, that is a different SLI with a different budget, owned by the platform, not a way to dilute the product number.</p>
+<h3 id="what-happens-when-the-budget-is-empty">What happens when the budget is empty</h3>
+<p>Empty means the halt above, plus a concrete list of work. That list is not "try harder." It is ranked: freeze the risky pipeline, roll back the last change that moved the SLI, shed load, disable a flag, add a bulkhead, fix the test that would have caught the last three incidents, remove a flaky canary metric that is causing bad deploys to sneak through. The owners of the SLO pick from that list in public. Product does not get a private exemption because a date was on a slide.</p>
+<p>Recovery of a rolling window is slow. After a 12-hour total outage, a 28-day 99.9% budget can be gone for weeks. That is the point. The system taught you, expensively, that a class of failure is not under control. Shipping more of the same class during those weeks is how you get the second outage. If the business cannot tolerate a multi-week halt, the SLO was a vanity number and should be renegotiated before the next quarter, not during the halt.</p>
+<h3 id="budgets-at-service-boundaries">Budgets at service boundaries</h3>
+<p>One company-wide budget is too coarse. One budget per binary is too fine; a user journey that hops six services will be green in five and red in one, and nobody will own the journey. The unit I want is the user-facing journey (checkout, login, stream start, job complete) plus a platform budget for the shared hops (edge, mesh, datastore). Product owns the journey. Platform owns the hop. A product halt because the datastore burned the platform budget is a platform incident with product impact, not a product "process failure."</p>
+<p>Shared dependencies need an explicit rule. If payments is 40% of checkout failures, checkout's budget will always be a function of payments. Either payments is in the checkout SLO (and payments work is in the halt) or checkout's SLO is defined on the part of the path you control, with a separate dependency SLO. Mixing those silently is how two teams each think the other owns the number.</p>
+<h2 id="trade-offs">Trade-offs</h2>
+<div class="table-wrap"><table><thead><tr><th>Approach</th><th>When it wins</th><th>Cost / risk</th></tr></thead><tbody><tr><td>No budget, SLO as a slide</td><td>Tiny team, one product, informal freeze when it hurts</td><td>Freeze is political; no memory across quarters</td></tr><tr><td>Informal "we stop if we have incidents"</td><td>Early product, unstable SLI</td><td>Incident count is not user impact; noisy weeks freeze the wrong work</td></tr><tr><td>Rolling error budget with a written policy</td><td>Multiple teams shipping into one user journey</td><td>Needs a real SLI, a halt people will honor, and a review</td></tr><tr><td>Calendar-month budget</td><td>Finance and board reporting</td><td>First-of-month cliff; a late-month outage has no recovery</td></tr><tr><td>Per-binary budgets only</td><td>Low-level platform components</td><td>User journeys have no owner; local greens hide a red path</td></tr></tbody></table></div>
+<p>A written policy is heavier than a dashboard. It is also the only artifact that survives a reorg. The cost is the review meeting and the occasional halt that makes a date slip. That slip is the product. If dates cannot slip, you do not have an SLO. You have a wish.</p>
+<p>Calendar months are tempting because everyone already reports on them. The cliff is real: a team that burned the budget on the 28th is "healthy" on the 1st with no engineering change. Rolling windows punish recent failure until it ages out, which is the incentive you want. If you must use calendar, add a rule that a halt in the last week of the month continues for a defined period into the next, so the cliff cannot be used as a release valve.</p>
+<p>Per-binary budgets are how platform teams hide. They are necessary for the binaries, insufficient for the product. Always keep the journey budget. Use binary budgets as diagnostics and as the platform's own halt rule.</p>
+<h2 id="diagram">Diagram</h2>
+<figure class="diagram-source"><figcaption>Architecture diagram source</figcaption><pre><code class="language-mermaid">flowchart TB
+  SLO[&quot;SLO: 99.9 percent over 28 days&quot;] --&gt; Budget[&quot;Budget: 0.1 percent failed user events&quot;]
+  Budget --&gt; Measure[Measure from the same SLI as alerts]
+  Measure --&gt; Remaining{Remaining budget}
+  Remaining --&gt;|above 50 percent| Normal[Normal deploys and feature work]
+  Remaining --&gt;|below 50 percent| Tighten[Reliability work jumps the queue]
+  Remaining --&gt;|empty| Halt[Halt SLI-affecting launches]
+  Halt --&gt; Work[Rollback, shed, harden, fix tests]
+  Work --&gt; Recover[Rolling window recovers]
+  Recover --&gt; Normal
+  Halt --&gt;|written override| Record[Record who overrode and why]</code></pre></figure>
+<h2 id="failure-modes">Failure modes</h2>
+<h3 id="a-budget-nobody-can-halt-a-launch-with">A budget nobody can halt a launch with</h3>
+<p>The graph exists. The date also exists. The date wins. Detection is a count of launches during periods of empty or near-empty budget, which you will find in the deploy log plus the budget time series. If that count is not zero, the policy is decorative.</p>
+<p>Mitigation is a pipeline gate that reads the budget, a named override with a ticket, and a monthly public list of overrides. Shame is a terrible control unless it is attached to a gate. The gate is the control. The list is how you see that the SLO is too tight or that a particular director does not believe in it.</p>
+<h3 id="gaming-the-sli-to-refill-the-budget">Gaming the SLI to refill the budget</h3>
+<p>Routes disappear from the SLI. Timeouts are recoded as 200s. "Non-user" traffic is invented. Detection is a change log for the SLI definition, a comparison of excluded traffic over time, and user-reported incidents that did not consume budget.</p>
+<p>Mitigation is to treat SLI definition changes as policy changes: same reviewers, recorded in the same doc, never in a dashboard variable. Synthetics and real-user monitoring that sit outside the team's edit path are a backstop, not the primary.</p>
+<h3 id="uneven-consumption-that-the-average-hides">Uneven consumption that the average hides</h3>
+<p>The month is green because 27 days were perfect and 8 hours were a total outage. The average SLO is met. Users in that window had a 0% experience. Detection is a burn-rate view and a "worst window" statistic, not only the 28-day ratio. Multi-window alerts exist for this.</p>
+<p>Mitigation is to page on fast burn even when the long-window budget still looks healthy, and to count that incident against the policy (action items, maybe a temporary halt) even if the month might still close green. The budget is a planning tool. The fast burn is the user.</p>
+<h3 id="shared-budget-unclear-owner">Shared budget, unclear owner</h3>
+<p>Two teams consume one journey budget. Each thinks the other will halt. Detection is an incident in which both continue to ship, and a RACI that says "shared." Shared is not an owner.</p>
+<p>Mitigation is one named owner per journey SLO, with platform budgets separate. If payments dominates checkout failures, payments is in the halt path for checkout, in writing. Dual ownership is how the budget dies.</p>
+<h2 id="real-world-example">Real-world example</h2>
+<p>Google SRE's error budget is the mechanism that made "100% is the wrong target" operational. Availability SLOs below 100% are explicit: the remainder is the budget. Product management and SRE share that number. When the budget is healthy, the release throttle opens. When it is gone, feature work that can burn the SLI stops until reliability work catches up. The public SRE material is consistent on the cultural point: this only works if both sides agreed to the SLO in advance, and if leadership will back a halt against a launch date.</p>
+<p>The part worth copying is not the 99.99% lore. It is the meeting. A regular review of budget remaining, pages that were incidents, pages that were not, SLO changes, and overrides. Google-scale SRE orgs treat that review as load-bearing as the code review. A company that installs a burn-rate graph and skips the review will still argue from anecdotes. A company that writes the policy, gates the pipeline, and reviews overrides will still have outages. They will not have outages and a simultaneous feature launch into the same SLI because a date was sacred. That is the entire product of the budget.</p>
+<p>When I implement this outside Google, I start with one user journey, one rolling window, one halt rule, and one override path. I do not start with twenty SLOs and a slide. The first halt is the test of the org. If it does not hold, fix the governance before adding more graphs.</p>
+<h2 id="what-to-remember">What to remember</h2>
+<ul><li>The error budget is the unreliability the SLO already allows; spend it on change, do not hoard it as a trophy.</li><li>A policy names the halt, the 50% tighten-up, the override, and the SLI; a dashboard without those sentences is not a budget.</li><li>Measure from the same user SLI as the alerts, and treat SLI edits as policy edits.</li><li>Empty budget stops SLI-affecting launches until the window recovers or a named human overrides in writing.</li></ul>
+<nav class="article-pager" aria-label="Adjacent topics"><a href="../intermediate/i75-alerting-without-fatigue-slo-based-alerts.html">← <span>Alerting Without Fatigue: SLO-Based Alerts</span></a><a class="next" href="../intermediate/i77-incident-management-and-blameless-postmortems.html"><span>Incident Management and Blameless Postmortems</span> →</a></nav>
+      </article>
+    </div>
+  </main>
+
+  <section class="connect" id="contact">
+    <div class="wrap wrap-wide">
+      <div class="section-header"><h2 class="section-title">Let's Connect</h2></div>
+      <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+
+      <div class="social-links">
+        <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a class="social-link" href="https://linkedin.com/in/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-link" href="https://twitter.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:soumya@example.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script src="../../js/reader.js"></script>
+</body>
+</html>
