@@ -11,7 +11,7 @@ from pathlib import Path
 from generate_architecture_pages import connect_section, header
 
 
-TILES = ("cloud", "kubernetes", "ai-ml", "microservices", "devops", "case-study", "learning-path")
+TILES = ("cloud", "kubernetes", "ai-ml", "microservices", "devops", "case-study", "learning-path", "system-design")
 
 
 def import_existing(site: Path, destination: Path) -> None:

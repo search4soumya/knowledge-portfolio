@@ -2,9 +2,10 @@
 
 Static study notes by Soumya Ranjan Panda. The site is plain HTML, CSS, JavaScript, and SVG images. It does not use a framework, a package manager, or a CDN.
 
-The home page has eight topic cards:
+The home page has nine topic cards:
 
 - Architect Design Patterns
+- System Design
 - Cloud Fundamental
 - Kubernetes
 - AI / ML
@@ -16,6 +17,9 @@ The home page has eight topic cards:
 Each card opens a topic overview. Every subtopic is a separate HTML file and is linked from the left-hand navigation.
 
 The Architecture library contains 300 generated HTML essays sourced from the Eidos MDX collection: 100 Basic, 100 Intermediate, and 100 Advanced.
+
+The complete text table of all 300 architecture topics is available at
+`content/architecture-topics.md`, with each row linked to its generated HTML page.
 
 Published site: https://search4soumya.github.io/knowledge-portfolio/
 
@@ -37,6 +41,10 @@ After adding or editing MDX in `Eidos-Design-Pattern/src/content/topics`, run:
 cd C:\Users\spanda\Projects\knowledge-portfolio
 python scripts\generate_architecture_pages.py --source C:\Users\spanda\Projects\Eidos-Design-Pattern\src\content\topics
 ```
+
+The command also keeps the architecture page set current. Regenerate
+`content/architecture-topics.md` from the same source when topic metadata or
+titles change.
 
 This rewrites `site/architecture/index.html` and all files under:
 
@@ -60,7 +68,7 @@ After editing the JSON, regenerate:
 python scripts\generate_tile_pages.py
 ```
 
-This writes one overview and one HTML file per subtopic for Cloud, Kubernetes, AI/ML, Microservices, DevOps, Case Study, and Learning Path.
+This writes one overview and one HTML file per subtopic for Cloud, Kubernetes, AI/ML, Microservices, DevOps, Case Study, Learning Path, and System Design.
 
 Do not edit those generated HTML files directly; the next generator run will replace them.
 

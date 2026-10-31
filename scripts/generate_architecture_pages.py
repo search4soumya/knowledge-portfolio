@@ -429,6 +429,27 @@ def overview_page(topics: list[dict[str, object]]) -> str:
 """
 
 
+def architecture_table(topics: list[dict[str, object]]) -> str:
+    lines = [
+        "# Architecture topics",
+        "",
+        "Complete index of the 300 architecture essays sourced from `Eidos-Design-Pattern/src/content/topics`.",
+        "",
+        "| # | ID | Tier | Category | Topic | Page |",
+        "|---:|:---:|:---|:---|:---|:---|",
+    ]
+    for topic in topics:
+        tier = str(topic["tier"])
+        slug = str(topic["slug"])
+        category = str(topic["category"]).replace("|", "\\|")
+        title = str(topic["title"]).replace("|", "\\|")
+        lines.append(
+            f'| {topic["publishOrder"]} | {topic["id"]} | {TIER_LABELS[tier]} | '
+            f'{category} | {title} | [Read](../site/architecture/{tier}/{slug}.html) |'
+        )
+    return "\n".join(lines) + "\n"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -455,6 +476,9 @@ def main() -> None:
         tier_dir.mkdir(parents=True)
 
     (args.output / "index.html").write_text(overview_page(topics), encoding="utf-8")
+    table_path = args.output.parent.parent / "content" / "architecture-topics.md"
+    table_path.parent.mkdir(parents=True, exist_ok=True)
+    table_path.write_text(architecture_table(topics), encoding="utf-8")
     for index, topic in enumerate(topics):
         previous = topics[index - 1] if index else None
         following = topics[index + 1] if index + 1 < len(topics) else None
