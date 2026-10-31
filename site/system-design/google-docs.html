@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>System Design: Google Docs — Design Principles</title>
-  <meta name="description" content="Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.">
+  <meta name="description" content="Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/system-design/google-docs.html">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
@@ -30,7 +30,7 @@
       <h1>System Design: Google Docs</h1>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
-    <p class="deck">Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.</p>
+    <p class="deck">Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.</p>
     <div class="reader">
 <nav id="toc" class="toc" aria-labelledby="toc-title">
 <p id="toc-title" class="toc-title">Subtopics</p>
@@ -67,18 +67,27 @@
 <a href="yelp-nearby-places.html">Yelp / nearby places</a>
 </nav>
       <article class="note topic-article">
-<h2>What this system teaches</h2>
-          <p>Google Docs is a useful case study because it turns a familiar product into a set of engineering decisions. Start with the user action, identify the data that must survive, and then decide which work can happen later.</p>
-          <ul><li><strong>Real-time collaboration</strong> — merge concurrent edits</li><li><strong>OT vs CRDT</strong> — preserve user intent</li><li><strong>Presence</strong> — show active collaborators</li><li><strong>Version history</strong> — make changes recoverable</li></ul>
-          <h2>How a request moves</h2>
-          <p>A client sends an operation against a document version. The collaboration server orders or transforms operations, broadcasts accepted changes, and stores checkpoints and an operation log. Clients apply remote edits and acknowledge their local ones.</p>
-          <h2>A beginner-friendly design</h2>
-          <p>Use a document session for low-latency coordination and a durable operation log for recovery. Operational Transformation can transform edits against a shared sequence; CRDTs encode convergence into the data model. Presence should be ephemeral and separate from document truth.</p>
-          <h3>Data, scale, and consistency</h3>
-          <p>Keep the first version simple: separate the request path from background work, measure the slowest dependency, and store an identifier that makes retries safe. Add replicas and caches only after the access pattern is visible. Decide which values may be briefly stale and which action must be serialized, such as a payment or seat reservation.</p>
-          <h2>What can go wrong</h2>
-          <p>Clients disconnect, operations arrive late, and large documents make every edit expensive. Use reconnect cursors, snapshots, compaction, operation IDs, and a clear conflict policy for unsupported objects.</p>
-          <div class="callout"><strong>Key takeaway:</strong> Collaboration is a consistency problem: define the merge rule before optimizing the websocket path.</div>
+<h2>What this system is solving</h2>
+          <p>Collaborative editing is a consistency problem. Two people type in the same paragraph and both expect their words to remain. Operational Transformation (OT) rewrites incoming operations against a server order. CRDTs encode merge rules in the data type so replicas converge. Presence cursors are ephemeral. Version history is a snapshot plus a log you can compact.</p>
+          <h2>System blueprint</h2>
+          <figure class="blueprint">
+            <svg class="blueprint-svg" viewBox="0 0 920 408" role="img" aria-label="System blueprint"><rect width="920" height="408" fill="#0a0e17" rx="10"/><text x="18" y="60" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Clients</text><rect x="404.0" y="30.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="61.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Editors</text><text x="18" y="152" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Edge</text><rect x="404.0" y="122.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="153.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Collab socket</text><path d="M502.0 56.0 L502.0 80.0 L502.0 140.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="244" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Services</text><rect x="196.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="294.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">OT / CRDT engine</text><rect x="404.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Presence</text><rect x="612.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="710.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Snapshotter</text><path d="M502.0 148.0 L502.0 172.0 L502.0 232.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="336" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Data</text><rect x="196.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="294.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Op log</text><rect x="404.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Document store</text><rect x="612.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="710.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Versions</text><path d="M294.0 240.0 L294.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M502.0 240.0 L502.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M710.0 240.0 L710.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/></svg>
+            <figcaption>Editors send operations to a collaboration server. The op log is durable. Presence is not.</figcaption>
+          </figure>
+          <p>Pick a merge rule first. The websocket is just the transport for that rule.</p>
+          <h2>Modules in the blueprint</h2>
+          <p>Each box above is a real responsibility. The notes below explain what that module owns, why it exists, and which ideas you should be able to name in an interview or design review.</p>
+          <section class="module-block" id="collab-socket"><h3>1. Collaboration socket</h3><p>This is a sticky session to a document shard so all live editors of a doc meet the same engine. On reconnect the client sends the last operation ID it applied. The socket should not be the database; if it dies, another instance must load the log. Authz is checked here: a viewer cannot submit edits.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Sticky sessions</li><li>Reconnect cursors</li><li>Document sharding</li><li>Edit vs view</li></ul></section><section class="module-block" id="ot-crdt"><h3>2. OT / CRDT engine</h3><p>OT transforms an operation against concurrent ones so the server&#x27;s order still preserves intent. CRDTs give each insert an identity so replicas can merge without a single transformer. Both need operation IDs and a story for undo. Choose one family and keep it; mixing ad hoc string patches will diverge. Large docs may split into blocks to keep transforms cheap.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Operational transformation</li><li>CRDTs</li><li>Intent preservation</li><li>Block sharding</li></ul></section><section class="module-block" id="docs-presence"><h3>3. Presence</h3><p>Cursors and selections expire when a socket goes quiet. They are broadcast but not written into the document history. Storing them durably would explode the version list and lie after a laptop sleeps. Color and name are display metadata on the session, not on the paragraph.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Ephemeral cursors</li><li>Session metadata</li><li>TTL presence</li><li>No history pollution</li></ul></section><section class="module-block" id="snapshots"><h3>4. Snapshotter and version store</h3><p>The op log grows forever unless you checkpoint. A snapshot is a document state at a sequence. Older ops can be compacted after all clients are beyond them. Named versions are user-facing restore points. Compaction must not destroy legal evidence the product promised to keep.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Checkpoints</li><li>Log compaction</li><li>Named versions</li><li>Restore</li></ul></section>
+          <h2>How the modules work together</h2>
+          <p>An editor connects, loads a snapshot plus recent ops, and sends local operations. The engine assigns a sequence (OT) or merges a CRDT state, then broadcasts to others. Presence pings show cursors. Periodically the snapshotter writes a checkpoint so a new client does not replay years of keystrokes. Comments and suggestions are objects with their own IDs so they can ride the same session without breaking the text merge.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Core concepts mapped to modules.</caption>
+              <thead><tr><th>Module</th><th>Core concepts</th></tr></thead>
+              <tbody><tr><td>Collaboration socket</td><td>Sticky sessions, Reconnect cursors, Document sharding, Edit vs view</td></tr><tr><td>OT / CRDT engine</td><td>Operational transformation, CRDTs, Intent preservation, Block sharding</td></tr><tr><td>Presence</td><td>Ephemeral cursors, Session metadata, TTL presence, No history pollution</td></tr><tr><td>Snapshotter and version store</td><td>Checkpoints, Log compaction, Named versions, Restore</td></tr></tbody>
+            </table>
+          </div>
+          <div class="callout"><strong>Key takeaway:</strong> Define how concurrent edits converge, persist an operation log, and keep presence off that log.</div>
 <nav class="article-pager" aria-label="Adjacent subtopics"><a href="tinder.html">← <span>Tinder</span></a><a class="next" href="yelp-nearby-places.html"><span>Yelp / nearby places</span> →</a></nav>
       </article>
     </div>

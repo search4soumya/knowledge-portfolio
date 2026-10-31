@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>System Design: Notification service — Design Principles</title>
-  <meta name="description" content="Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.">
+  <meta name="description" content="Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/system-design/notification-service.html">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
@@ -30,7 +30,7 @@
       <h1>System Design: Notification service</h1>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
-    <p class="deck">Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.</p>
+    <p class="deck">Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.</p>
     <div class="reader">
 <nav id="toc" class="toc" aria-labelledby="toc-title">
 <p id="toc-title" class="toc-title">Subtopics</p>
@@ -67,18 +67,27 @@
 <a href="yelp-nearby-places.html">Yelp / nearby places</a>
 </nav>
       <article class="note topic-article">
-<h2>What this system teaches</h2>
-          <p>Notification service is a useful case study because it turns a familiar product into a set of engineering decisions. Start with the user action, identify the data that must survive, and then decide which work can happen later.</p>
-          <ul><li><strong>Push/email/SMS fan-out</strong> — deliver through many providers</li><li><strong>Retries</strong> — recover temporary failures</li><li><strong>Priority queues</strong> — protect urgent messages</li><li><strong>Preferences</strong> — respect user choice</li></ul>
-          <h2>How a request moves</h2>
-          <p>An application emits a notification intent. A router checks preferences and templates, places channel-specific jobs on queues, and provider workers deliver them. Delivery receipts and failures update an attempt record.</p>
-          <h2>A beginner-friendly design</h2>
-          <p>Separate intent from delivery attempts. Use per-provider queues, exponential backoff with a cap, deduplication keys, and a dead-letter queue. Keep urgent security messages separate from bulk campaigns.</p>
-          <h3>Data, scale, and consistency</h3>
-          <p>Keep the first version simple: separate the request path from background work, measure the slowest dependency, and store an identifier that makes retries safe. Add replicas and caches only after the access pattern is visible. Decide which values may be briefly stale and which action must be serialized, such as a payment or seat reservation.</p>
-          <h2>What can go wrong</h2>
-          <p>Providers throttle or fail, templates can be invalid, and retries can spam users. Enforce user-level frequency limits, classify permanent failures, and make opt-out checks happen close to delivery.</p>
-          <div class="callout"><strong>Key takeaway:</strong> Notification reliability means controlled retries and user respect, not sending the same message forever.</div>
+<h2>What this system is solving</h2>
+          <p>Notifications look like &#x27;send a message,&#x27; but the system is a router across push, email, and SMS with preferences, priority, and limited retries. The product emits an intent. Channel workers talk to vendors. A user who opted out of marketing must still receive a security code. Those are different pipelines, not a boolean.</p>
+          <h2>System blueprint</h2>
+          <figure class="blueprint">
+            <svg class="blueprint-svg" viewBox="0 0 920 408" role="img" aria-label="System blueprint"><rect width="920" height="408" fill="#0a0e17" rx="10"/><text x="18" y="60" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Clients</text><rect x="404.0" y="30.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="61.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Product services</text><text x="18" y="152" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Edge</text><rect x="404.0" y="122.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="153.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Notify API</text><path d="M502.0 56.0 L502.0 80.0 L502.0 140.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="244" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Services</text><rect x="196.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="294.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Router</text><rect x="404.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Templates</text><rect x="612.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="710.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Channel workers</text><path d="M502.0 148.0 L502.0 172.0 L502.0 232.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="336" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Data</text><rect x="196.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="294.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Preferences</text><rect x="404.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Attempt log</text><rect x="612.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="710.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Provider queues</text><path d="M294.0 240.0 L294.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M502.0 240.0 L502.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M710.0 240.0 L710.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/></svg>
+            <figcaption>Intents enter a router. Per-channel queues isolate slow vendors. Attempts are recorded so retries stay honest.</figcaption>
+          </figure>
+          <p>A notification is not sent until preferences, templates, and idempotency keys say it should be. Vendors fail; your attempt log is the memory.</p>
+          <h2>Modules in the blueprint</h2>
+          <p>Each box above is a real responsibility. The notes below explain what that module owns, why it exists, and which ideas you should be able to name in an interview or design review.</p>
+          <section class="module-block" id="notify-router"><h3>1. Notify API and router</h3><p>The API accepts an intent, not a raw vendor payload. The router chooses channels, drops opted-out marketing, and enforces a dedup key so a retried order event does not SMS twice. Priority selects a queue. This is also where you reject unknown templates before they become poison pills in workers.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Intent vs send</li><li>Dedup keys</li><li>Preference checks</li><li>Priority queues</li></ul></section><section class="module-block" id="templates"><h3>2. Templates</h3><p>Templates keep copy and layout out of every microservice. They need versioning, locale, and a strict variable schema so a missing name cannot produce &#x27;Hello {user}&#x27;. Render here, not in each worker, so email and push stay consistent. Preview in staging is part of safety.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Versioned templates</li><li>Locales</li><li>Strict variables</li><li>Preview</li></ul></section><section class="module-block" id="channel-workers"><h3>3. Channel workers</h3><p>One worker pool per vendor isolates timeouts. SMS outages should not block push. Workers record provider message IDs. Retries use exponential backoff and a maximum. Permanent errors such as invalid number go to a suppression list. Rate-limit yourself to stay under vendor caps.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Per-vendor isolation</li><li>Backoff</li><li>Suppression lists</li><li>Vendor rate caps</li></ul></section><section class="module-block" id="prefs-attempts"><h3>4. Preferences and attempt log</h3><p>Preferences are the user&#x27;s contract. Attempt logs are yours: what you tried, when, and why it stopped. They power support and compliance. Retention should be long enough to debug and short enough to respect privacy. Do not use the attempt log as a marketing analytics warehouse without a plan.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Opt-in / opt-out</li><li>Audit of sends</li><li>Retention</li><li>Support traces</li></ul></section>
+          <h2>How the modules work together</h2>
+          <p>A service posts an intent: user, template, priority, dedup key. The router checks preferences and quiet hours, renders a template, and enqueues one or more channel jobs. Workers call vendors and record attempts. Temporary failures retry with backoff; permanent failures stop. Security messages use a separate queue so a marketing blast cannot starve them. The original service can poll or subscribe to delivery state if it must.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Core concepts mapped to modules.</caption>
+              <thead><tr><th>Module</th><th>Core concepts</th></tr></thead>
+              <tbody><tr><td>Notify API and router</td><td>Intent vs send, Dedup keys, Preference checks, Priority queues</td></tr><tr><td>Templates</td><td>Versioned templates, Locales, Strict variables, Preview</td></tr><tr><td>Channel workers</td><td>Per-vendor isolation, Backoff, Suppression lists, Vendor rate caps</td></tr><tr><td>Preferences and attempt log</td><td>Opt-in / opt-out, Audit of sends, Retention, Support traces</td></tr></tbody>
+            </table>
+          </div>
+          <div class="callout"><strong>Key takeaway:</strong> Separate intent from delivery, isolate vendors, and let priority plus preferences decide whether a retry is respectful.</div>
 <nav class="article-pager" aria-label="Adjacent subtopics"><a href="payment-system-stripe.html">← <span>Payment system (Stripe)</span></a><a class="next" href="distributed-message-queue-kafka.html"><span>Distributed message queue (Kafka)</span> →</a></nav>
       </article>
     </div>

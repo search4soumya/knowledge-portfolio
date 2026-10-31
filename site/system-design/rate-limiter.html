@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>System Design: Rate limiter — Design Principles</title>
-  <meta name="description" content="Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.">
+  <meta name="description" content="Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/system-design/rate-limiter.html">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
@@ -30,7 +30,7 @@
       <h1>System Design: Rate limiter</h1>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
-    <p class="deck">Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.</p>
+    <p class="deck">Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.</p>
     <div class="reader">
 <nav id="toc" class="toc" aria-labelledby="toc-title">
 <p id="toc-title" class="toc-title">Subtopics</p>
@@ -67,18 +67,27 @@
 <a href="yelp-nearby-places.html">Yelp / nearby places</a>
 </nav>
       <article class="note topic-article">
-<h2>What this system teaches</h2>
-          <p>Rate limiter is a useful case study because it turns a familiar product into a set of engineering decisions. Start with the user action, identify the data that must survive, and then decide which work can happen later.</p>
-          <ul><li><strong>Token bucket</strong> — allow bursts within a budget</li><li><strong>Sliding window</strong> — measure recent request volume</li><li><strong>Distributed counters</strong> — coordinate many gateways</li><li><strong>Fairness</strong> — protect tenants from each other</li></ul>
-          <h2>How a request moves</h2>
-          <p>A gateway identifies a caller and asks a limiter for a decision before forwarding the request. The limiter updates a counter or token balance with an atomic operation and returns allow or retry-later. Metrics record both accepted and rejected traffic.</p>
-          <h2>A beginner-friendly design</h2>
-          <p>Choose the algorithm from the product rule. Store small per-key state in a fast replicated store, use server-side time, and define what happens when the limiter store is unavailable. Add separate limits for IP, user, API key, and expensive operations.</p>
-          <h3>Data, scale, and consistency</h3>
-          <p>Keep the first version simple: separate the request path from background work, measure the slowest dependency, and store an identifier that makes retries safe. Add replicas and caches only after the access pattern is visible. Decide which values may be briefly stale and which action must be serialized, such as a payment or seat reservation.</p>
-          <h2>What can go wrong</h2>
-          <p>Clock differences, hot keys, fail-open decisions, and retry storms can defeat a limiter. Use atomic scripts or compare-and-set, bounded TTLs, jittered retry-after values, and a documented emergency policy.</p>
-          <div class="callout"><strong>Key takeaway:</strong> A limiter is a policy with state; correctness depends on identity, time, atomicity, and failure behavior.</div>
+<h2>What this system is solving</h2>
+          <p>A rate limiter is a policy engine in front of expensive work. It answers whether this caller may proceed now. The algorithm you pick encodes the product rule: token bucket allows bursts, sliding window smooths traffic, fixed window is simple and slightly unfair at boundaries. In a fleet of gateways the hard part is shared state and failure policy.</p>
+          <h2>System blueprint</h2>
+          <figure class="blueprint">
+            <svg class="blueprint-svg" viewBox="0 0 920 408" role="img" aria-label="System blueprint"><rect width="920" height="408" fill="#0a0e17" rx="10"/><text x="18" y="60" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Clients</text><rect x="404.0" y="30.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="61.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Any caller</text><text x="18" y="152" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Edge</text><rect x="404.0" y="122.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="153.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">API gateway</text><path d="M502.0 56.0 L502.0 80.0 L502.0 140.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="244" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Services</text><rect x="196.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="294.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Identity</text><rect x="404.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Limiter decision</text><rect x="612.0" y="214.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="710.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Metrics</text><path d="M502.0 148.0 L502.0 172.0 L502.0 232.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="336" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Data</text><rect x="300.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="398.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Counter store</text><rect x="508.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="606.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Policy config</text><path d="M294.0 240.0 L294.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M502.0 240.0 L502.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M710.0 240.0 L710.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/></svg>
+            <figcaption>Every request is identified, then decided against a small shared counter store before the API runs.</figcaption>
+          </figure>
+          <p>If the limiter store is down you must choose fail-open or fail-closed. That choice is part of the design, not an afterthought.</p>
+          <h2>Modules in the blueprint</h2>
+          <p>Each box above is a real responsibility. The notes below explain what that module owns, why it exists, and which ideas you should be able to name in an interview or design review.</p>
+          <section class="module-block" id="limiter-identity"><h3>1. Identity</h3><p>Limits are meaningless if the key is wrong. Anonymous traffic uses IP and TLS fingerprints with care; authenticated traffic uses the user or API key. Expensive routes get their own key suffix so a cheap health check does not share budget with an export job. Identity must be cheap; a limiter that calls a remote user service on every request becomes the outage.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Caller keys</li><li>Route-specific budgets</li><li>Cheap identification</li><li>Multi-tenant fairness</li></ul></section><section class="module-block" id="limiter-decision"><h3>2. Limiter decision</h3><p>This module implements the algorithm. Token bucket stores a balance and a last refill time. Sliding window stores counts in time slots. The update must be atomic across gateways, usually with Redis-style scripts or compare-and-set. Return a retry-after with jitter so rejected clients do not retry in lockstep. Document what happens when this module cannot reach the store.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Token bucket</li><li>Sliding window</li><li>Atomic counters</li><li>Jittered retry-after</li></ul></section><section class="module-block" id="limiter-policy"><h3>3. Policy config</h3><p>Policies change without a redeploy: 100 requests per minute for free users, 10 per second for search, a temporary ban. Store them in a small config with versions. Operators need an emergency switch. Keep the number of policies small enough that every request does not evaluate a novel.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Versioned policies</li><li>Emergency kill switch</li><li>Per-tier limits</li><li>Composable rules</li></ul></section><section class="module-block" id="limiter-data"><h3>4. Counter store and metrics</h3><p>State is tiny and extremely hot. Use memory-speed storage with replication and short TTLs so dead keys vanish. Metrics should show reject rate by key class, not only totals, or you will miss a single abusive tenant. Do not log every decision at full cardinality; sample.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Distributed counters</li><li>Hot-key storage</li><li>TTL hygiene</li><li>Reject metrics</li></ul></section>
+          <h2>How the modules work together</h2>
+          <p>The gateway extracts a key such as user, API token, or IP. The decision module reads policy, performs an atomic increment or token consume, and returns allow or retry-after. Metrics record both results. The application runs only on allow. Policies can stack: a global IP limit and a tighter limit on the search endpoint. Clock sources must be server-side so clients cannot reset their budget.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Core concepts mapped to modules.</caption>
+              <thead><tr><th>Module</th><th>Core concepts</th></tr></thead>
+              <tbody><tr><td>Identity</td><td>Caller keys, Route-specific budgets, Cheap identification, Multi-tenant fairness</td></tr><tr><td>Limiter decision</td><td>Token bucket, Sliding window, Atomic counters, Jittered retry-after</td></tr><tr><td>Policy config</td><td>Versioned policies, Emergency kill switch, Per-tier limits, Composable rules</td></tr><tr><td>Counter store and metrics</td><td>Distributed counters, Hot-key storage, TTL hygiene, Reject metrics</td></tr></tbody>
+            </table>
+          </div>
+          <div class="callout"><strong>Key takeaway:</strong> A limiter is identity plus atomic state plus an explicit outage policy.</div>
 <nav class="article-pager" aria-label="Adjacent subtopics"><a href="pastebin.html">← <span>Pastebin</span></a><a class="next" href="ticketmaster-bookmyshow.html"><span>Ticketmaster / BookMyShow</span> →</a></nav>
       </article>
     </div>

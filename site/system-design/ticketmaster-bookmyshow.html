@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>System Design: Ticketmaster / BookMyShow — Design Principles</title>
-  <meta name="description" content="Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.">
+  <meta name="description" content="Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/system-design/ticketmaster-bookmyshow.html">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
@@ -30,7 +30,7 @@
       <h1>System Design: Ticketmaster / BookMyShow</h1>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
-    <p class="deck">Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.</p>
+    <p class="deck">Beginner-friendly case studies. Each page has a blueprint of the internal modules, an explanation of what every module owns, and the core concepts that module uses.</p>
     <div class="reader">
 <nav id="toc" class="toc" aria-labelledby="toc-title">
 <p id="toc-title" class="toc-title">Subtopics</p>
@@ -67,18 +67,27 @@
 <a href="yelp-nearby-places.html">Yelp / nearby places</a>
 </nav>
       <article class="note topic-article">
-<h2>What this system teaches</h2>
-          <p>Ticketmaster / BookMyShow is a useful case study because it turns a familiar product into a set of engineering decisions. Start with the user action, identify the data that must survive, and then decide which work can happen later.</p>
-          <ul><li><strong>Seat locking</strong> — reserve temporarily</li><li><strong>Concurrency</strong> — prevent double booking</li><li><strong>Flash-sale load</strong> — handle sudden demand</li><li><strong>Queues</strong> — control admission</li></ul>
-          <h2>How a request moves</h2>
-          <p>A user enters a waiting room, selects seats, and creates a short lease. The booking service atomically changes available seats to held, collects payment, and commits the order. An expiry worker releases abandoned holds.</p>
-          <h2>A beginner-friendly design</h2>
-          <p>Keep the seat inventory as the transactional authority. Use a database constraint or conditional update so only one hold succeeds. Put users behind an admission queue and make payment callbacks idempotent. Do not trust the browser to own a seat.</p>
-          <h3>Data, scale, and consistency</h3>
-          <p>Keep the first version simple: separate the request path from background work, measure the slowest dependency, and store an identifier that makes retries safe. Add replicas and caches only after the access pattern is visible. Decide which values may be briefly stale and which action must be serialized, such as a payment or seat reservation.</p>
-          <h2>What can go wrong</h2>
-          <p>A payment can succeed while the browser times out, a hold can expire during payment, and a flash sale can overload every layer. Use idempotency keys, a durable order state machine, bounded hold windows, and queue backpressure.</p>
-          <div class="callout"><strong>Key takeaway:</strong> Scarce inventory requires serialized state transitions; queues protect the system before the database becomes the bottleneck.</div>
+<h2>What this system is solving</h2>
+          <p>Ticketing is inventory under a flash sale. Many people want the same seats at the same instant. The browser cannot own a seat. A hold is a short lease in a transactional inventory service, and payment is a later step that must not create a second sale if the client retries. An admission queue protects the database from becoming the waiting room.</p>
+          <h2>System blueprint</h2>
+          <figure class="blueprint">
+            <svg class="blueprint-svg" viewBox="0 0 920 408" role="img" aria-label="System blueprint"><rect width="920" height="408" fill="#0a0e17" rx="10"/><text x="18" y="60" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Clients</text><rect x="404.0" y="30.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="61.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Browser</text><text x="18" y="152" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Edge</text><rect x="404.0" y="122.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="153.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Waiting room</text><path d="M502.0 56.0 L502.0 80.0 L502.0 140.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="244" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Services</text><rect x="108.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="202.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Inventory</text><rect x="308.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="402.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Seat lock</text><rect x="508.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="602.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Payment</text><rect x="708.0" y="214.0" width="188.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="802.0" y="245.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Order service</text><path d="M502.0 148.0 L502.0 172.0 L502.0 232.0" fill="none" stroke="#64748b" stroke-width="1.1"/><text x="18" y="336" fill="#f59e0b" font-size="12" font-family="Consolas, monospace">Data</text><rect x="196.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="294.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Seat map</text><rect x="404.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="502.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Hold table</text><rect x="612.0" y="306.0" width="196.0" height="52" rx="8" fill="#1a2234" stroke="#10b981" stroke-width="1.4"/><text x="710.0" y="337.0" text-anchor="middle" fill="#f8fafc" font-size="11" font-family="Segoe UI, sans-serif">Orders</text><path d="M202.0 240.0 L202.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M402.0 240.0 L402.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M602.0 240.0 L602.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/><path d="M802.0 240.0 L802.0 264.0 L502.0 324.0" fill="none" stroke="#64748b" stroke-width="1.1"/></svg>
+            <figcaption>People wait in an admission queue. Seats move from available to held to sold in one inventory authority.</figcaption>
+          </figure>
+          <p>If two checkouts can both mark seat A12 sold, the rest of the architecture does not matter. Start from a unique constraint or conditional update on the seat.</p>
+          <h2>Modules in the blueprint</h2>
+          <p>Each box above is a real responsibility. The notes below explain what that module owns, why it exists, and which ideas you should be able to name in an interview or design review.</p>
+          <section class="module-block" id="waiting-room"><h3>1. Waiting room</h3><p>This is load management, not shopping. It issues a signed token when a browser may enter checkout. The release rate matches inventory and payment capacity. Without it, you scale the storefront into a self-inflicted outage. The waiting room should be simple and separately scalable: it does not browse every seat map.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Admission control</li><li>Signed entry tokens</li><li>Release rate</li><li>Flash-sale shedding</li></ul></section><section class="module-block" id="seat-lock"><h3>2. Inventory and seat lock</h3><p>Each seat has a state: available, held, sold. A hold writes who owns it and when it expires. The write uses a condition so only one holder wins. Holds are short because abandoned browsers are common. Extending a hold is an explicit call, not an infinite reservation. Seat maps can be cached for display, but the lock always goes to the authority.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Conditional updates</li><li>Short leases</li><li>Cached map, authoritative lock</li><li>Expiry workers</li></ul></section><section class="module-block" id="ticketing-payment"><h3>3. Payment and order service</h3><p>Payment is slow and retries. The order record must survive a double callback. Convert hold to sold only after the processor confirms, and store the processor reference. The user-visible confirmation is derived from order state, not from the last browser response. This is a small saga: hold, charge, sell, or compensate.</p><p class="module-concepts-label">Core concepts in this module</p><ul class="concept-list"><li>Idempotent payment</li><li>Order state machine</li><li>Compensation</li><li>Webhook races</li></ul></section>
+          <h2>How the modules work together</h2>
+          <p>Users receive a place in the waiting room and are admitted at a rate the core can handle. Selecting seats creates a hold with an expiry. Payment uses an idempotency key. On success the order service converts the hold to sold. A sweeper releases expired holds. If payment succeeds after the hold expired, reconciliation must either restore the seat sale or refund; it must not silently drop the money.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Core concepts mapped to modules.</caption>
+              <thead><tr><th>Module</th><th>Core concepts</th></tr></thead>
+              <tbody><tr><td>Waiting room</td><td>Admission control, Signed entry tokens, Release rate, Flash-sale shedding</td></tr><tr><td>Inventory and seat lock</td><td>Conditional updates, Short leases, Cached map, authoritative lock, Expiry workers</td></tr><tr><td>Payment and order service</td><td>Idempotent payment, Order state machine, Compensation, Webhook races</td></tr></tbody>
+            </table>
+          </div>
+          <div class="callout"><strong>Key takeaway:</strong> Serialize seat state, and put a queue in front of that serializer when demand spikes.</div>
 <nav class="article-pager" aria-label="Adjacent subtopics"><a href="rate-limiter.html">← <span>Rate limiter</span></a><a class="next" href="airbnb.html"><span>Airbnb</span> →</a></nav>
       </article>
     </div>
