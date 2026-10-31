@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kubernetes — Knowledge Portfolio</title>
-  <meta name="description" content="Notes on Kubernetes pods, workloads, networking, configuration, and day-2 operations.">
+  <meta name="description" content="Kubernetes keeps a cluster moving toward the state you declared. These notes cover the objects you actually write, and the habits that make a cluster operable.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/kubernetes/">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
-  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body data-topic="kubernetes">
   <a class="skip" href="#main">Skip to content</a>
+
   <header class="site-header">
     <div class="wrap wrap-wide header-inner">
       <a class="brand" href="../index.html">
@@ -28,120 +28,33 @@
     <p class="kicker">03 · Notes</p>
     <div class="title-row">
       <h1>Kubernetes</h1>
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Sections</button>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
     <p class="deck">Kubernetes keeps a cluster moving toward the state you declared. These notes cover the objects you actually write, and the habits that make a cluster operable.</p>
-    <noscript><p class="noscript">Section links jump down the page. With JavaScript off, every section is shown together.</p></noscript>
     <div class="reader">
-      <!-- Add a subsection: a link here, and a section with the same id inside #notes. -->
-      <nav id="toc" class="toc" aria-labelledby="toc-title">
-        <p id="toc-title" class="toc-title">Sections</p>
-        <a href="#picture">The cluster picture</a>
-        <a href="#pods">Pods</a>
-        <a href="#workloads">Workloads</a>
-        <a href="#networking">Services and traffic</a>
-        <a href="#configuration">Configuration</a>
-        <a href="#operations">Day-2 operations</a>
-      </nav>
-      <div id="notes" class="note">
-        <section id="picture" data-section class="is-active">
-          <h2>The cluster picture</h2>
-          <p>A Kubernetes cluster has a control plane and a set of worker nodes. You submit a desired state, usually as YAML: "three copies of this container, reachable under this name." Controllers watch the current state and try to close the gap. That loop is the product. SSH into a node is a debugging tool, not the way you make a change stick.</p>
-          <p>The API server is the front door. <code>etcd</code> stores the cluster data. Schedulers place pods onto nodes that have room. Kubelets on each node start the containers the scheduler assigned. You can run this yourself, or you can use a managed control plane and still own the workloads, the identity, and the network policy.</p>
-          <div class="callout">If a change is not in the manifest that Git holds, the next reconcile can erase it. The cluster is a mirror. The repository is the source.</div>
-          <h3>Labels are the join key</h3>
-          <p>Kubernetes does not wire objects by memory address. A Service selects pods by labels. A network rule selects pods by labels. Spend the time to make labels boring and consistent: application, component, environment. A typo in a selector looks like "the app is down" when the app is running and invisible.</p>
-        </section>
-        <section id="pods" data-section>
-          <h2>Pods</h2>
-          <p>A pod is the smallest thing you deploy. It is one or more containers that share a network namespace, which means they share <code>localhost</code>, and they can share volumes. Containers in a pod are started, scheduled, and die together. Most pods hold one application container. A second container is justified when it must share the pod's files or network: a proxy sidecar, or a helper that refreshes a certificate into a shared volume.</p>
-          <p>Pods are ephemeral. The disk inside the container goes away with the pod unless you mounted a volume. The pod IP changes when the pod is replaced. Callers should use a Service name, not a pod IP they happened to see.</p>
-          <h3>Probes</h3>
-          <ul>
-            <li><strong>Startup</strong> tells the kubelet the process is still booting, so a slow start is not mistaken for a deadlock.</li>
-            <li><strong>Readiness</strong> tells the Service whether this pod should receive traffic. Fail it when a dependency you need is down.</li>
-            <li><strong>Liveness</strong> restarts the container. Use it for a stuck process. Do not use it for a downed database, or the cluster will restart healthy code in a loop.</li>
-          </ul>
-          <h3>Requests and limits</h3>
-          <p>A CPU or memory <em>request</em> is what the scheduler reserves. A <em>limit</em> is what the container is allowed to use. Without requests, the scheduler can pack a node until everything is slow. A memory limit that is too low kills the process. Set requests from a measurement, not from a guess you copy between services.</p>
-        </section>
-        <section id="workloads" data-section>
-          <h2>Workloads</h2>
-          <p>You rarely create pods by hand. A workload controller creates them and replaces them when they disappear.</p>
-          <div class="table-wrap">
-            <table>
-              <caption>Choose the controller from identity and lifetime, not from habit.</caption>
-              <thead>
-                <tr><th>Controller</th><th>Use when</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Deployment</td><td>You want N interchangeable copies. A rolling update replaces them. This is the default for stateless HTTP services.</td></tr>
-                <tr><td>StatefulSet</td><td>Each replica needs a stable name, ordered startup, or its own disk. Databases and queues often land here, and they still need care that a YAML file does not supply.</td></tr>
-                <tr><td>DaemonSet</td><td>Every node (or a selected set) should run one copy: log collectors, network agents.</td></tr>
-                <tr><td>Job</td><td>The work should run to completion, then stop.</td></tr>
-                <tr><td>CronJob</td><td>The work should run on a schedule. Make the task safe to run twice, because a retry will.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p>A Deployment owns a ReplicaSet, which owns the pods. Roll back the Deployment, not a single pod. Deleting a pod is a restart. It is not a rollback, and it is not a fix for a bad image.</p>
-          <div class="callout">Horizontal scaling adds pods. It only helps when one request does not need more resources than a single pod has, and when sessions are not trapped on one copy.</div>
-        </section>
-        <section id="networking" data-section>
-          <h2>Services and traffic</h2>
-          <p>Every pod can reach every other pod by IP, across nodes. That flat network is convenient and it is also a wide default. Treat it as a starting point, then restrict it when the cluster holds more than one trust level.</p>
-          <div class="table-wrap">
-            <table>
-              <caption>A Service gives a stable name to a changing set of pods.</caption>
-              <thead>
-                <tr><th>Type</th><th>Who can use it</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>ClusterIP</td><td>Other workloads inside the cluster. This is the normal choice.</td></tr>
-                <tr><td>NodePort</td><td>A port on every node. Useful for demos and odd network setups, noisy as a public design.</td></tr>
-                <tr><td>LoadBalancer</td><td>An external load balancer from the platform, with its own address.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p>HTTP routing sits above Services. An Ingress, or a Gateway, maps host names and paths to Services and often terminates TLS. The controller behind that object is a separate install. The Ingress resource does nothing until a controller is watching it.</p>
-          <p>Cluster DNS resolves Service names. Prefer <code>name.namespace.svc.cluster.local</code> in documentation, and the short name <code>name</code> only from callers in the same namespace. Cross-namespace calls should be explicit so a rename is visible.</p>
-          <div class="callout">NetworkPolicy is a lock you add once you know the allowed paths. An empty policy that selects nothing protects nothing. A policy that selects pods and lists no ingress denies them.</div>
-        </section>
-        <section id="configuration" data-section>
-          <h2>Configuration</h2>
-          <p>Keep configuration out of the image. The same image should run in a test namespace and in production, with different config. Bake the build identity into the image. Inject the environment at deploy time.</p>
-          <ul>
-            <li><strong>ConfigMap</strong> holds plain settings: feature flags, addresses, small files. It is not secret, and it is not a place for a large binary.</li>
-            <li><strong>Secret</strong> holds credentials and keys. The value is base64-encoded in the API, which is encoding, not encryption. Encryption at rest is a cluster setting. Anyone who can read Secrets in the namespace can use them.</li>
-            <li>Environment variables are easy and frozen at process start. Mounted files can be updated without a restart if the application re-reads them. Pick the one the process actually supports.</li>
-          </ul>
-          <p>Do not store live Secrets in a public Git repository. A common pattern is to commit encrypted or referenced secrets, and let a controller materialize the Kubernetes Secret in the cluster. The manifest you review should not contain the raw password.</p>
-          <div class="callout">A ConfigMap change does not restart pods by itself. If the process only reads the environment at startup, roll the workload or the new value will sit unused.</div>
-        </section>
-        <section id="operations" data-section>
-          <h2>Day-2 operations</h2>
-          <p>The first deploy is the easy day. The cluster earns its cost on the days a node disappears, a rollout sticks, or a namespace runs out of memory.</p>
-          <h3>Rollouts</h3>
-          <p>A rolling update starts new pods before, or as, it stops old ones, depending on the surge and unavailable settings. Readiness must go green only when the new pod can serve. If readiness is always true, the rollout will happily replace a working version with a broken one. Keep the previous ReplicaSet so rollback is a declared change, not a scavenger hunt.</p>
-          <h3>Namespaces and quotas</h3>
-          <p>A namespace is a folder for names and a boundary for policy. It is not a strong security boundary by itself, but it is where you attach resource quotas, default limits, and who may deploy. Production and development on one cluster should at least be separate namespaces, with separate permissions. Many teams use separate clusters once the blast radius matters more than the extra cost.</p>
-          <h3>What to look at</h3>
-          <ul>
-            <li>Events and pod status explain scheduling and crash loops.</li>
-            <li>Logs explain the process. Ship them off the node, because the node will be replaced.</li>
-            <li>Metrics explain saturation: CPU throttling, memory approaching the limit, restart counts.</li>
-            <li>A request id that crosses services explains a single failure better than a dashboard of averages.</li>
-          </ul>
-          <div class="callout"><code>kubectl</code> is a window onto the API. Changes made only there will drift. Prefer a pull request that changes the manifest, then watch the controllers catch up.</div>
-        </section>
-      </div>
+<nav id="toc" class="toc" aria-labelledby="toc-title">
+<p id="toc-title" class="toc-title">Subtopics</p>
+<a href="index.html" aria-current="page">Overview</a>
+<a href="picture.html">The cluster picture</a>
+<a href="pods.html">Pods</a>
+<a href="workloads.html">Workloads</a>
+<a href="networking.html">Services and traffic</a>
+<a href="configuration.html">Configuration</a>
+<a href="operations.html">Day-2 operations</a>
+</nav>
+      <article class="note topic-article topic-overview">
+        <h2>Kubernetes subtopics</h2>
+        <p>Each subtopic is a separate HTML page. Choose one from this list or from the left navigation.</p>
+        <ol class="subtopic-list"><li><a href="picture.html"><strong>The cluster picture</strong><span>Open this note →</span></a></li><li><a href="pods.html"><strong>Pods</strong><span>Open this note →</span></a></li><li><a href="workloads.html"><strong>Workloads</strong><span>Open this note →</span></a></li><li><a href="networking.html"><strong>Services and traffic</strong><span>Open this note →</span></a></li><li><a href="configuration.html"><strong>Configuration</strong><span>Open this note →</span></a></li><li><a href="operations.html"><strong>Day-2 operations</strong><span>Open this note →</span></a></li></ol>
+      </article>
     </div>
   </main>
+
   <section class="connect" id="contact">
     <div class="wrap wrap-wide">
-      <div class="section-header">
-        <h2 class="section-title">Let's Connect</h2>
-      </div>
+      <div class="section-header"><h2 class="section-title">Let's Connect</h2></div>
       <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+
       <div class="social-links">
         <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>

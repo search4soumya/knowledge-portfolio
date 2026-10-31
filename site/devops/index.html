@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DevOps — Knowledge Portfolio</title>
-  <meta name="description" content="Notes on build, release, environments, and operating a change after it ships.">
+  <meta name="description" content="DevOps is the habit of shipping a small change and knowing, quickly, whether it helped. These notes follow that loop from source to the running system.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/devops/">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
-  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body data-topic="devops">
   <a class="skip" href="#main">Skip to content</a>
+
   <header class="site-header">
     <div class="wrap wrap-wide header-inner">
       <a class="brand" href="../index.html">
@@ -28,59 +28,32 @@
     <p class="kicker">06 · Notes</p>
     <div class="title-row">
       <h1>DevOps</h1>
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Sections</button>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
     <p class="deck">DevOps is the habit of shipping a small change and knowing, quickly, whether it helped. These notes follow that loop from source to the running system.</p>
-    <noscript><p class="noscript">Section links jump down the page. With JavaScript off, every section is shown together.</p></noscript>
     <div class="reader">
-      <!-- Add a subsection: a link here, and a section with the same id inside #notes. -->
-      <nav id="toc" class="toc" aria-labelledby="toc-title">
-        <p id="toc-title" class="toc-title">Sections</p>
-        <a href="#loop">The loop</a>
-        <a href="#build">Build</a>
-        <a href="#pipeline">Pipeline</a>
-        <a href="#environments">Environments</a>
-        <a href="#operate">After release</a>
-      </nav>
-      <div id="notes" class="note">
-        <section id="loop" data-section class="is-active">
-          <h2>The loop</h2>
-          <p>A change is not done when the code is merged. It is done when it is running, observed, and reversible. The same people who write the change should be able to see it fail and roll it back.</p>
-          <p>Small batches make that possible. A release that contains a month of work hides the cause. A release that contains one change tells you where to look.</p>
-        </section>
-        <section id="build" data-section>
-          <h2>Build</h2>
-          <p>The build should be repeatable. Same source, same result. Pin the dependencies. Do not compile on a laptop and copy the artifact by hand.</p>
-          <ul>
-            <li>One artifact, promoted through environments. Do not rebuild with different flags for production.</li>
-            <li>Tests that must pass before the artifact exists: unit checks, and a small set of contract checks.</li>
-            <li>A version you can point at: a commit id on the artifact and in the running process.</li>
-          </ul>
-        </section>
-        <section id="pipeline" data-section>
-          <h2>Pipeline</h2>
-          <p>The pipeline is the only path to production. If someone can still shell in and patch a server, the pipeline is a suggestion. Steps should be visible: build, test, publish, deploy, and a check that the new version is serving.</p>
-          <div class="callout">A green pipeline that never looks at the running system will ship a process that starts and then fails its first request.</div>
-        </section>
-        <section id="environments" data-section>
-          <h2>Environments</h2>
-          <p>Development, a shared test environment, and production should differ by configuration, not by a mystery set of manual steps. Secrets stay out of the repository. Data in test is either synthetic or carefully reduced. Production data does not travel to a laptop.</p>
-          <p>Name who is allowed to deploy where. Production is a smaller group, and the action is still a recorded change, not a private click.</p>
-        </section>
-        <section id="operate" data-section>
-          <h2>After release</h2>
-          <p>Watch the new version, not only the cluster. Error rate, latency, and a business signal such as completed checkouts. Keep the previous version ready so rollback is a deploy, not a reconstruction.</p>
-          <p>Write down what you learned when a release hurts. The next pipeline check should catch that class of mistake. An incident that only lives in chat will happen again.</p>
-        </section>
-      </div>
+<nav id="toc" class="toc" aria-labelledby="toc-title">
+<p id="toc-title" class="toc-title">Subtopics</p>
+<a href="index.html" aria-current="page">Overview</a>
+<a href="loop.html">The loop</a>
+<a href="build.html">Build</a>
+<a href="pipeline.html">Pipeline</a>
+<a href="environments.html">Environments</a>
+<a href="operate.html">After release</a>
+</nav>
+      <article class="note topic-article topic-overview">
+        <h2>DevOps subtopics</h2>
+        <p>Each subtopic is a separate HTML page. Choose one from this list or from the left navigation.</p>
+        <ol class="subtopic-list"><li><a href="loop.html"><strong>The loop</strong><span>Open this note →</span></a></li><li><a href="build.html"><strong>Build</strong><span>Open this note →</span></a></li><li><a href="pipeline.html"><strong>Pipeline</strong><span>Open this note →</span></a></li><li><a href="environments.html"><strong>Environments</strong><span>Open this note →</span></a></li><li><a href="operate.html"><strong>After release</strong><span>Open this note →</span></a></li></ol>
+      </article>
     </div>
   </main>
+
   <section class="connect" id="contact">
     <div class="wrap wrap-wide">
-      <div class="section-header">
-        <h2 class="section-title">Let's Connect</h2>
-      </div>
+      <div class="section-header"><h2 class="section-title">Let's Connect</h2></div>
       <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+
       <div class="social-links">
         <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>

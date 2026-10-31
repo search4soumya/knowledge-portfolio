@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cloud Fundamental — Knowledge Portfolio</title>
-  <meta name="description" content="Notes on cloud regions, compute, storage, networking, identity, and shared responsibility.">
+  <meta name="description" content="Platform names change. The parts do not: a place to run, a place to store, a network, an identity, and a bill. These notes stay on that shared model.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/cloud/">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/styles.css">
-  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body data-topic="cloud">
   <a class="skip" href="#main">Skip to content</a>
+
   <header class="site-header">
     <div class="wrap wrap-wide header-inner">
       <a class="brand" href="../index.html">
@@ -28,120 +28,33 @@
     <p class="kicker">02 · Notes</p>
     <div class="title-row">
       <h1>Cloud Fundamental</h1>
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Sections</button>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
     </div>
     <p class="deck">Platform names change. The parts do not: a place to run, a place to store, a network, an identity, and a bill. These notes stay on that shared model.</p>
-    <noscript><p class="noscript">Section links jump down the page. With JavaScript off, every section is shown together.</p></noscript>
     <div class="reader">
-      <!-- Add a subsection: a link here, and a section with the same id inside #notes. -->
-      <nav id="toc" class="toc" aria-labelledby="toc-title">
-        <p id="toc-title" class="toc-title">Sections</p>
-        <a href="#model">The cloud model</a>
-        <a href="#compute">Compute</a>
-        <a href="#storage">Storage</a>
-        <a href="#networking">Networking</a>
-        <a href="#identity">Identity and access</a>
-        <a href="#responsibility">Cost and responsibility</a>
-      </nav>
-      <div id="notes" class="note">
-        <section id="model" data-section class="is-active">
-          <h2>The cloud model</h2>
-          <p>A cloud provider runs large pools of machines, disks, and networks, and rents slices of them through an API. You stop ordering hardware for each new service. You start describing what you want, and you pay for what stays switched on.</p>
-          <p>Elasticity is the ability to add or remove capacity. Scalability is the ability of the design to handle growth at all. A single large virtual machine can be scaled up until it cannot. An elastic design adds copies and later removes them.</p>
-          <div class="table-wrap">
-            <table>
-              <caption>How much of the stack you still operate.</caption>
-              <thead>
-                <tr><th>Model</th><th>You manage</th><th>Provider manages</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Infrastructure as a service</td><td>Operating system, runtime, application, data</td><td>Hardware, hypervisor, the physical network</td></tr>
-                <tr><td>Platform as a service</td><td>Application and data</td><td>Runtime patching, the machines underneath</td></tr>
-                <tr><td>Software as a service</td><td>Configuration, users, and the data you upload</td><td>The application itself</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <h3>Places</h3>
-          <p>A region is a group of data centers in a geography. An availability zone is an isolated group inside that region, with separate power and network. Putting two copies in one zone protects you from a bad deploy. Putting them in two zones protects you from a building. Putting them in two regions protects you from a region, and it costs more in latency, data transfer, and operational work.</p>
-          <p>The account, subscription, or project is the blast-radius boundary. Production and experiments should not share one. Bills, permissions, and quotas attach to that boundary.</p>
-        </section>
-        <section id="compute" data-section>
-          <h2>Compute</h2>
-          <p>Compute is anything that runs your code. The useful split is how long it lives and what you must patch.</p>
-          <ul>
-            <li><strong>Virtual machines</strong> look like servers. You choose the size, the image, and usually the operating system patches. They fit long-running processes, licensed software, and lift-and-shift.</li>
-            <li><strong>Containers</strong> package a process and its dependencies. You still need something to run the containers: a service, or a cluster you operate. They fit when many services should share the same deployment shape.</li>
-            <li><strong>Functions</strong> run for one event or request, then disappear. The provider patches the runtime. They fit irregular traffic and glue between services. They fit poorly when you need a long-held connection, local disk, or a cold start that breaks the latency budget.</li>
-          </ul>
-          <p>Stateless compute is easier to scale. Put durable data in a store, not on the instance disk. An instance can disappear in a replacement, a scale-in, or a zone failure. If the only copy of a file lived there, it is gone.</p>
-          <div class="callout">Scale out by adding copies when the work can be split. Scale up by buying a bigger machine when the work cannot. Most "just make it bigger" stories end when the biggest size is still not enough.</div>
-        </section>
-        <section id="storage" data-section>
-          <h2>Storage</h2>
-          <p>Pick storage from the access pattern, not from the product name.</p>
-          <div class="table-wrap">
-            <table>
-              <caption>Three shapes, three jobs.</caption>
-              <thead>
-                <tr><th>Shape</th><th>Looks like</th><th>Good for</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Block</td><td>A disk attached to a machine</td><td>Databases and anything that expects a filesystem on one host</td></tr>
-                <tr><td>File</td><td>A shared filesystem</td><td>Several machines reading the same tree</td></tr>
-                <tr><td>Object</td><td>A key and a blob, reached over HTTP</td><td>Uploads, backups, images, data files, static sites</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p>Object storage is durable because the provider keeps copies. It is not a POSIX disk, and it is not a database. You do not edit a byte in the middle. You write a new object.</p>
-          <p>A managed database is someone else's operational work: patching, backups, and often failover. You still own schema, indexes, query shape, and the decision about what the data means. Running the database yourself is reasonable when you need a specific version, extension, or placement. It is an ongoing job, not a checkbox.</p>
-          <h3>Copies</h3>
-          <p>Durability is "the provider did not lose the bits." Availability is "you can read them now." A backup is a separate copy you can restore, preferably in another region, with a tested restore. A replica that accepts the same bad write as the primary is not a backup.</p>
-        </section>
-        <section id="networking" data-section>
-          <h2>Networking</h2>
-          <p>A virtual network is your address space inside the provider. Subnets divide it. Routes and security rules decide what may talk. Private subnets have no direct route from the internet. Public ones do, and that should be a small set: load balancers and bastions, not every application server.</p>
-          <ul>
-            <li><strong>Load balancer.</strong> Spreads traffic across healthy copies and gives callers one address. Health checks must match real readiness, or the balancer will send users to a process that is up and useless.</li>
-            <li><strong>DNS.</strong> Turns names into addresses. Use it for failover only when you have measured how long caches keep the old answer.</li>
-            <li><strong>TLS.</strong> Protects the hop you terminate. Termination at the load balancer is common. Traffic behind it should still be restricted, and sometimes encrypted again, depending on who else shares the network.</li>
-          </ul>
-          <p>Egress is easy to forget in the design and obvious on the bill. Data leaving a region, or leaving the provider toward the internet, is often priced differently from data staying inside. A chatty service that pulls from another region on every request will show up as cost before it shows up as latency you noticed.</p>
-          <div class="callout">Draw trust boundaries first: internet, your network, the data store, the management plane. Then place controls on the lines you actually cross.</div>
-        </section>
-        <section id="identity" data-section>
-          <h2>Identity and access</h2>
-          <p>Every call is made by someone or something. Users are people. Workloads are the programs: a virtual machine, a function, a pipeline. They should not share an account. A person leaving the team is not the same event as rotating what a service uses.</p>
-          <ul>
-            <li>Grant the smallest permission that lets the job finish. Wide roles feel faster until a leaked key can do everything the admin can do.</li>
-            <li>Prefer short-lived credentials issued to the workload. Long-lived keys in a repository or a laptop are a common breach path.</li>
-            <li>Federate human login to one identity provider so joiners and leavers are handled in one place.</li>
-            <li>Separate the permission to change infrastructure from the permission to read production data.</li>
-          </ul>
-          <p>Audit logs answer "who did what." Turn them on before you need them, and send them somewhere the same account cannot quietly delete. A trail that the attacker can erase is a diary, not evidence.</p>
-          <div class="callout">Identity is the real perimeter. Network rules still matter, but a valid key from anywhere will walk past a diagram that only shows firewalls.</div>
-        </section>
-        <section id="responsibility" data-section>
-          <h2>Cost and responsibility</h2>
-          <p>The shared responsibility model is the contract under the marketing. The provider secures the cloud: buildings, hardware, the hypervisor. You secure what you put in it: accounts, data, network exposure, and most configuration. On infrastructure as a service you patch the guest operating system. On functions the provider patches the platform, and you still own the code and the permissions it runs with.</p>
-          <h3>Where money goes</h3>
-          <ul>
-            <li>Compute that is on while idle. Stop it, or size it to the real load.</li>
-            <li>Storage you forgot: old snapshots, unused disks, logs with no expiry.</li>
-            <li>Data transfer across regions and out to the internet.</li>
-            <li>Over-provisioned managed services left at their default size.</li>
-          </ul>
-          <p>Tag resources with the system and the environment so a bill can be read. Set a budget alert before the month closes. A quota protects the account from a runaway loop. A budget alert tells a person.</p>
-          <div class="callout">Deleting an experiment is part of the design. If you cannot say who owns a resource, you cannot say whether it should still be running.</div>
-        </section>
-      </div>
+<nav id="toc" class="toc" aria-labelledby="toc-title">
+<p id="toc-title" class="toc-title">Subtopics</p>
+<a href="index.html" aria-current="page">Overview</a>
+<a href="model.html">The cloud model</a>
+<a href="compute.html">Compute</a>
+<a href="storage.html">Storage</a>
+<a href="networking.html">Networking</a>
+<a href="identity.html">Identity and access</a>
+<a href="responsibility.html">Cost and responsibility</a>
+</nav>
+      <article class="note topic-article topic-overview">
+        <h2>Cloud Fundamental subtopics</h2>
+        <p>Each subtopic is a separate HTML page. Choose one from this list or from the left navigation.</p>
+        <ol class="subtopic-list"><li><a href="model.html"><strong>The cloud model</strong><span>Open this note →</span></a></li><li><a href="compute.html"><strong>Compute</strong><span>Open this note →</span></a></li><li><a href="storage.html"><strong>Storage</strong><span>Open this note →</span></a></li><li><a href="networking.html"><strong>Networking</strong><span>Open this note →</span></a></li><li><a href="identity.html"><strong>Identity and access</strong><span>Open this note →</span></a></li><li><a href="responsibility.html"><strong>Cost and responsibility</strong><span>Open this note →</span></a></li></ol>
+      </article>
     </div>
   </main>
+
   <section class="connect" id="contact">
     <div class="wrap wrap-wide">
-      <div class="section-header">
-        <h2 class="section-title">Let's Connect</h2>
-      </div>
+      <div class="section-header"><h2 class="section-title">Let's Connect</h2></div>
       <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+
       <div class="social-links">
         <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
