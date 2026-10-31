@@ -318,6 +318,23 @@ def library_nav(
     return "\n".join(chunks)
 
 
+TOPIC_IMAGES = {
+    "I01": ("I01_ConsistentHashAlgorithm.png", "Consistent hashing ring with virtual nodes"),
+}
+
+
+def topic_figure(topic_id: str) -> str:
+    image = TOPIC_IMAGES.get(str(topic_id))
+    if not image:
+        return ""
+    filename, alt = image
+    return (
+        '<figure class="topic-figure">'
+        f'<img src="../images/{html.escape(filename)}" alt="{html.escape(alt)}">'
+        "</figure>\n"
+    )
+
+
 def article_page(
     topic: dict[str, object],
     topics: list[dict[str, object]],
@@ -328,7 +345,7 @@ def article_page(
     tier = str(topic["tier"])
     category = html.escape(str(topic["category"]))
     slug = str(topic["slug"])
-    body = markdown_to_html(str(topic["body"]))
+    body = topic_figure(str(topic["id"])) + markdown_to_html(str(topic["body"]))
 
     pager = ['<nav class="article-pager" aria-label="Adjacent topics">']
     if previous:

@@ -780,6 +780,22 @@ th {
   font-size: 0.74rem;
 }
 
+.topic-figure {
+  display: flex;
+  justify-content: center;
+  margin: 0.4rem auto 1.6rem;
+}
+
+.topic-figure img {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #06101f;
+}
+
 .diagram-source { margin: 1.25rem 0; }
 
 .diagram-source figcaption {

@@ -401,6 +401,9 @@
 </div>
 </nav>
       <article class="note topic-article">
+<figure class="topic-figure">
+  <img src="../images/I01_ConsistentHashAlgorithm.png" alt="Consistent hashing ring with virtual nodes">
+</figure>
 <h2 id="concept">Concept</h2>
 <h3 id="why-modulo-hashing-collapses-under-membership-change">Why modulo hashing collapses under membership change</h3>
 <p>The first instinct when you need to spread keys across N cache nodes is <code>hash(key) % N</code>. It works until N changes. Add one node and nearly every key remaps. Remove one and the same thing happens. In a cache, that is a simultaneous eviction of almost the entire working set. Downstream origin servers see a stampede. In a datastore, it is a cluster-wide reshuffle of disks and compaction queues. The blast radius of a routine scale-out event becomes the whole keyspace, which is an unacceptable operational property.</p>
