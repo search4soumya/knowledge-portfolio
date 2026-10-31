@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning Path — Knowledge Portfolio</title>
+  <meta name="description" content="A suggested order through the knowledge portfolio, from vocabulary to a system you can change.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/learning-path/">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body data-topic="learning-path">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../index.html">
+        <img src="../images/portrait.jpg" alt="" width="36" height="36">
+        <span class="brand-name">Knowledge Portfolio</span>
+      </a>
+      <nav class="header-nav" aria-label="Site">
+        <a class="header-link" href="../index.html">Home</a>
+        <a class="header-link" href="../about.html">About me</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">08 · Notes</p>
+    <div class="title-row">
+      <h1>Learning Path</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Sections</button>
+    </div>
+    <p class="deck">Read these notes in an order that builds a small system, not in the order the cards happen to sit on the home page.</p>
+    <noscript><p class="noscript">Section links jump down the page. With JavaScript off, every section is shown together.</p></noscript>
+    <div class="reader">
+      <!-- Add a subsection: a link here, and a section with the same id inside #notes. -->
+      <nav id="toc" class="toc" aria-labelledby="toc-title">
+        <p id="toc-title" class="toc-title">Sections</p>
+        <a href="#order">Suggested order</a>
+        <a href="#vocabulary">Vocabulary</a>
+        <a href="#shape">Shape a system</a>
+        <a href="#run">Run and change it</a>
+        <a href="#deeper">Go deeper</a>
+      </nav>
+      <div id="notes" class="note">
+        <section id="order" data-section class="is-active">
+          <h2>Suggested order</h2>
+          <p>Do not try to finish every page before you build anything. One pass through the vocabulary, one small design, then the notes that explain how that design is shipped and how it fails.</p>
+          <ol>
+            <li><a href="../cloud/">Cloud Fundamental</a>, so the words for place, compute, storage, and identity are shared.</li>
+            <li><a href="../architecture/">Architect Design Patterns</a>, so a local mess and a system-wide style are not confused.</li>
+            <li><a href="../microservices/">Microservices</a>, only after you can say what must deploy apart.</li>
+            <li><a href="../kubernetes/">Kubernetes</a> and <a href="../devops/">DevOps</a>, so the design can be run and changed.</li>
+            <li><a href="../case-study/">Case Study</a>, to test the design against someone else's constraint.</li>
+            <li><a href="../ai-ml/">AI / ML</a>, when a model is actually part of the decision, not as a first step.</li>
+          </ol>
+        </section>
+        <section id="vocabulary" data-section>
+          <h2>Vocabulary</h2>
+          <p>Spend the first pass on names you will reuse: region, request and limit, service boundary, pipeline, readiness. If a term is fuzzy, stay on that section until you can explain it without the page open.</p>
+          <p>Skip ahead only when the current section is not the problem you have. A team already running a cluster does not need to pretend they have never seen a pod. They do need the failure notes.</p>
+        </section>
+        <section id="shape" data-section>
+          <h2>Shape a system</h2>
+          <p>Pick one workflow you know, such as placing an order or publishing a document. Write the constraint, the data owner, and the one dependency that would hurt if it were slow. Then open the pattern and microservice notes and see which split you actually need.</p>
+          <div class="callout">A learning design that needs five services on day one is practicing diagrams. Two processes and a database will teach more.</div>
+        </section>
+        <section id="run" data-section>
+          <h2>Run and change it</h2>
+          <p>Put the small system somewhere you can deploy twice. Use the DevOps notes for the pipeline and the Kubernetes notes if the runtime is a cluster. Change one thing, watch one signal, and roll it back on purpose.</p>
+          <p>The point is the loop, not the platform logo. A single virtual machine with a repeatable deploy still counts.</p>
+        </section>
+        <section id="deeper" data-section>
+          <h2>Go deeper</h2>
+          <p>After the loop works, return to the section that felt thin. Add a subsection on that topic page rather than starting a second notebook. A case study belongs on the Case Study page, in the same four questions: constraint, design, what broke, what to copy.</p>
+          <p>When a new shelf is large enough for its own card, add the folder, link it from the home page, and push to <code>main</code>. The deploy workflow publishes the new tile.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <section class="connect" id="contact">
+    <div class="wrap wrap-wide">
+      <div class="section-header">
+        <h2 class="section-title">Let's Connect</h2>
+      </div>
+      <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+      <div class="social-links">
+        <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a class="social-link" href="https://linkedin.com/in/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-link" href="https://twitter.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:soumya@example.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script src="../js/reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Microservices — Knowledge Portfolio</title>
+  <meta name="description" content="Notes on service boundaries, owned data, contracts, and failure between services.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/microservices/">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body data-topic="microservices">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../index.html">
+        <img src="../images/portrait.jpg" alt="" width="36" height="36">
+        <span class="brand-name">Knowledge Portfolio</span>
+      </a>
+      <nav class="header-nav" aria-label="Site">
+        <a class="header-link" href="../index.html">Home</a>
+        <a class="header-link" href="../about.html">About me</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">05 · Notes</p>
+    <div class="title-row">
+      <h1>Microservices</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Sections</button>
+    </div>
+    <p class="deck">A microservice is a deployable boundary with its own data and its own reason to change. These notes stay on that boundary, not on a diagram full of boxes.</p>
+    <noscript><p class="noscript">Section links jump down the page. With JavaScript off, every section is shown together.</p></noscript>
+    <div class="reader">
+      <!-- Add a subsection: a link here, and a section with the same id inside #notes. -->
+      <nav id="toc" class="toc" aria-labelledby="toc-title">
+        <p id="toc-title" class="toc-title">Sections</p>
+        <a href="#boundary">The boundary</a>
+        <a href="#data">Owned data</a>
+        <a href="#contracts">Contracts</a>
+        <a href="#calls">Calls between services</a>
+        <a href="#failure">Failure</a>
+      </nav>
+      <div id="notes" class="note">
+        <section id="boundary" data-section class="is-active">
+          <h2>The boundary</h2>
+          <p>Split a system where the business already splits. Orders, catalog, and billing change for different reasons and are often owned by different people. That is a candidate boundary. A function that is merely "small" is not.</p>
+          <p>Each service should be deployable without a lockstep release of the others. If every change still needs three teams to ship on the same day, the split is only a network hop.</p>
+          <div class="callout">Start with a modular codebase and a clear data owner. Extract a service when independent deploy is the pain you are relieving.</div>
+        </section>
+        <section id="data" data-section>
+          <h2>Owned data</h2>
+          <p>A service owns the tables it writes. Other services ask it, or subscribe to what it publishes. They do not share its database. A shared database hides the coupling until a column rename takes the neighbors down.</p>
+          <ul>
+            <li>One writer for each fact.</li>
+            <li>Copies elsewhere are caches or projections, with a known delay.</li>
+            <li>A transaction that must update two services is a design smell. Put the rule in one service, or accept a process that can be retried.</li>
+          </ul>
+        </section>
+        <section id="contracts" data-section>
+          <h2>Contracts</h2>
+          <p>The contract is the request, the response, and the errors a caller can handle. Write it down. A breaking change is a new version, or a field that callers can ignore until they are ready.</p>
+          <p>Do not leak your tables through the API. Return the words the caller needs. Internal names can change without a coordinated release.</p>
+        </section>
+        <section id="calls" data-section>
+          <h2>Calls between services</h2>
+          <p>A synchronous call is simple and it couples availability. If the catalog is down, checkout waits. Use it when the caller cannot continue without the answer and the latency budget allows it.</p>
+          <p>An event is better when the receiver can act later. The publisher records that something happened. Consumers react, and they must tolerate duplicates and uncertain order. Name the event for the fact, not for the command you wish the other team would run.</p>
+        </section>
+        <section id="failure" data-section>
+          <h2>Failure</h2>
+          <p>The network will drop calls, and a dependency will be slow. Time out. Limit how many calls you pile up. Decide the fallback: a cached answer, a smaller feature, or a clear error. Retry only when the operation is safe to run twice.</p>
+          <div class="callout">Give every request an id that crosses services. A dashboard of averages will not tell you which checkout failed.</div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <section class="connect" id="contact">
+    <div class="wrap wrap-wide">
+      <div class="section-header">
+        <h2 class="section-title">Let's Connect</h2>
+      </div>
+      <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+      <div class="social-links">
+        <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a class="social-link" href="https://linkedin.com/in/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-link" href="https://twitter.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:soumya@example.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script src="../js/reader.js"></script>
+</body>
+</html>
