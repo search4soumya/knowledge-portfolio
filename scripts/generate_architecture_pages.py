@@ -252,6 +252,7 @@ def header(prefix: str) -> str:
       </a>
       <nav class="header-nav" aria-label="Site">
         <a class="header-link" href="{prefix}index.html">Home</a>
+        <a class="header-link" href="{prefix}blueprint/">Blueprint Designer</a>
         <a class="header-link" href="{prefix}about.html">About me</a>
       </nav>
     </div>
