@@ -1,0 +1,45 @@
+#map {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.node {
+  cursor: grab;
+}
+
+.node rect {
+  fill: var(--card);
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+
+.node.root rect { stroke: var(--accent); }
+.node.selected rect { stroke: var(--accent); stroke-width: 2.4; }
+.node text {
+  fill: var(--ink);
+  font-family: "Segoe UI", sans-serif;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.edge {
+  fill: none;
+  stroke: #334155;
+  stroke-width: 2;
+}
+
+.node-editor {
+  position: absolute;
+  z-index: 5;
+  min-width: 8rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  font: 14px/1.3 "Segoe UI", sans-serif;
+  outline: none;
+}
+
+.swatches { display: flex; align-items: center; gap: 0.3rem; }

@@ -1,0 +1,34 @@
+#board {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+#board.select-mode { cursor: default; }
+#board.panning { cursor: grabbing; }
+
+.width-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+.swatches { display: flex; align-items: center; gap: 0.3rem; }
+
+.note-editor,
+.text-editor {
+  position: absolute;
+  z-index: 5;
+  min-width: 8rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  font: 1rem/1.4 var(--sans);
+  outline: none;
+}

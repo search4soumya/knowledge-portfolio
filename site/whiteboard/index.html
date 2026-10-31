@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whiteboard — Design Principles</title>
+  <meta name="description" content="A browser whiteboard for sketches, boxes, arrows, and notes. Export PNG or JSON. No libraries required.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/whiteboard/">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/tool-shell.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip" href="#board">Skip to whiteboard</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html">
+        <img src="../images/portrait.jpg" alt="" width="36" height="36">
+        <span class="brand-name">Design Principles</span>
+      </a>
+      <nav class="header-nav" aria-label="Site">
+        <a class="header-link" href="../index.html">Home</a>
+        <a class="header-link" href="../blueprint/">Blueprint Designer</a>
+        <a class="header-link" href="./" aria-current="page">Whiteboard</a>
+        <a class="header-link" href="../mindmap/">Mind Map</a>
+        <a class="header-link" href="../about.html">About me</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tool-shell">
+    <header class="topbar">
+      <div class="app-brand"><span class="brand-mark" aria-hidden="true"></span><span>Whiteboard</span></div>
+      <div class="tools" role="toolbar" aria-label="Drawing tools">
+        <button type="button" data-tool="select" aria-pressed="false" title="Select and move (V)">Select</button>
+        <button type="button" data-tool="pen" aria-pressed="true" title="Pen (P)">Pen</button>
+        <button type="button" data-tool="eraser" aria-pressed="false" title="Eraser (E)">Eraser</button>
+        <button type="button" data-tool="line" aria-pressed="false" title="Line (L)">Line</button>
+        <button type="button" data-tool="arrow" aria-pressed="false" title="Arrow (A)">Arrow</button>
+        <button type="button" data-tool="rect" aria-pressed="false" title="Rectangle (R)">Rect</button>
+        <button type="button" data-tool="ellipse" aria-pressed="false" title="Ellipse (O)">Ellipse</button>
+        <button type="button" data-tool="text" aria-pressed="false" title="Text (T)">Text</button>
+        <button type="button" data-tool="note" aria-pressed="false" title="Sticky note (N)">Note</button>
+      </div>
+      <span class="sep"></span>
+      <div class="swatches" aria-label="Colors">
+        <button type="button" class="color-swatch" data-color="#10b981" style="background:#10b981" aria-pressed="true" title="Emerald"></button>
+        <button type="button" class="color-swatch" data-color="#f59e0b" style="background:#f59e0b" aria-pressed="false" title="Gold"></button>
+        <button type="button" class="color-swatch" data-color="#6366f1" style="background:#6366f1" aria-pressed="false" title="Indigo"></button>
+        <button type="button" class="color-swatch" data-color="#f8fafc" style="background:#f8fafc" aria-pressed="false" title="White"></button>
+        <button type="button" class="color-swatch" data-color="#ef4444" style="background:#ef4444" aria-pressed="false" title="Red"></button>
+        <input id="color" type="color" value="#10b981" title="Custom color" aria-label="Custom color">
+      </div>
+      <label class="width-label">Width
+        <input id="width" type="range" min="1" max="16" value="3" aria-label="Stroke width">
+      </label>
+      <span class="sep"></span>
+      <div class="actions">
+        <button type="button" data-action="undo" title="Undo (Ctrl+Z)">Undo</button>
+        <button type="button" data-action="redo" title="Redo (Ctrl+Y)">Redo</button>
+        <button type="button" data-action="delete" title="Delete selection (Del)">Delete</button>
+        <button type="button" data-action="clear" title="Clear the board">Clear</button>
+        <button type="button" data-action="open">Open</button>
+        <button type="button" data-action="save">Save</button>
+        <button type="button" data-action="png" class="primary">Export PNG</button>
+        <input id="open-file" type="file" accept=".json,application/json" hidden>
+      </div>
+    </header>
+    <main class="stage">
+      <canvas id="board" tabindex="0" aria-label="Whiteboard canvas"></canvas>
+      <div class="empty-hint" id="empty-hint">
+        <strong>Sketch on the board</strong>
+        <span>Choose a tool, then draw. Space + drag pans. The wheel zooms. Work is saved in this browser.</span>
+      </div>
+      <div class="zoombar">
+        <button type="button" data-action="zoom-out">-</button>
+        <button type="button" data-action="zoom-reset" id="zoom-label">100%</button>
+        <button type="button" data-action="zoom-in">+</button>
+        <button type="button" data-action="zoom-fit">Fit</button>
+      </div>
+      <div class="statusbar">V select · P pen · E eraser · L line · A arrow · R rect · O ellipse · T text · N note · Space + drag to pan</div>
+    </main>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>
