@@ -2,10 +2,11 @@
 
 Static study notes by Soumya Ranjan Panda. The site is plain HTML, CSS, JavaScript, and SVG images. It does not use a framework, a package manager, or a CDN.
 
-The home page has nine topic cards:
+The home page has ten topic cards:
 
 - Architect Design Patterns
 - System Design
+- Business Domain Knowledge
 - Cloud Fundamental
 - Kubernetes
 - AI / ML
@@ -17,6 +18,8 @@ The home page has nine topic cards:
 Each card opens a topic overview. Every subtopic is a separate HTML file and is linked from the left-hand navigation.
 
 The Architecture library contains 300 generated HTML essays sourced from the Eidos MDX collection: 100 Basic, 100 Intermediate, and 100 Advanced.
+
+The Business Domain Knowledge library uses the same left-hand topic panel as Architecture. It has four domains — Telecom, Healthcare, Insurance, and Finance — with eight individual HTML pages in each domain (32 essays). The editable source is `content/business-domain/`.
 
 The complete text table of all 300 architecture topics is available at
 `content/architecture-topics.md`, with each row linked to its generated HTML page.
@@ -61,6 +64,24 @@ This rewrites `site/architecture/index.html` and all files under:
 - `site/architecture/advanced/`
 
 The generator includes only published MDX files and currently expects all 300 essays.
+
+## Regenerate the Business Domain library
+
+After adding or editing markdown in `content/business-domain/`, run:
+
+```powershell
+cd C:\Users\spanda\Projects\knowledge-portfolio
+python scripts\build_business_domain.py
+```
+
+This rewrites `site/business-domain/index.html` and all files under:
+
+- `site/business-domain/telecom/`
+- `site/business-domain/healthcare/`
+- `site/business-domain/insurance/`
+- `site/business-domain/finance/`
+
+The generator currently expects 32 published essays, eight in each domain.
 
 ## Edit a non-architecture subtopic
 
