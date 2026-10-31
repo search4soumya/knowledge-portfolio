@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Design: YouTube — Design Principles</title>
+  <meta name="description" content="Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.">
+  <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/system-design/youtube.html">
+  <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body data-topic="system-design">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap wrap-wide header-inner">
+      <a class="brand" href="../index.html">
+        <img src="../images/portrait.jpg" alt="" width="36" height="36">
+        <span class="brand-name">Design Principles</span>
+      </a>
+      <nav class="header-nav" aria-label="Site">
+        <a class="header-link" href="../index.html">Home</a>
+        <a class="header-link" href="../about.html">About me</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap wrap-wide">
+    <p class="kicker">09 · Case studies</p>
+    <div class="title-row">
+      <h1>System Design: YouTube</h1>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="toc">Subtopics</button>
+    </div>
+    <p class="deck">Beginner-friendly case studies that explain how familiar systems work, what they optimize, and where their designs fail.</p>
+    <div class="reader">
+<nav id="toc" class="toc" aria-labelledby="toc-title">
+<p id="toc-title" class="toc-title">Subtopics</p>
+<a href="index.html">Overview</a>
+<a href="twitter-x.html">Twitter / X</a>
+<a href="youtube.html" aria-current="page">YouTube</a>
+<a href="netflix.html">Netflix</a>
+<a href="uber.html">Uber</a>
+<a href="whatsapp.html">WhatsApp</a>
+<a href="linkedin.html">LinkedIn</a>
+<a href="instagram.html">Instagram</a>
+<a href="facebook-social-graph.html">Facebook social graph</a>
+<a href="dropbox-google-drive.html">Dropbox / Google Drive</a>
+<a href="url-shortener.html">URL shortener</a>
+<a href="pastebin.html">Pastebin</a>
+<a href="rate-limiter.html">Rate limiter</a>
+<a href="ticketmaster-bookmyshow.html">Ticketmaster / BookMyShow</a>
+<a href="airbnb.html">Airbnb</a>
+<a href="amazon-e-commerce.html">Amazon e-commerce</a>
+<a href="web-crawler.html">Web crawler</a>
+<a href="search-autocomplete.html">Search autocomplete</a>
+<a href="spotify.html">Spotify</a>
+<a href="slack-discord.html">Slack / Discord</a>
+<a href="zoom-google-meet.html">Zoom / Google Meet</a>
+<a href="google-maps.html">Google Maps</a>
+<a href="food-delivery-swiggy.html">Food delivery (Swiggy)</a>
+<a href="payment-system-stripe.html">Payment system (Stripe)</a>
+<a href="notification-service.html">Notification service</a>
+<a href="distributed-message-queue-kafka.html">Distributed message queue (Kafka)</a>
+<a href="reddit.html">Reddit</a>
+<a href="pinterest.html">Pinterest</a>
+<a href="tinder.html">Tinder</a>
+<a href="google-docs.html">Google Docs</a>
+<a href="yelp-nearby-places.html">Yelp / nearby places</a>
+</nav>
+      <article class="note topic-article">
+<h2>What this system teaches</h2>
+          <p>YouTube is a useful case study because it turns a familiar product into a set of engineering decisions. Start with the user action, identify the data that must survive, and then decide which work can happen later.</p>
+          <ul><li><strong>Upload pipeline</strong> — accept large files reliably</li><li><strong>Transcoding</strong> — create multiple resolutions and codecs</li><li><strong>CDN</strong> — serve video from a nearby edge</li><li><strong>Adaptive bitrate</strong> — change quality as bandwidth changes</li></ul>
+          <h2>How a request moves</h2>
+          <p>The client uploads directly to object storage using a resumable session. A metadata service records the upload and sends a job to a media queue. Workers validate, scan, transcode, package segments, and publish a manifest. Viewers fetch the manifest and segments through a CDN.</p>
+          <h2>A beginner-friendly design</h2>
+          <p>Keep original media immutable in object storage. Store metadata in a database, job state in a durable queue, and derived files under versioned keys. A player starts at a safe bitrate and switches representations using measured buffer and network speed.</p>
+          <h3>Data, scale, and consistency</h3>
+          <p>Keep the first version simple: separate the request path from background work, measure the slowest dependency, and store an identifier that makes retries safe. Add replicas and caches only after the access pattern is visible. Decide which values may be briefly stale and which action must be serialized, such as a payment or seat reservation.</p>
+          <h2>What can go wrong</h2>
+          <p>Transcoding is expensive and can fail halfway through. Upload retries must not duplicate files, manifests should not point to incomplete outputs, and CDN invalidation must be controlled when a video changes.</p>
+          <div class="callout"><strong>Key takeaway:</strong> Video delivery is mostly a storage, asynchronous processing, and edge caching problem—not a single giant application server.</div>
+<nav class="article-pager" aria-label="Adjacent subtopics"><a href="twitter-x.html">← <span>Twitter / X</span></a><a class="next" href="netflix.html"><span>Netflix</span> →</a></nav>
+      </article>
+    </div>
+  </main>
+
+  <section class="connect" id="contact">
+    <div class="wrap wrap-wide">
+      <div class="section-header"><h2 class="section-title">Let's Connect</h2></div>
+      <p class="connect-copy">Whether you're interested in collaboration, consulting, or just want to discuss architecture and technology, I'd love to hear from you.</p>
+
+      <div class="social-links">
+        <a class="social-link" href="https://github.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a class="social-link" href="https://linkedin.com/in/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-link" href="https://twitter.com/soumyaranjanpanda" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:soumya@example.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script src="../js/reader.js"></script>
+</body>
+</html>

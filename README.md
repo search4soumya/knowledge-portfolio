@@ -2,9 +2,10 @@
 
 Static study notes by Soumya Ranjan Panda. The site is plain HTML, CSS, JavaScript, and SVG images. It does not use a framework, a package manager, or a CDN.
 
-The home page has eight topic cards:
+The home page has nine topic cards:
 
 - Architect Design Patterns
+- System Design
 - Cloud Fundamental
 - Kubernetes
 - AI / ML
@@ -67,7 +68,7 @@ After editing the JSON, regenerate:
 python scripts\generate_tile_pages.py
 ```
 
-This writes one overview and one HTML file per subtopic for Cloud, Kubernetes, AI/ML, Microservices, DevOps, Case Study, and Learning Path.
+This writes one overview and one HTML file per subtopic for Cloud, Kubernetes, AI/ML, Microservices, DevOps, Case Study, Learning Path, and System Design.
 
 Do not edit those generated HTML files directly; the next generator run will replace them.
 
