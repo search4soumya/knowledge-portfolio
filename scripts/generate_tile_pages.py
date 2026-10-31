@@ -79,7 +79,7 @@ def frame(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{safe_title} — Knowledge Portfolio</title>
+  <title>{safe_title} — Design Principles</title>
   <meta name="description" content="{html.escape(re.sub(r'<[^>]+>', '', deck))}">
   <link rel="canonical" href="{canonical}">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">

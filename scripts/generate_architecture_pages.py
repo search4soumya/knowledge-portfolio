@@ -248,7 +248,7 @@ def header(prefix: str) -> str:
     <div class="wrap wrap-wide header-inner">
       <a class="brand" href="{prefix}index.html">
         <img src="{prefix}images/portrait.jpg" alt="" width="36" height="36">
-        <span class="brand-name">Knowledge Portfolio</span>
+        <span class="brand-name">Design Principles</span>
       </a>
       <nav class="header-nav" aria-label="Site">
         <a class="header-link" href="{prefix}index.html">Home</a>
@@ -347,7 +347,7 @@ def article_page(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{title} — Knowledge Portfolio</title>
+  <title>{title} — Design Principles</title>
   <meta name="description" content="{title}, a {html.escape(tier)} architecture note.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/architecture/{tier}/{slug}.html">
   <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
@@ -399,7 +399,7 @@ def overview_page(topics: list[dict[str, object]]) -> str:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Architect Design Patterns — Knowledge Portfolio</title>
+  <title>Architect Design Patterns — Design Principles</title>
   <meta name="description" content="Three hundred architecture and system design essays from basic through advanced.">
   <link rel="canonical" href="https://search4soumya.github.io/knowledge-portfolio/architecture/">
   <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">

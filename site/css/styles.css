@@ -82,12 +82,13 @@ h1, h2, h3 {
 .skip:focus { top: 0.75rem; }
 
 .wrap {
-  width: min(1040px, calc(100% - 2.5rem));
-  margin-inline: auto;
+  width: 100%;
+  padding-inline: 2rem;
 }
 
 .wrap-wide {
-  width: min(1120px, calc(100% - 2rem));
+  width: 100%;
+  padding-inline: 2rem;
 }
 
 .site-header {
@@ -325,15 +326,14 @@ h1, h2, h3 {
 .about-block .section-header { margin-bottom: 2.4rem; }
 
 .about-text {
-  max-width: 46rem;
-  margin-inline: auto;
+  max-width: none;
 }
 
 .about-text p { margin: 0 0 1.1rem; }
 
 .lede,
 .deck {
-  max-width: 40rem;
+  max-width: none;
   margin: 0;
   color: var(--text);
   font-size: 1.15rem;
@@ -353,7 +353,7 @@ h1, h2, h3 {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding: 2.2rem 2rem 1.7rem;
+  padding: 1.15rem 1.2rem 1.25rem;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -387,20 +387,20 @@ h1, h2, h3 {
 .expertise-card:focus-visible::before { transform: scaleX(1); }
 
 .card-icon {
-  width: 60px;
-  height: 60px;
+  width: 2.2rem;
+  height: 2.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.35rem;
+  margin-bottom: 0.8rem;
   background: var(--bg-raised);
   border-radius: 12px;
   transition: background 0.2s ease;
 }
 
 .card-icon svg {
-  width: 32px;
-  height: 32px;
+  width: 1.15rem;
+  height: 1.15rem;
   fill: none;
   stroke: var(--accent);
   stroke-width: 1.5;
@@ -416,8 +416,8 @@ h1, h2, h3 {
 .expertise-card:focus-visible .card-icon svg { stroke: var(--bg); }
 
 .expertise-card h2 {
-  margin: 0 0 0.8rem;
-  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  margin: 0 0 0.55rem;
+  font-size: 1.35rem;
   transition: color 0.2s ease;
 }
 
@@ -425,9 +425,9 @@ h1, h2, h3 {
 .expertise-card:focus-visible h2 { color: var(--accent); }
 
 .expertise-card p {
-  margin: 0 0 1.4rem;
+  margin: 0 0 0.9rem;
   color: var(--muted);
-  font-size: 1.02rem;
+  font-size: 0.94rem;
 }
 
 .card-link {
@@ -556,8 +556,8 @@ h1, h2, h3 {
 
 .reader {
   display: grid;
-  grid-template-columns: 16.5rem minmax(0, 46rem);
-  justify-content: start;
+  grid-template-columns: 16.5rem minmax(0, 1fr);
+  justify-content: stretch;
   gap: 1.5rem;
   align-items: start;
   margin-top: 1.5rem;
@@ -942,7 +942,10 @@ th {
 
 @media (max-width: 560px) {
   .wrap,
-  .wrap-wide { width: min(100% - 1.4rem, 1040px); }
+  .wrap-wide {
+    width: 100%;
+    padding-inline: 0.9rem;
+  }
   .note,
   .expertise-card { padding: 1.35rem 1.1rem 1.4rem; }
   .catalog-groups { grid-template-columns: 1fr; }
